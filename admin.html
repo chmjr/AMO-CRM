@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMO CRM | Painel Comercial</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+    
+    <header class="crm-header">
+        <div class="logo">
+            <span class="logo-text">AMO</span>
+            <span class="logo-subtext" id="brand-name">ARQUITETURA E INTERIORES</span>
+        </div>
+        <div class="header-actions">
+            <button id="btn-settings" class="btn-icon" title="Configurações da Empresa">⚙️</button>
+            <button id="btn-add-lead" class="btn-primary-small">+ Adicionar Lead Manual</button>
+            <a href="index.html" class="btn-voltar">Ver Landing Page</a>
+            <button id="btn-clear" class="btn-danger">Limpar Dados</button>
+        </div>
+    </header>
+
+    <main class="kanban-board">
+        <!-- Coluna 1 -->
+        <div class="kanban-column" id="col-novos" data-status="novos">
+            <div class="column-header">
+                <h3><span class="emoji">🛎️</span> Novos Leads</h3>
+                <span class="count" id="count-novos">0</span>
+            </div>
+            <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <!-- Coluna 2 -->
+        <div class="kanban-column" id="col-contato" data-status="contato">
+            <div class="column-header">
+                <h3><span class="emoji">💬</span> Em Contato</h3>
+                <span class="count" id="count-contato">0</span>
+            </div>
+            <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <!-- Coluna 3 -->
+        <div class="kanban-column" id="col-orcamento" data-status="orcamento">
+            <div class="column-header">
+                <h3><span class="emoji">📐</span> Orçamento</h3>
+                <span class="count" id="count-orcamento">0</span>
+            </div>
+            <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <!-- Coluna 4 -->
+        <div class="kanban-column" id="col-ganho" data-status="ganho">
+            <div class="column-header">
+                <h3><span class="emoji">🥂</span> Projeto Fechado</h3>
+                <span class="count" id="count-ganho">0</span>
+            </div>
+            <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <!-- Coluna 5 -->
+        <div class="kanban-column" id="col-perdido" data-status="perdido">
+            <div class="column-header">
+                <h3><span class="emoji">❄️</span> Perdidos</h3>
+                <span class="count" id="count-perdido">0</span>
+            </div>
+            <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+    </main>
+
+    <!-- Modal Adicionar Lead -->
+    <div id="modal-add" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Novo Lead Manual</h2>
+                <button id="btn-close-modal" class="btn-close">&times;</button>
+            </div>
+            <form id="form-add-lead" class="modal-form">
+                <input type="text" id="manual-name" placeholder="Nome do Cliente" required>
+                <input type="tel" id="manual-phone" placeholder="Telefone / WhatsApp" required>
+                <input type="email" id="manual-email" placeholder="E-mail (Opcional)">
+                <select id="manual-origin" class="modal-select" required>
+                    <option value="" disabled selected>Selecione a Origem (Como nos achou?)</option>
+                    <option value="WhatsApp">WhatsApp Direto</option>
+                    <option value="Instagram">Instagram da AMO</option>
+                    <option value="Indicação">Indicação de Cliente/Parceiro</option>
+                    <option value="Site/Busca">Google Search / Landing Page</option>
+                    <option value="Pinterest">Pinterest</option>
+                    <option value="Outros">Outros</option>
+                </select>
+                <button type="submit" class="btn-submit-modal">Adicionar ao Funil</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Configurações (White-Label) -->
+    <div id="modal-settings" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configurações do CRM</h2>
+                <button id="btn-close-settings" class="btn-close">&times;</button>
+            </div>
+            <form id="form-settings" class="modal-form">
+                <label>Nome do Workspace/Empresa:</label>
+                <input type="text" id="config-name" placeholder="Ex: AMO Arquitetura" required>
+                
+                <label>Cor Principal (Hex):</label>
+                <input type="color" id="config-color" value="#C5A880" style="height: 40px; padding: 4px; cursor: pointer;" required>
+                
+                <label>URL do Logotipo (relativo ou HTTPS):</label>
+                <input type="text" id="config-logo" placeholder="assets/logoSemFundo.png" value="assets/logoSemFundo.png" required>
+                
+                <button type="submit" class="btn-submit-modal">Salvar Personalização</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="./admin.js"></script>
+</body>
+</html>

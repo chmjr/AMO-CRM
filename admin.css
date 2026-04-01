@@ -1,0 +1,350 @@
+/* 
+    CRM CSS - Dark Theme Premium / Glassmorphism
+*/
+:root {
+    --bg-main: #141414;
+    --bg-column: rgba(30, 30, 30, 0.7);
+    --bg-card: rgba(255, 255, 255, 0.05);
+    --border-card: rgba(255, 255, 255, 0.1);
+    
+    --color-primary: #C5A880; /* AMO Gold */
+    --color-text: #EAE6DF;
+    --color-muted: #999;
+    
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-main);
+    color: var(--color-text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+}
+
+/* Header */
+.crm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 40px;
+    background: rgba(20, 20, 20, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-text { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--color-primary); }
+.logo-subtext { font-size: 11px; letter-spacing: 2px; color: var(--color-muted); }
+
+.header-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.btn-voltar {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 16px;
+    border: 1px solid var(--border-card);
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.btn-voltar:hover { background: rgba(255,255,255,0.1); }
+
+.btn-danger {
+    background: transparent;
+    color: #ff5252;
+    border: 1px solid #ff5252;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-body);
+}
+
+.btn-danger:hover { background: #ff5252; color: #fff; }
+
+/* Kanban Board */
+.kanban-board {
+    display: flex;
+    flex: 1;
+    padding: 32px 40px;
+    gap: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.kanban-column {
+    flex: 0 0 320px;
+    background: var(--bg-column);
+    border: 1px solid var(--border-card);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.column-header {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-card);
+    background: rgba(0,0,0,0.2);
+}
+
+.column-header h3 {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.count {
+    background: rgba(255,255,255,0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.kanban-cards {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Kanban Card - Mais Compacto */
+.kanban-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 6px;
+    padding: 12px;
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kanban-card:active { cursor: grabbing; transform: scale(0.98); }
+
+.kanban-card:hover { border-color: var(--color-primary); }
+
+.card-title {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #fff;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.btn-delete-card {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+    margin-top: -2px;
+}
+
+.btn-delete-card:hover {
+    color: #ff5252;
+}
+
+.card-info {
+    font-size: 12px;
+    color: var(--color-muted);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card-info svg { width: 13px; height: 13px; margin-top:-2px; }
+
+.card-footer {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 11px;
+    color: var(--color-muted);
+    display: flex;
+    justify-content: space-between;
+}
+
+.tag-origem {
+    background: rgba(197, 168, 128, 0.2);
+    color: var(--color-primary);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Inputs Compactos no Card */
+.card-input-field {
+    width: 100%;
+    margin-top: 8px;
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 11px;
+    transition: all 0.2s;
+}
+
+.card-input-field:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.card-note {
+    resize: none;
+    min-height: 40px;
+}
+
+.card-note::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* ================== Modal Styles ================== */
+.btn-primary-small {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.btn-primary-small:hover { background: #b3946a; }
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-content {
+    background: var(--bg-main);
+    border: 1px solid var(--border-card);
+    padding: 32px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-header h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+}
+
+.modal-form label {
+    font-size: 12px;
+    color: var(--color-text);
+    margin-bottom: -12px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.btn-icon {
+    background: none; border: none; font-size: 20px; cursor: pointer; opacity: 0.8; transition: 0.2s; padding: 0 8px; filter: grayscale(1);
+}
+.btn-icon:hover { opacity: 1; transform: rotate(45deg); filter: grayscale(0); }
+
+.btn-close {
+    background: none;
+    border: none;
+    color: var(--color-muted);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.btn-close:hover { color: #fff; }
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-form input {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border-card);
+    padding: 14px 16px;
+    border-radius: 4px;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.modal-form input:focus, .modal-form select.modal-select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+.modal-form select.modal-select {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border-card);
+    padding: 14px 16px;
+    border-radius: 4px;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.modal-form select.modal-select option {
+    background: var(--bg-main);
+    color: #fff;
+}
+
+.btn-submit-modal {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 8px;
+    transition: background 0.2s;
+}
+
+.btn-submit-modal:hover { background: #b3946a; }
