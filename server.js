@@ -14,8 +14,8 @@ app.use(express.json());
 // Serve arquivos estáticos (Landing Page + CRM)
 app.use(express.static(path.join(__dirname)));
 
-// Rota amigável: /admin → admin.html
-app.get('/admin', (req, res) => {
+// Rotas amigáveis: /admin e /crm → admin.html
+app.get(['/admin', '/crm'], (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
