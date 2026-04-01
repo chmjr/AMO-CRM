@@ -14,6 +14,11 @@ app.use(express.json());
 // Serve arquivos estáticos (Landing Page + CRM)
 app.use(express.static(path.join(__dirname)));
 
+// Rota amigável: /admin → admin.html
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
 // Conexão com o banco de dados PostgreSQL
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
