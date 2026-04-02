@@ -10,16 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Lead Form Submission
+    // Lead Form Submission (Handles both Compact and Standard)
     const leadForm = document.getElementById('lead-form');
     
     if(leadForm) {
         leadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const name  = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
+            const name  = leadForm.querySelector('#name').value;
+            const phone = leadForm.querySelector('#phone').value;
+            const email = leadForm.querySelector('#email').value;
 
             if(!name || !phone) return;
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/leads', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, phone, email, origin: 'Site/Busca' })
+                    body: JSON.stringify({ name, phone, email, origin: 'Hero/Contato' })
                 });
 
                 if (response.ok) {

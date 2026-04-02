@@ -39,41 +39,36 @@
         <div class="hero-overlay"></div>
         <img class="hero-bg" src="assets/hero_bg.jpg" alt="Interior luxuoso projetado pela AMO Arquitetura">
         
-        <div class="container hero-content">
-            <div class="hero-text">
-                <span class="badge">Florianópolis & Região</span>
-                <h1 class="hero-title">Onde Seu Estilo Encontra a Arquitetura de Luxo.</h1>
-                <p class="hero-subtitle">Projetos exclusivos e reformas de alto padrão. Comece agora com uma estimativa personalizada para o seu espaço.</p>
-                <div style="margin-top: 32px;">
-                    <a href="#orcamento" class="btn-primary" style="display: inline-block; width: auto;">Simular Valor do Projeto →</a>
+        <div class="container hero-content-dual">
+            <!-- Esquerda: Orçamento Prévio -->
+            <div class="hero-card simulator-promo">
+                <span class="badge">Passo 1: Estimativa Imediata</span>
+                <h2 class="hero-path-title">Calcule o Valor do Seu Projeto</h2>
+                <p class="hero-path-desc">Tenha uma noção real de investimento e prazo em menos de 1 minuto, sem compromisso.</p>
+                <a href="#orcamento" class="btn-primary" style="display: inline-block; width: auto; margin-top: 20px;">Fazer Orçamento Prévio →</a>
+                <div class="path-features">
+                    <span>⚡ Resultado em Segundos</span>
+                    <span>📊 Faixa de Preços Real</span>
                 </div>
             </div>
             
-            <div class="lead-capture-box">
-                <h2 class="form-title">Inicie o Seu Projeto</h2>
-                <p class="form-subtitle">Deixe seus dados e nossa equipe de arquitetas entrará em contato com exclusividade.</p>
+            <!-- Direita: Contato Direto -->
+            <div class="hero-card contact-promo">
+                <span class="badge" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;">Exclusivo: Presencial ou Online</span>
+                <h2 class="hero-path-title">Consultoria com Arquitetas</h2>
+                <p class="hero-path-desc" style="color: rgba(255,255,255,0.7);">Prefere um atendimento personalizado? Agende uma reunião para um orçamento executivo detalhado.</p>
                 
-                <form id="lead-form" class="lead-form">
-                    <div class="input-group">
-                        <label for="name">Nome Completo</label>
-                        <input type="text" id="name" name="name" placeholder="Ex: Maria Silva" required>
+                <form id="lead-form" class="lead-form-compact">
+                    <div class="input-row">
+                        <input type="text" id="name" placeholder="Seu Nome" required>
+                        <input type="tel" id="phone" placeholder="WhatsApp" required>
                     </div>
-                    
-                    <div class="input-group">
-                        <label for="phone">Telefone / WhatsApp</label>
-                        <input type="tel" id="phone" name="phone" placeholder="(48) 99999-9999" required>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
-                    </div>
-                    
-                    <button type="submit" class="btn-primary">Quero Transformar Meu Espaço</button>
-                    <p class="form-disclaimer">Seus dados estão seguros. Não enviamos spam.</p>
+                    <input type="email" id="email" placeholder="E-mail" required style="margin-top: 10px;">
+                    <button type="submit" class="btn-outline-white" style="margin-top: 15px; width: 100%;">Solicitar Contato Exclusivo</button>
                 </form>
             </div>
         </div>
+
     </section>
 
     <!-- Services Section -->
