@@ -4,78 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMO CRM | Painel Comercial</title>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="./admin.css">
 </head>
 <body>
-    
+
     <header class="crm-header">
         <div class="logo">
             <span class="logo-text">AMO</span>
             <span class="logo-subtext" id="brand-name">ARQUITETURA E INTERIORES</span>
         </div>
+        <div class="header-center">
+            <input type="search" id="crm-busca" class="crm-busca" placeholder="🔍  Buscar lead por nome, telefone ou origem…">
+        </div>
         <div class="header-actions">
-            <button id="btn-settings" class="btn-icon" title="Configurações da Empresa">⚙️</button>
-            <button id="btn-add-lead" class="btn-primary-small">+ Adicionar Lead Manual</button>
-            <a href="index.html" class="btn-voltar">Ver Landing Page</a>
-            <button id="btn-clear" class="btn-danger">Limpar Dados</button>
+            <button id="btn-settings" class="btn-icon" title="Configurações">⚙️</button>
+            <button id="btn-add-lead" class="btn-primary-small">+ Novo Lead</button>
+            <a href="calculadora-completa-final.html" class="btn-voltar" target="_blank">🧮 Fazer Orçamento</a>
+            <a href="index.html" class="btn-voltar">← Site</a>
+            <button id="btn-clear" class="btn-danger">Limpar</button>
         </div>
     </header>
 
+    <!-- KPIs -->
+    <div class="kpi-bar">
+        <div class="kpi-item">
+            <div class="kpi-valor" id="kpi-total">0</div>
+            <div class="kpi-label">Total de Leads</div>
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-valor kpi-gold" id="kpi-novos">0</div>
+            <div class="kpi-label">Novos Hoje</div>
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-valor" id="kpi-calculadora">0</div>
+            <div class="kpi-label">Via Calculadora</div>
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-valor kpi-green" id="kpi-ganhos">0</div>
+            <div class="kpi-label">Projetos Fechados</div>
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-valor kpi-gold" id="kpi-potencial">R$ 0</div>
+            <div class="kpi-label">Potencial no Funil</div>
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-valor" id="kpi-conversao">0%</div>
+            <div class="kpi-label">Taxa de Fechamento</div>
+        </div>
+    </div>
+
     <main class="kanban-board">
-        <!-- Coluna 1 -->
+
+        <!-- Novos Leads -->
         <div class="kanban-column" id="col-novos" data-status="novos">
             <div class="column-header">
-                <h3><span class="emoji">🛎️</span> Novos Leads</h3>
+                <h3><span class="col-dot dot-novos"></span> Novos Leads</h3>
                 <span class="count" id="count-novos">0</span>
             </div>
             <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         </div>
 
-        <!-- Coluna 2 -->
+        <!-- Em Contato -->
         <div class="kanban-column" id="col-contato" data-status="contato">
             <div class="column-header">
-                <h3><span class="emoji">💬</span> Em Contato</h3>
+                <h3><span class="col-dot dot-contato"></span> Em Contato</h3>
                 <span class="count" id="count-contato">0</span>
             </div>
             <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         </div>
 
-        <!-- Coluna 3 -->
+        <!-- Briefing (nova coluna) -->
+        <div class="kanban-column" id="col-briefing" data-status="briefing">
+            <div class="column-header">
+                <h3><span class="col-dot dot-briefing"></span> Briefing</h3>
+                <span class="count" id="count-briefing">0</span>
+            </div>
+            <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+
+        <!-- Orçamento -->
         <div class="kanban-column" id="col-orcamento" data-status="orcamento">
             <div class="column-header">
-                <h3><span class="emoji">📐</span> Orçamento</h3>
+                <h3><span class="col-dot dot-orcamento"></span> Orçamento</h3>
                 <span class="count" id="count-orcamento">0</span>
             </div>
             <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         </div>
 
-        <!-- Coluna 4 -->
+        <!-- Projeto Fechado -->
         <div class="kanban-column" id="col-ganho" data-status="ganho">
             <div class="column-header">
-                <h3><span class="emoji">🥂</span> Projeto Fechado</h3>
+                <h3><span class="col-dot dot-ganho"></span> Projeto Fechado</h3>
                 <span class="count" id="count-ganho">0</span>
             </div>
             <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         </div>
 
-        <!-- Coluna 5 -->
-        <div class="kanban-column" id="col-perdido" data-status="perdido">
+        <!-- Perdidos -->
+        <div class="kanban-column col-perdido" id="col-perdido" data-status="perdido">
             <div class="column-header">
-                <h3><span class="emoji">❄️</span> Perdidos</h3>
+                <h3><span class="col-dot dot-perdido"></span> Perdidos</h3>
                 <span class="count" id="count-perdido">0</span>
             </div>
             <div class="kanban-cards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         </div>
+
     </main>
 
-    <!-- Modal Adicionar Lead -->
+    <!-- Modal: Novo Lead Manual -->
     <div id="modal-add" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -83,15 +122,16 @@
                 <button id="btn-close-modal" class="btn-close">&times;</button>
             </div>
             <form id="form-add-lead" class="modal-form">
-                <input type="text" id="manual-name" placeholder="Nome do Cliente" required>
-                <input type="tel" id="manual-phone" placeholder="Telefone / WhatsApp" required>
+                <input type="text"  id="manual-name"  placeholder="Nome do Cliente" required>
+                <input type="tel"   id="manual-phone" placeholder="Telefone / WhatsApp" required>
                 <input type="email" id="manual-email" placeholder="E-mail (Opcional)">
                 <select id="manual-origin" class="modal-select" required>
-                    <option value="" disabled selected>Selecione a Origem (Como nos achou?)</option>
+                    <option value="" disabled selected>Como nos encontrou?</option>
                     <option value="WhatsApp">WhatsApp Direto</option>
                     <option value="Instagram">Instagram da AMO</option>
-                    <option value="Indicação">Indicação de Cliente/Parceiro</option>
-                    <option value="Site/Busca">Google Search / Landing Page</option>
+                    <option value="Indicação">Indicação</option>
+                    <option value="Site/Busca">Google / Landing Page</option>
+                    <option value="Calculadora LP">Calculadora do Site</option>
                     <option value="Pinterest">Pinterest</option>
                     <option value="Outros">Outros</option>
                 </select>
@@ -100,7 +140,7 @@
         </div>
     </div>
 
-    <!-- Modal Configurações (White-Label) -->
+    <!-- Modal: Configurações -->
     <div id="modal-settings" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -108,37 +148,32 @@
                 <button id="btn-close-settings" class="btn-close">&times;</button>
             </div>
             <form id="form-settings" class="modal-form">
-                <label>Nome do Workspace/Empresa:</label>
-                <input type="text" id="config-name" placeholder="Ex: AMO Arquitetura" required>
-                
-                <label>Cor Principal (Hex):</label>
-                <input type="color" id="config-color" value="#C5A880" style="height: 40px; padding: 4px; cursor: pointer;" required>
-                
-                <label>URL do Logotipo (relativo ou HTTPS):</label>
-                <input type="text" id="config-logo" placeholder="assets/logoSemFundo.png" value="assets/logoSemFundo.png" required>
-                
-                <button type="submit" class="btn-submit-modal">Salvar Personalização</button>
+                <label>Nome do Workspace:</label>
+                <input type="text"  id="config-name"  placeholder="Ex: AMO Arquitetura" required>
+                <label>Cor Principal:</label>
+                <input type="color" id="config-color" value="#C5A880" style="height:40px;padding:4px;cursor:pointer;" required>
+                <label>Número WhatsApp da equipe (com DDI):</label>
+                <input type="text"  id="config-whatsapp" placeholder="5548999999999">
+                <button type="submit" class="btn-submit-modal">Salvar</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal Detalhes do Lead -->
+    <!-- Modal: Detalhes do Lead / Orçamento -->
     <div id="modal-details" class="modal-overlay">
-        <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-content modal-wide">
             <div class="modal-header">
-                <h2 id="details-title">Resumo do Orçamento</h2>
+                <h2 id="details-title">Detalhes do Lead</h2>
                 <button id="btn-close-details" class="btn-close">&times;</button>
             </div>
-            <div id="details-body" style="padding: 20px; color: #333; line-height: 1.6; white-space: pre-wrap; background: #f9f9f9; border-radius: 8px; max-height: 400px; overflow-y: auto;">
-                <!-- Conteúdo preenchido via JS -->
-            </div>
-            <div style="margin-top: 20px; text-align: right;">
-                <button class="btn-submit-modal" style="width: auto; padding: 10px 30px;" onclick="document.getElementById('modal-details').classList.remove('active')">Fechar Decalque</button>
+            <div id="details-body"></div>
+            <div style="margin-top:20px;display:flex;gap:12px;justify-content:flex-end;">
+                <button id="details-btn-whatsapp" class="btn-wa-modal" style="display:none;">💬 WhatsApp</button>
+                <button class="btn-submit-modal" style="width:auto;padding:10px 28px;" onclick="document.getElementById('modal-details').classList.remove('active')">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- JS -->
     <script src="./admin.js"></script>
 </body>
 </html>

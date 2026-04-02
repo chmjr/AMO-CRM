@@ -156,12 +156,12 @@
                     <h3 class="orc-step-titulo">Qual é o tipo do seu projeto?</h3>
                     <p class="orc-step-sub">Selecione para começar</p>
                     <div class="orc-tipo-cards">
-                        <button class="orc-tipo-card" id="orc-card-res" onclick="orcSelecionarTipo('Residencial')">
+                        <button class="orc-tipo-card" id="orc-card-res" onclick="orcSelecionarTipo('Residencial', this)">
                             <div class="orc-tipo-icone">🏠</div>
                             <div class="orc-tipo-nome">Residencial</div>
                             <div class="orc-tipo-desc">Apartamento, casa ou área privativa</div>
                         </button>
-                        <button class="orc-tipo-card" id="orc-card-com" onclick="orcSelecionarTipo('Comercial')">
+                        <button class="orc-tipo-card" id="orc-card-com" onclick="orcSelecionarTipo('Comercial', this)">
                             <div class="orc-tipo-icone">🏢</div>
                             <div class="orc-tipo-nome">Comercial</div>
                             <div class="orc-tipo-desc">Loja, escritório, restaurante</div>
@@ -305,8 +305,8 @@
 
                     <div id="orc-erro-4" class="orc-erro">Preencha nome e WhatsApp para continuar.</div>
 
-                    <button class="orc-btn-pri" style="width: 100%; margin-top: 20px; font-size: 16px; padding: 20px;" onclick="orcEnviarCRM()">
-                        🚀 Confirmar Estimativa e Solicitar Contato Real
+                    <button class="orc-btn-pri" id="orc-btn-enviar" style="width: 100%; margin-top: 20px; font-size: 16px; padding: 20px;" onclick="orcEnviarCRM()">
+                        🚀 Confirmar Estimativa e Solicitar Contato
                     </button>
 
                     <div class="orc-btn-nav" style="margin-top:16px;">
@@ -356,6 +356,45 @@
                 </div>
                 
                 <a href="#orcamento" class="btn-primary mt-4" style="width: auto; display: inline-block;">Simular meu projeto agora</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section class="contato-section" id="contato">
+        <div class="container">
+            <div class="contato-grid">
+                <div>
+                    <span class="badge" style="margin-bottom:24px;">Fale Conosco</span>
+                    <h2 class="contato-titulo">Vamos transformar o seu espaço?</h2>
+                    <p class="contato-desc">Nossa equipe está pronta para ouvir sobre o seu projeto e transformar sua visão em realidade. Atendemos em Florianópolis e região.</p>
+                    <div class="contato-item">
+                        <div class="contato-item-icone">📱</div>
+                        <span><a href="https://wa.me/5548999999999" target="_blank">(48) 99999-9999 — WhatsApp</a></span>
+                    </div>
+                    <div class="contato-item">
+                        <div class="contato-item-icone">✉️</div>
+                        <span><a href="mailto:contato@amoarquitetura.com.br">contato@amoarquitetura.com.br</a></span>
+                    </div>
+                    <div class="contato-item">
+                        <div class="contato-item-icone">📍</div>
+                        <span>Florianópolis, SC — Atendimento presencial e online</span>
+                    </div>
+                    <div class="contato-item">
+                        <div class="contato-item-icone">📸</div>
+                        <span><a href="https://instagram.com/amo.arquiteturaeinteriores" target="_blank">@amo.arquiteturaeinteriores</a></span>
+                    </div>
+                </div>
+                <div class="contato-form-wrapper">
+                    <p class="contato-form-titulo">Envie uma mensagem</p>
+                    <form id="contato-form" class="contato-form">
+                        <input type="text" id="c-name" class="contato-input" placeholder="Seu nome completo" required>
+                        <input type="tel" id="c-phone" class="contato-input" placeholder="WhatsApp (48) 99999-9999" required>
+                        <input type="email" id="c-email" class="contato-input" placeholder="E-mail">
+                        <textarea id="c-msg" class="contato-input" rows="3" placeholder="Conta um pouco sobre seu projeto…" style="resize:vertical;"></textarea>
+                        <button type="submit" class="btn-primary" id="c-btn">Enviar Mensagem</button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>

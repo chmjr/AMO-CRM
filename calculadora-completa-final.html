@@ -1,1346 +1,1786 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Completa - Studio da Nina</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --terracota: #C67357;
-            --laranja: #E67E50;
-            --verde: #7A9B76;
-            --verde-escuro: #5A7A56;
-            --bege: #F5F1ED;
-            --marfim: #FDFBF7;
-            --cinza: #4A4A4A;
-            --cinza-claro: #E8E4DF;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--marfim);
-            color: var(--cinza);
-            padding: 2rem;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .logo {
-            font-family: 'Cormorant', serif;
-            font-size: 1rem;
-            font-weight: 300;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--verde-escuro);
-            margin-bottom: 1.5rem;
-        }
-
-        .title {
-            font-family: 'Cormorant', serif;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 500;
-            color: var(--cinza);
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--verde);
-            font-weight: 500;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--cinza-claro);
-        }
-
-        .tab {
-            padding: 1rem 2rem;
-            background: white;
-            border: none;
-            border-bottom: 3px solid transparent;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--cinza);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 6px 6px 0 0;
-        }
-
-        .tab:hover {
-            background: var(--bege);
-        }
-
-        .tab.active {
-            background: var(--verde-escuro);
-            color: white;
-            border-bottom-color: var(--verde-escuro);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Stats */
-        .stats-section {
-            background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 100%);
-            color: white;
-            padding: 2.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
-
-        .stats-title {
-            font-family: 'Cormorant', serif;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.1);
-            padding: 1.5rem;
-            border-radius: 6px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-value {
-            font-family: 'Cormorant', serif;
-            font-size: 2.2rem;
-            font-weight: 500;
-            margin-bottom: 0.3rem;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Form */
-        .calculator-section {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--verde);
-        }
-
-        .section-title {
-            font-family: 'Cormorant', serif;
-            font-size: 1.8rem;
-            color: var(--cinza);
-            margin-bottom: 2rem;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-
-        .form-label {
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--cinza);
-        }
-
-        .form-input, .form-select {
-            padding: 1rem;
-            border: 2px solid var(--cinza-claro);
-            border-radius: 6px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--verde);
-            box-shadow: 0 0 0 3px rgba(122,155,118,0.1);
-        }
-
-        .form-help {
-            font-size: 0.85rem;
-            color: var(--verde-escuro);
-            font-style: italic;
-        }
-
-        /* Fornecedores Grid */
-        .fornecedores-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background: var(--bege);
-            border-radius: 6px;
-        }
-
-        .fornecedor-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem;
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-left: 4px solid transparent;
-        }
-
-        .fornecedor-bem-complexo {
-            border-left-color: #8B0000;
-        }
-
-        .fornecedor-complexo {
-            border-left-color: var(--terracota);
-        }
-
-        .fornecedor-medio {
-            border-left-color: var(--laranja);
-        }
-
-        .fornecedor-facil {
-            border-left-color: var(--verde);
-        }
-
-        .fornecedor-item:hover {
-            background: var(--marfim);
-            transform: translateX(3px);
-        }
-
-        .fornecedor-checkbox {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .fornecedor-label {
-            font-size: 0.95rem;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .fornecedor-count {
-            font-size: 0.75rem;
-            color: var(--verde-escuro);
-            font-weight: 600;
-        }
-
-        /* Checkbox */
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem;
-            background: var(--bege);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .checkbox-group:hover {
-            background: var(--cinza-claro);
-        }
-
-        .checkbox-input {
-            width: 22px;
-            height: 22px;
-            cursor: pointer;
-        }
-
-        .checkbox-label {
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        /* Alert */
-        .alert {
-            background: #FFF8F5;
-            border-left: 4px solid var(--laranja);
-            padding: 1.2rem;
-            margin-bottom: 2rem;
-            border-radius: 4px;
-        }
-
-        .alert-icon {
-            display: inline-block;
-            margin-right: 0.5rem;
-        }
-
-        .alert-text {
-            font-size: 0.95rem;
-            color: var(--cinza);
-        }
-
-        /* Results Card */
-        .results-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--terracota);
-        }
-
-        .results-value {
-            font-family: 'Cormorant', serif;
-            font-size: 3.5rem;
-            font-weight: 500;
-            color: var(--terracota);
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .results-breakdown {
-            background: var(--bege);
-            padding: 1.5rem;
-            border-radius: 6px;
-        }
-
-        .breakdown-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--cinza-claro);
-        }
-
-        .breakdown-item:last-child {
-            border-bottom: none;
-            font-weight: 600;
-            padding-top: 1rem;
-            margin-top: 0.5rem;
-            border-top: 2px solid var(--verde-escuro);
-        }
-
-        .breakdown-label {
-            color: var(--cinza);
-        }
-
-        .breakdown-value {
-            font-weight: 600;
-            color: var(--verde-escuro);
-        }
-
-        /* Button */
-        .btn-calculate {
-            width: 100%;
-            padding: 1.3rem;
-            background: var(--verde-escuro);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1.15rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 1rem;
-        }
-
-        .btn-calculate:hover {
-            background: var(--verde);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(90,122,86,0.3);
-        }
-
-        .actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: var(--verde-escuro);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--verde);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--verde-escuro);
-            border: 2px solid var(--verde-escuro);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bege);
-        }
-
-        /* Ambientes */
-        .ambientes-categoria {
-            background: white;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }
-
-        .ambientes-cat-titulo {
-            background: var(--verde-escuro);
-            color: white;
-            padding: 0.8rem 1.2rem;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .ambientes-linha {
-            display: flex;
-            align-items: center;
-            padding: 0.8rem 1.2rem;
-            border-bottom: 1px solid var(--cinza-claro);
-            gap: 1rem;
-        }
-
-        .ambientes-linha:last-child {
-            border-bottom: none;
-        }
-
-        .amb-nome {
-            flex: 1;
-            font-size: 0.95rem;
-        }
-
-        .amb-peso {
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-            white-space: nowrap;
-        }
-
-        .verde-tag { background: #e8f5e9; color: var(--verde-escuro); }
-        .laranja-tag { background: #fff3e0; color: #E65100; }
-        .terracota-tag { background: #fbe9e7; color: #b71c1c; }
-
-        .amb-input {
-            width: 70px;
-            padding: 0.5rem;
-            border: 2px solid var(--cinza-claro);
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-align: center;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .amb-input:focus {
-            outline: none;
-            border-color: var(--verde);
-        }
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-
-            .tabs {
-                flex-direction: column;
-            }
-
-            .tab {
-                width: 100%;
-            }
-
-            .form-grid,
-            .fornecedores-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media print {
-            .tabs, .actions {
-                display: none;
-            }
-        }
-
-        /* Mensagens de erro inline */
-        .calc-error {
-            background: #fff5f2;
-            border-left: 3px solid var(--terracota);
-            color: var(--terracota);
-            padding: 0.75rem 1rem;
-            border-radius: 4px;
-            font-size: 0.92rem;
-            margin-top: 0.75rem;
-            display: none;
-        }
-        .calc-error.visivel { display: block; }
-
-        /* Animação ao exibir resultados */
-        @keyframes resultFadeIn {
-            from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .resultado-animado { animation: resultFadeIn 0.45s ease; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora — AMO Arquitetura e Interiores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Variables ─────────────────────────────────────────── */
+    :root {
+      --bg-main:      #111111;
+      --bg-column:    rgba(255,255,255,0.03);
+      --bg-card:      rgba(255,255,255,0.04);
+      --bg-card-hover:rgba(255,255,255,0.07);
+      --bg-input:     rgba(255,255,255,0.06);
+      --border:       rgba(255,255,255,0.08);
+      --border-gold:  rgba(197,168,128,0.35);
+      --color-primary:#C5A880;
+      --color-primary-dim: rgba(197,168,128,0.15);
+      --color-text:   #EAE6DF;
+      --color-muted:  #777;
+      --color-danger: #e07070;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --radius:       10px;
+      --radius-sm:    6px;
+      --transition:   0.18s ease;
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-main);
+      color: var(--color-text);
+      min-height: 100vh;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* ─── Layout ────────────────────────────────────────────── */
+    .app-wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    /* ─── Header ────────────────────────────────────────────── */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .header-brand .label {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+
+    .header-brand h1 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--color-text);
+      letter-spacing: -0.3px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-back {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--color-muted);
+      text-decoration: none;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .btn-back:hover { color: var(--color-text); border-color: rgba(255,255,255,0.2); }
+
+    /* ─── Tabs ──────────────────────────────────────────────── */
+    .tabs-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+
+    .tab-btn {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 20px;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--color-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--color-text);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .tab-btn.active {
+      background: var(--color-primary-dim);
+      border-color: var(--border-gold);
+      color: var(--color-primary);
+    }
+
+    /* ─── Tab panels ────────────────────────────────────────── */
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.22s ease;
+    }
+    .tab-panel.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Stats Bar ─────────────────────────────────────────── */
+    .stats-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .stat-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--color-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-chip strong {
+      color: var(--color-primary);
+      font-weight: 600;
+      font-family: var(--font-heading);
+    }
+
+    /* ─── Cards & Sections ──────────────────────────────────── */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 18px;
+    }
+
+    /* ─── Radio Cards ───────────────────────────────────────── */
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .radio-card input[type="radio"] { display: none; }
+
+    .radio-card label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-input);
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--color-muted);
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .radio-card label:hover {
+      border-color: rgba(255,255,255,0.2);
+      color: var(--color-text);
+    }
+
+    .radio-card input[type="radio"]:checked + label {
+      border-color: var(--border-gold);
+      background: var(--color-primary-dim);
+      color: var(--color-primary);
+    }
+
+    .radio-card label .radio-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      flex-shrink: 0;
+      position: relative;
+      transition: all var(--transition);
+    }
+
+    .radio-card input[type="radio"]:checked + label .radio-dot::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-primary);
+    }
+
+    /* ─── Checkboxes ────────────────────────────────────────── */
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .check-card input[type="checkbox"] { display: none; }
+
+    .check-card label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-input);
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--color-muted);
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .check-card label:hover {
+      border-color: rgba(255,255,255,0.2);
+      color: var(--color-text);
+    }
+
+    .check-card input[type="checkbox"]:checked + label {
+      border-color: var(--border-gold);
+      background: var(--color-primary-dim);
+      color: var(--color-primary);
+    }
+
+    .check-card label .check-box {
+      width: 15px;
+      height: 15px;
+      border: 2px solid currentColor;
+      border-radius: 3px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+
+    .check-card input[type="checkbox"]:checked + label .check-box::after {
+      content: '✓';
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    /* ─── Ambientes Grid ────────────────────────────────────── */
+    .amb-group {
+      margin-bottom: 20px;
+    }
+
+    .amb-group-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .amb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+    }
+
+    .amb-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: border-color var(--transition);
+    }
+
+    .amb-item.has-value {
+      border-color: var(--border-gold);
+    }
+
+    .amb-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .amb-name {
+      font-size: 13px;
+      color: var(--color-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .amb-hrs {
+      font-size: 11px;
+      color: var(--color-muted);
+      margin-top: 1px;
+    }
+
+    .counter {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .counter-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--color-text);
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .counter-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      background: var(--color-primary-dim);
+    }
+
+    .counter-val {
+      min-width: 20px;
+      text-align: center;
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    /* ─── Summary Bar ───────────────────────────────────────── */
+    .summary-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .summary-stats {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .summary-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .summary-stat .val {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .summary-stat .lbl {
+      font-size: 12px;
+      color: var(--color-muted);
+    }
+
+    /* ─── Buttons ───────────────────────────────────────────── */
+    .btn-primary {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--color-primary);
+      color: #111;
+      cursor: pointer;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--color-primary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-primary-dim);
+    }
+
+    .btn-ghost {
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--color-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-ghost:hover {
+      color: var(--color-text);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    /* ─── Results Card ──────────────────────────────────────── */
+    .results-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--color-primary);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      margin-top: 20px;
+    }
+
+    .results-title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 20px;
+    }
+
+    .results-hero {
+      text-align: center;
+      margin-bottom: 28px;
+      padding: 20px;
+      background: rgba(197,168,128,0.07);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-gold);
+    }
+
+    .results-hero .lbl {
+      font-size: 12px;
+      color: var(--color-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .results-hero .amount {
+      font-family: var(--font-heading);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: -1px;
+    }
+
+    .results-hero .prazo {
+      font-size: 13px;
+      color: var(--color-muted);
+      margin-top: 6px;
+    }
+
+    .breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .breakdown-table tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breakdown-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .breakdown-table td {
+      padding: 10px 4px;
+      font-size: 13px;
+    }
+
+    .breakdown-table td:last-child {
+      text-align: right;
+      font-weight: 500;
+      font-family: var(--font-heading);
+    }
+
+    .breakdown-table .td-label { color: var(--color-muted); }
+    .breakdown-table .tr-total td { color: var(--color-text); font-weight: 600; }
+    .breakdown-table .tr-min td:last-child { color: #aaa; }
+    .breakdown-table .tr-rec td { color: var(--color-primary); }
+    .breakdown-table .tr-rec td:last-child { font-size: 16px; }
+    .breakdown-table .tr-premium td:last-child { color: #a8c8a0; }
+
+    .results-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── Acompanhamento ────────────────────────────────────── */
+    .forn-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin: 18px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .forn-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .forn-badge {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--color-muted);
+    }
+
+    .forn-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .forn-check input[type="checkbox"] { display: none; }
+
+    .forn-check label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background: var(--bg-input);
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--color-muted);
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .forn-check label:hover {
+      border-color: rgba(255,255,255,0.2);
+      color: var(--color-text);
+    }
+
+    .forn-check input[type="checkbox"]:checked + label {
+      border-color: var(--border-gold);
+      background: var(--color-primary-dim);
+      color: var(--color-primary);
+    }
+
+    /* ─── Form Inputs ───────────────────────────────────────── */
+    .field-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .field-row:last-child { border-bottom: none; }
+
+    .field-label {
+      font-size: 13px;
+      color: var(--color-text);
+      flex: 1;
+    }
+
+    .field-sub {
+      font-size: 11px;
+      color: var(--color-muted);
+      margin-top: 2px;
+    }
+
+    .field-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field-input input {
+      width: 90px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 8px 12px;
+      text-align: right;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .field-input input:focus {
+      border-color: var(--border-gold);
+    }
+
+    .field-input .unit {
+      font-size: 12px;
+      color: var(--color-muted);
+      min-width: 24px;
+    }
+
+    /* Inline number field for acompanhamento */
+    .inline-field {
+      margin-bottom: 12px;
+    }
+
+    .inline-field label {
+      display: block;
+      font-size: 13px;
+      color: var(--color-muted);
+      margin-bottom: 6px;
+    }
+
+    .inline-field input[type="number"] {
+      width: 120px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .inline-field input[type="number"]:focus {
+      border-color: var(--border-gold);
+    }
+
+    /* ─── Config Panel ──────────────────────────────────────── */
+    .config-section {
+      margin-bottom: 28px;
+    }
+
+    .config-section-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .save-feedback {
+      font-size: 13px;
+      color: #7ec87e;
+      margin-left: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .save-feedback.visible { opacity: 1; }
+
+    /* ─── Utilities ─────────────────────────────────────────── */
+    .hidden { display: none !important; }
+
+    .mt-16 { margin-top: 16px; }
+    .mt-8  { margin-top: 8px; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    .text-muted { color: var(--color-muted); }
+    .text-gold  { color: var(--color-primary); }
+
+    /* ─── Acompanhamento results ────────────────────────────── */
+    .aco-results {
+      margin-top: 20px;
+    }
+
+    .aco-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .aco-line:last-child { border-bottom: none; }
+    .aco-line .aco-lbl { color: var(--color-muted); }
+    .aco-line .aco-val { font-family: var(--font-heading); font-weight: 600; }
+    .aco-line.aco-total { padding-top: 14px; margin-top: 4px; border-top: 2px solid var(--border-gold); border-bottom: none; }
+    .aco-line.aco-total .aco-lbl { color: var(--color-text); font-weight: 600; font-size: 14px; }
+    .aco-line.aco-total .aco-val { color: var(--color-primary); font-size: 20px; }
+    .aco-line.aco-discount .aco-val { color: #7ec87e; }
+
+    /* ─── Print ─────────────────────────────────────────────── */
+    @media print {
+      body { background: #fff; color: #000; }
+      .tabs-bar, .tab-panel:not(#tab-projeto), .app-header .btn-back,
+      .btn-primary, .btn-secondary, .btn-ghost, #tab-config { display: none !important; }
+      .tab-panel#tab-projeto { display: block !important; }
+      .results-card { border-color: #000; }
+      .section-card, .summary-bar { border: 1px solid #ccc; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">Studio da Nina</div>
-            <h1 class="title">Calculadora Completa</h1>
-            <p class="subtitle">Projeto + Acompanhamento de Obra</p>
-        </div>
 
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('projeto')">💼 Precificação de Projeto</button>
-            <button class="tab" onclick="switchTab('acompanhamento')">🏗️ Acompanhamento de Obra</button>
-        </div>
+<div class="app-wrapper">
 
-        <!-- TAB 1: Projeto -->
-        <div id="tab-projeto" class="tab-content active">
-            <div class="stats-section">
-                <h2 class="stats-title">Base: 22 Projetos + Dados de Ambientes Calibrados</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value">R$ 51/h</div>
-                        <div class="stat-label">Custo-hora médio</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">~38h</div>
-                        <div class="stat-label">Horas por ambiente</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">R$ 50/h</div>
-                        <div class="stat-label">Residencial</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">R$ 47/h</div>
-                        <div class="stat-label">Comercial</div>
-                    </div>
-                </div>
-            </div>
+  <!-- ─── Header ─── -->
+  <header class="app-header">
+    <div class="header-brand">
+      <span class="label">AMO Arquitetura e Interiores</span>
+      <h1>Calculadora de Honorários</h1>
+    </div>
+    <div class="header-right">
+      <a href="admin.html" class="btn-back">← Voltar ao CRM</a>
+    </div>
+  </header>
 
-            <div class="calculator-section">
-                <h2 class="section-title">Calcular Projeto</h2>
+  <!-- ─── Tabs ─── -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" data-tab="tab-projeto">Projeto</button>
+    <button class="tab-btn" data-tab="tab-acompanhamento">Acompanhamento</button>
+    <button class="tab-btn" data-tab="tab-config">⚙️ Configurações</button>
+  </div>
 
-                <!-- Tipo e Escopo -->
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">Tipo de Projeto</label>
-                        <select id="tipo" class="form-select" onchange="atualizarCampos()">
-                            <option value="">Selecione...</option>
-                            <option value="Residencial">Residencial</option>
-                            <option value="Comercial">Comercial</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Escopo Contratado</label>
-                        <select id="escopo" class="form-select">
-                            <option value="">Selecione...</option>
-                            <option value="layout">Apenas Layout</option>
-                            <option value="completo">Completo (Layout + 3D + Executivo)</option>
-                        </select>
-                        <span class="form-help">A maioria dos projetos é completo</span>
-                    </div>
-                </div>
+  <!-- ══════════════════════════════════════════════════════════
+       TAB 1 — PROJETO
+  ══════════════════════════════════════════════════════════ -->
+  <div id="tab-projeto" class="tab-panel active">
 
-                <!-- Inclui Fachada? -->
-                <div style="display:flex; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; align-items:stretch;">
-                    <div class="form-group" style="flex:1.5; min-width:240px;">
-                        <label class="form-label">Fachada</label>
-                        <select id="tipo-fachada" class="form-select" onchange="recalcularResumo()">
-                            <option value="">Sem fachada</option>
-                            <option value="simples">Fachada simples (sem grandes alterações) · 42h</option>
-                            <option value="complexa">Fachada complexa (com alterações, revisões) · 120h</option>
-                        </select>
-                    </div>
-                    <label class="checkbox-group" style="flex:1; min-width:200px;">
-                        <input type="checkbox" id="tem-paisagismo" class="checkbox-input" onchange="recalcularResumo()">
-                        <span class="checkbox-label">Inclui Paisagismo · +20h</span>
-                    </label>
-                    <label class="checkbox-group" style="flex:1; min-width:200px;">
-                        <input type="checkbox" id="e-reforma" class="checkbox-input" onchange="recalcularResumo()">
-                        <span class="checkbox-label">É Reforma · +25h</span>
-                    </label>
-                </div>
-
-                <!-- Ambientes -->
-                <h3 style="font-family:'Cormorant',serif; font-size:1.5rem; margin-bottom:0.5rem;">Informe os Ambientes do Projeto</h3>
-                <p style="font-size:0.9rem; color:var(--verde-escuro); margin-bottom:1.5rem;">
-                    <strong>💡 Horas por ambiente (calibradas com projetos reais):</strong>
-                    <span style="color:var(--verde);">■ Simples (12-20h)</span> ·
-                    <span style="color:var(--laranja);">■ Médio (22-38h)</span> ·
-                    <span style="color:var(--terracota);">■ Complexo (50-72h)</span>
-                </p>
-
-                <div id="ambientes-residencial" style="display:none;">
-                    <div class="ambientes-categoria">
-                        <div class="ambientes-cat-titulo">🛏️ Quartos</div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Quarto simples (sem closet)</span>
-                            <span class="amb-peso verde-tag">Simples · 28h</span>
-                            <input type="number" class="amb-input" id="quarto-simples" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Quarto infantil (mais detalhes)</span>
-                            <span class="amb-peso laranja-tag">Médio · 38h</span>
-                            <input type="number" class="amb-input" id="quarto-infantil" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Suíte (quarto + banheiro integrado)</span>
-                            <span class="amb-peso laranja-tag">Médio · 38h</span>
-                            <input type="number" class="amb-input" id="suite" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Closet (separado)</span>
-                            <span class="amb-peso laranja-tag">Médio · 38h</span>
-                            <input type="number" class="amb-input" id="closet" min="0" value="0">
-                        </div>
-                    </div>
-
-                    <div class="ambientes-categoria">
-                        <div class="ambientes-cat-titulo">🛁 Banheiros</div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Lavabo</span>
-                            <span class="amb-peso verde-tag">Simples · 20h</span>
-                            <input type="number" class="amb-input" id="lavabo" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Banheiro sem troca de revestimento</span>
-                            <span class="amb-peso verde-tag">Simples · 22h</span>
-                            <input type="number" class="amb-input" id="banheiro-simples" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Banheiro com troca de revestimento</span>
-                            <span class="amb-peso laranja-tag">Médio · 38h</span>
-                            <input type="number" class="amb-input" id="banheiro-revestimento" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Banheiro com hidro / banheira</span>
-                            <span class="amb-peso terracota-tag">Complexo · 50h</span>
-                            <input type="number" class="amb-input" id="banheiro-hidro" min="0" value="0">
-                        </div>
-                    </div>
-
-                    <div class="ambientes-categoria">
-                        <div class="ambientes-cat-titulo">🛋️ Ambientes Sociais</div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Sala (estar / TV / jantar) — por ambiente</span>
-                            <span class="amb-peso verde-tag">Simples · 28h</span>
-                            <input type="number" class="amb-input" id="sala" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Cozinha simples</span>
-                            <span class="amb-peso laranja-tag">Médio · 32h</span>
-                            <input type="number" class="amb-input" id="cozinha-simples" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Cozinha gourmet / área gourmet</span>
-                            <span class="amb-peso terracota-tag">Complexo · 65h</span>
-                            <input type="number" class="amb-input" id="cozinha-gourmet" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Lavanderia / Sacada / Varanda</span>
-                            <span class="amb-peso verde-tag">Simples · 15h</span>
-                            <input type="number" class="amb-input" id="lavanderia" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Área externa (piscina, jardim)</span>
-                            <span class="amb-peso laranja-tag">Médio · 42h</span>
-                            <input type="number" class="amb-input" id="area-externa-res" min="0" value="0">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="ambientes-comercial" style="display:none;">
-                    <div class="ambientes-categoria">
-                        <div class="ambientes-cat-titulo">🏪 Ambientes Comerciais</div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Depósito / Almoxarifado</span>
-                            <span class="amb-peso verde-tag">Simples · 12h</span>
-                            <input type="number" class="amb-input" id="deposito" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Banheiro / Lavabo comercial</span>
-                            <span class="amb-peso verde-tag">Simples · 22h</span>
-                            <input type="number" class="amb-input" id="ban-com" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Recepção / Sala de reunião / Escritório</span>
-                            <span class="amb-peso laranja-tag">Médio · 38h</span>
-                            <input type="number" class="amb-input" id="sala-com" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Salão principal / Área de atendimento</span>
-                            <span class="amb-peso laranja-tag">Médio · 38h</span>
-                            <input type="number" class="amb-input" id="salao" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Cozinha comercial</span>
-                            <span class="amb-peso laranja-tag">Médio · 38h</span>
-                            <input type="number" class="amb-input" id="cozinha-com" min="0" value="0">
-                        </div>
-                        <div class="ambientes-linha">
-                            <span class="amb-nome">Cozinha industrial</span>
-                            <span class="amb-peso terracota-tag">Complexo · 72h</span>
-                            <input type="number" class="amb-input" id="cozinha-ind" min="0" value="0">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Resumo e Calcular -->
-                <div style="background:var(--bege); padding:1.5rem; border-radius:6px; margin:1.5rem 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-                    <div>
-                        <span style="font-weight:600; color:var(--verde-escuro);">Total de ambientes: </span>
-                        <span id="total-amb-display" style="font-family:'Cormorant',serif; font-size:1.8rem; color:var(--terracota);">0</span>
-                    </div>
-                    <div>
-                        <span style="font-weight:600; color:var(--verde-escuro);">Horas estimadas: </span>
-                        <span id="total-horas-display" style="font-family:'Cormorant',serif; font-size:1.8rem; color:var(--terracota);">0h</span>
-                    </div>
-                </div>
-
-                <button class="btn-calculate" onclick="calcularProjeto()">Calcular Precificação</button>
-                <div id="erro-projeto" class="calc-error"></div>
-
-                <div id="resultado-projeto" style="display:none; margin-top:2rem;">
-                    <div class="results-card">
-                        <h3 class="section-title">💰 Valores Sugeridos para 2026</h3>
-                        <div class="results-value" id="valor-projeto-ideal">—</div>
-                        <div class="results-breakdown">
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">Horas estimadas</span>
-                                <span class="breakdown-value" id="res-horas">—</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">Custo-hora aplicado</span>
-                                <span class="breakdown-value" id="res-custo-hora">—</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">🔻 Mínimo</span>
-                                <span class="breakdown-value" id="valor-projeto-min">—</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">✅ Recomendado</span>
-                                <span class="breakdown-value" id="valor-projeto-rec">—</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">⭐ Premium</span>
-                                <span class="breakdown-value" id="valor-projeto-max">—</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">Prazo estimado</span>
-                                <span class="breakdown-value" id="res-prazo">—</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 2: Acompanhamento -->
-        <div id="tab-acompanhamento" class="tab-content">
-            <div class="stats-section">
-                <h2 class="stats-title">Acompanhamento de Obra</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value">R$ 100-400</div>
-                        <div class="stat-label">Valor/Fornecedor</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">R$ 500</div>
-                        <div class="stat-label">Valor/Visita</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">6%</div>
-                        <div class="stat-label">Desconto Pacote (>3 visitas)</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">22</div>
-                        <div class="stat-label">Fornecedores Disponíveis</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="calculator-section">
-                <h2 class="section-title">🏗️ Calcular Acompanhamento</h2>
-
-                <div class="alert">
-                    <span class="alert-icon">💡</span>
-                    <span class="alert-text"><strong>Como funciona:</strong> Selecione os fornecedores necessários (2-3 orçamentos cada) + número de visitas de acompanhamento</span>
-                </div>
-
-                <h3 style="margin-bottom: 1rem; color: var(--verde-escuro);">Selecione os Fornecedores Necessários:</h3>
-                <p style="margin-bottom: 1.5rem; color: var(--cinza); font-size: 0.9rem;">
-                    <strong>💡 Valores por complexidade:</strong> 
-                    <span style="color: #8B0000;">■ Bem Complexo (R$ 400)</span> · 
-                    <span style="color: var(--terracota);">■ Complexo (R$ 250)</span> · 
-                    <span style="color: var(--laranja);">■ Médio (R$ 150)</span> · 
-                    <span style="color: var(--verde);">■ Fácil (R$ 100)</span>
-                </p>
-                <div class="fornecedores-grid">
-                    <!-- BEM COMPLEXO (R$ 400) -->
-                    <label class="fornecedor-item fornecedor-bem-complexo">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="empreiteira" data-valor="400">
-                        <span class="fornecedor-label">Empreiteiras</span>
-                        <span class="fornecedor-count">R$ 400</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-bem-complexo">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="piso" data-valor="400">
-                        <span class="fornecedor-label">Revestimento Piso</span>
-                        <span class="fornecedor-count">R$ 400</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-bem-complexo">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="parede" data-valor="400">
-                        <span class="fornecedor-label">Revestimento Parede</span>
-                        <span class="fornecedor-count">R$ 400</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-bem-complexo">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="luminaria" data-valor="400">
-                        <span class="fornecedor-label">Luminárias</span>
-                        <span class="fornecedor-count">R$ 400</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-bem-complexo">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="marcenaria" data-valor="400">
-                        <span class="fornecedor-label">Marcenaria</span>
-                        <span class="fornecedor-count">R$ 400</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-bem-complexo">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="marmoraria" data-valor="400">
-                        <span class="fornecedor-label">Marmoraria</span>
-                        <span class="fornecedor-count">R$ 400</span>
-                    </label>
-
-                    <!-- COMPLEXO (R$ 250) -->
-                    <label class="fornecedor-item fornecedor-complexo">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="esquadria" data-valor="250">
-                        <span class="fornecedor-label">Esquadrias</span>
-                        <span class="fornecedor-count">R$ 250</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-complexo">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="cobertura" data-valor="250">
-                        <span class="fornecedor-label">Coberturas</span>
-                        <span class="fornecedor-count">R$ 250</span>
-                    </label>
-
-                    <!-- MÉDIO (R$ 150) -->
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="automacao" data-valor="150">
-                        <span class="fornecedor-label">Automação</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="eletro" data-valor="150">
-                        <span class="fornecedor-label">Eletrodomésticos</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="metais" data-valor="150">
-                        <span class="fornecedor-label">Metais</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="coifa" data-valor="150">
-                        <span class="fornecedor-label">Coifas</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="papel" data-valor="150">
-                        <span class="fornecedor-label">Papel de Parede</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="estofado" data-valor="150">
-                        <span class="fornecedor-label">Estofados</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="puxador" data-valor="150">
-                        <span class="fornecedor-label">Puxadores</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="paisagismo" data-valor="150">
-                        <span class="fornecedor-label">Paisagismo</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-medio">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="mobiliario" data-valor="150">
-                        <span class="fornecedor-label">Mobiliário Solto</span>
-                        <span class="fornecedor-count">R$ 150</span>
-                    </label>
-
-                    <!-- FÁCIL (R$ 100) -->
-                    <label class="fornecedor-item fornecedor-facil">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="churrasqueira" data-valor="100">
-                        <span class="fornecedor-label">Churrasqueiras</span>
-                        <span class="fornecedor-count">R$ 100</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-facil">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="pintura" data-valor="100">
-                        <span class="fornecedor-label">Pinturas Artísticas</span>
-                        <span class="fornecedor-count">R$ 100</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-facil">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="cortina" data-valor="100">
-                        <span class="fornecedor-label">Cortinas</span>
-                        <span class="fornecedor-count">R$ 100</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-facil">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="decoracao" data-valor="100">
-                        <span class="fornecedor-label">Decoração</span>
-                        <span class="fornecedor-count">R$ 100</span>
-                    </label>
-                    <label class="fornecedor-item fornecedor-facil">
-                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="tapete" data-valor="100">
-                        <span class="fornecedor-label">Tapetes</span>
-                        <span class="fornecedor-count">R$ 100</span>
-                    </label>
-                </div>
-
-                <div style="background: white; padding: 1.5rem; border-radius: 6px; margin: 2rem 0;">
-                    <h3 style="margin-bottom: 1rem; color: var(--verde-escuro);">Total de Fornecedores: <span id="total-fornecedores">0</span></h3>
-                </div>
-
-                <div class="form-grid" style="margin-top: 2rem;">
-                    <div class="form-group">
-                        <label class="form-label">Número de Visitas de Acompanhamento</label>
-                        <input type="number" id="num-visitas" class="form-input" placeholder="Ex: 12" min="0">
-                        <span class="form-help">Visitas semanais na obra (R$ 500/visita)</span>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Horas Estimadas de Dúvidas/Alterações</label>
-                        <input type="number" id="horas-extras" class="form-input" placeholder="Ex: 20" min="0">
-                        <span class="form-help">Tempo respondendo dúvidas e alterando projeto (R$ 150/hora)</span>
-                    </div>
-                </div>
-
-                <label class="checkbox-group" style="margin-top: 1rem;">
-                    <input type="checkbox" id="so-orcamento" class="checkbox-input">
-                    <span class="checkbox-label">Cliente contrata APENAS os orçamentos (sem visitas)</span>
-                </label>
-
-                <button class="btn-calculate" onclick="calcularAcompanhamento()">Calcular Acompanhamento</button>
-                <div id="erro-acompanhamento" class="calc-error"></div>
-
-                <div id="resultado-acompanhamento" style="display:none;">
-                    <div class="results-card">
-                        <h3 class="section-title">Valor Total do Acompanhamento</h3>
-                        <div class="results-value" id="valor-acompanhamento-total">—</div>
-                        <div class="results-breakdown" id="breakdown-acompanhamento"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="actions">
-            <button class="btn btn-primary" onclick="window.print()">Imprimir</button>
-            <button class="btn btn-secondary" onclick="confirmarLimpar()">Limpar Tudo</button>
-        </div>
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="statsBar">
+      <div class="stat-chip">Custo/h Residencial <strong id="st-res">R$ 50/h</strong></div>
+      <div class="stat-chip">Custo/h Comercial <strong id="st-com">R$ 47/h</strong></div>
+      <div class="stat-chip">Horas produtivas/dia <strong id="st-hpd">5</strong></div>
+      <div class="stat-chip">Overhead Residencial <strong id="st-ovr">115h</strong></div>
+      <div class="stat-chip">Overhead Comercial <strong id="st-ovc">55h</strong></div>
     </div>
 
-    <script>
-        // ─── HELPERS ──────────────────────────────────────────────────
-        function mostrarErro(id, msg) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.textContent = msg;
-            el.classList.add('visivel');
-            setTimeout(() => el.classList.remove('visivel'), 5000);
-        }
+    <!-- Tipo de Projeto -->
+    <div class="section-card">
+      <div class="section-title">Tipo de Projeto</div>
+      <div class="radio-group">
+        <div class="radio-card">
+          <input type="radio" name="tipo" id="tipo-res" value="residencial" checked>
+          <label for="tipo-res"><span class="radio-dot"></span> Residencial</label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="tipo" id="tipo-com" value="comercial">
+          <label for="tipo-com"><span class="radio-dot"></span> Comercial</label>
+        </div>
+      </div>
+    </div>
 
-        function mostrarResultado(id) {
-            const el = document.getElementById(id);
-            el.style.display = 'block';
-            el.classList.remove('resultado-animado');
-            void el.offsetWidth; // força reflow para reanimar
-            el.classList.add('resultado-animado');
-        }
+    <!-- Escopo -->
+    <div class="section-card">
+      <div class="section-title">Escopo do Projeto</div>
+      <div class="radio-group">
+        <div class="radio-card">
+          <input type="radio" name="escopo" id="esc-completo" value="completo" checked>
+          <label for="esc-completo"><span class="radio-dot"></span> Projeto Completo <span class="text-muted" style="font-size:11px;margin-left:4px;">(layout + 3D + executivo)</span></label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="escopo" id="esc-layout" value="layout">
+          <label for="esc-layout"><span class="radio-dot"></span> Apenas Layout</label>
+        </div>
+      </div>
+    </div>
 
-        function confirmarLimpar() {
-            if (confirm('Deseja limpar todos os campos?')) limparTudo();
-        }
+    <!-- Fachada -->
+    <div class="section-card">
+      <div class="section-title">Fachada</div>
+      <div class="radio-group">
+        <div class="radio-card">
+          <input type="radio" name="fachada" id="fach-0" value="0" checked>
+          <label for="fach-0"><span class="radio-dot"></span> Sem fachada</label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="fachada" id="fach-42" value="42">
+          <label for="fach-42"><span class="radio-dot"></span> Simples <span class="text-muted" style="font-size:11px;margin-left:4px;">42h</span></label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="fachada" id="fach-120" value="120">
+          <label for="fach-120"><span class="radio-dot"></span> Complexa <span class="text-muted" style="font-size:11px;margin-left:4px;">120h</span></label>
+        </div>
+      </div>
+    </div>
 
-        // ─── TABS ─────────────────────────────────────────────────────
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
-            document.getElementById(`tab-${tabName}`).classList.add('active');
-        }
+    <!-- Extras -->
+    <div class="section-card">
+      <div class="section-title">Extras</div>
+      <div class="checkbox-group">
+        <div class="check-card">
+          <input type="checkbox" id="chk-paisa" value="paisa">
+          <label for="chk-paisa"><span class="check-box"></span> Paisagismo <span class="text-muted" style="font-size:11px;margin-left:4px;">+20h</span></label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="chk-reforma" value="reforma">
+          <label for="chk-reforma"><span class="check-box"></span> É Reforma <span class="text-muted" style="font-size:11px;margin-left:4px;">+25h</span></label>
+        </div>
+      </div>
+    </div>
 
-        // Contador de fornecedores em tempo real
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.fornecedor-checkbox').forEach(cb => {
-                cb.addEventListener('change', () => {
-                    const total = document.querySelectorAll('.fornecedor-checkbox:checked').length;
-                    const el = document.getElementById('total-fornecedores');
-                    if (el) el.textContent = total;
-                });
-            });
-        });
+    <!-- Ambientes RESIDENCIAL -->
+    <div class="section-card" id="ambResidencial">
+      <div class="section-title">Ambientes — Residencial</div>
 
-        // ─── HORAS POR AMBIENTE ───────────────────────────────────────
-        // Calibrado com 5 projetos reais: Elizandra (500h/14amb),
-        // Vinícius (375h/9amb), Nadir (300h/2amb),
-        // Hot Dog Campinas (400h/9amb), Sala Jad (200h/5amb)
+      <div class="amb-group">
+        <div class="amb-group-title">Quartos</div>
+        <div class="amb-grid">
+          <div class="amb-item" id="ai-qsimples">
+            <div class="amb-info"><div class="amb-name">Quarto simples</div><div class="amb-hrs">28h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="qsimples" data-action="dec">−</button>
+              <span class="counter-val" id="cv-qsimples">0</span>
+              <button class="counter-btn" data-key="qsimples" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-qinfantil">
+            <div class="amb-info"><div class="amb-name">Quarto infantil</div><div class="amb-hrs">38h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="qinfantil" data-action="dec">−</button>
+              <span class="counter-val" id="cv-qinfantil">0</span>
+              <button class="counter-btn" data-key="qinfantil" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-suite">
+            <div class="amb-info"><div class="amb-name">Suíte</div><div class="amb-hrs">38h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="suite" data-action="dec">−</button>
+              <span class="counter-val" id="cv-suite">0</span>
+              <button class="counter-btn" data-key="suite" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-closet">
+            <div class="amb-info"><div class="amb-name">Closet</div><div class="amb-hrs">38h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="closet" data-action="dec">−</button>
+              <span class="counter-val" id="cv-closet">0</span>
+              <button class="counter-btn" data-key="closet" data-action="inc">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        // ─── HORAS POR AMBIENTE ───────────────────────────────────────
-        // Calibrado com 5 projetos reais + validado matematicamente:
-        // Vinícius 375h → calc 375h ✓ | Jad 200h → calc 200h ✓ | Nadir 300h → calc 263h (~ok)
-        //
-        // RESIDENCIAL:
-        //   Quarto simples (sem closet): 28h  → rápido, marcenaria básica
-        //   Quarto infantil: 38h          → mais detalhes, marcenaria específica
-        //   Suite casal: 38h              → mais elaborada, detalhes extras
-        //   Closet separado: 38h          → marcenaria densa, muitos detalhes
-        //   Lavabo: 20h                   → simples, sem chuveiro
-        //   Banheiro sem troca revestimento: 22h  → só layout, sem paginação de parede
-        //   Banheiro com troca revestimento: 38h  → paginação de parede = +16h
-        //   Banheiro com hidro/banheira: 50h      → mais complexo, mais detalhes
-        //   Sala / Estar / Jantar (cada): 28h
-        //   Cozinha simples: 32h
-        //   Cozinha gourmet / área gourmet: 65h   → marcenaria densa + marmoraria + detalhes
-        //   Lavanderia / Sacada / Varanda: 15h
-        //   Área externa (piscina, jardim): 42h
-        //
-        // COMERCIAL:
-        //   Depósito / Almoxarifado: 12h
-        //   Banheiro / Lavabo comercial: 22h
-        //   Recepção / Sala de reunião / Escritório: 38h
-        //   Salão principal / Área de atendimento: 38h
-        //   Cozinha comercial simples: 38h
-        //   Cozinha industrial: 72h   → instalações complexas, layout rigoroso
+      <div class="amb-group">
+        <div class="amb-group-title">Banheiros</div>
+        <div class="amb-grid">
+          <div class="amb-item" id="ai-lavabo">
+            <div class="amb-info"><div class="amb-name">Lavabo</div><div class="amb-hrs">20h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="lavabo" data-action="dec">−</button>
+              <span class="counter-val" id="cv-lavabo">0</span>
+              <button class="counter-btn" data-key="lavabo" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-bsimples">
+            <div class="amb-info"><div class="amb-name">Banheiro simples</div><div class="amb-hrs">22h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="bsimples" data-action="dec">−</button>
+              <span class="counter-val" id="cv-bsimples">0</span>
+              <button class="counter-btn" data-key="bsimples" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-brev">
+            <div class="amb-info"><div class="amb-name">Banheiro c/ revestimento</div><div class="amb-hrs">38h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="brev" data-action="dec">−</button>
+              <span class="counter-val" id="cv-brev">0</span>
+              <button class="counter-btn" data-key="brev" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-bhidro">
+            <div class="amb-info"><div class="amb-name">Banheiro c/ hidro</div><div class="amb-hrs">50h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="bhidro" data-action="dec">−</button>
+              <span class="counter-val" id="cv-bhidro">0</span>
+              <button class="counter-btn" data-key="bhidro" data-action="inc">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        const HORAS_AMBIENTE = {
-            // RESIDENCIAL
-            'quarto-simples':          28,
-            'quarto-infantil':         38,
-            'suite':                   38,
-            'closet':                  38,
-            'lavabo':                  20,
-            'banheiro-simples':        22,
-            'banheiro-revestimento':   38,
-            'banheiro-hidro':          50,
-            'sala':                    28,
-            'cozinha-simples':         32,
-            'cozinha-gourmet':         65,
-            'lavanderia':              15,
-            'area-externa-res':        42,
-            // COMERCIAL
-            'deposito':                12,
-            'ban-com':                 22,
-            'sala-com':                38,
-            'salao':                   38,
-            'cozinha-com':             38,
-            'cozinha-ind':             72,
-        };
+      <div class="amb-group">
+        <div class="amb-group-title">Sociais</div>
+        <div class="amb-grid">
+          <div class="amb-item" id="ai-sala">
+            <div class="amb-info"><div class="amb-name">Sala / Estar</div><div class="amb-hrs">28h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="sala" data-action="dec">−</button>
+              <span class="counter-val" id="cv-sala">0</span>
+              <button class="counter-btn" data-key="sala" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-cozsimp">
+            <div class="amb-info"><div class="amb-name">Cozinha simples</div><div class="amb-hrs">32h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="cozsimp" data-action="dec">−</button>
+              <span class="counter-val" id="cv-cozsimp">0</span>
+              <button class="counter-btn" data-key="cozsimp" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-cozgour">
+            <div class="amb-info"><div class="amb-name">Cozinha gourmet</div><div class="amb-hrs">65h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="cozgour" data-action="dec">−</button>
+              <span class="counter-val" id="cv-cozgour">0</span>
+              <button class="counter-btn" data-key="cozgour" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-lavvar">
+            <div class="amb-info"><div class="amb-name">Lavanderia / Varanda</div><div class="amb-hrs">15h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="lavvar" data-action="dec">−</button>
+              <span class="counter-val" id="cv-lavvar">0</span>
+              <button class="counter-btn" data-key="lavvar" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="amb-item" id="ai-areaext">
+            <div class="amb-info"><div class="amb-name">Área externa</div><div class="amb-hrs">42h</div></div>
+            <div class="counter">
+              <button class="counter-btn" data-key="areaext" data-action="dec">−</button>
+              <span class="counter-val" id="cv-areaext">0</span>
+              <button class="counter-btn" data-key="areaext" data-action="inc">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        // ─── OVERHEAD DE SCOPE ────────────────────────────────────────
-        // Horas fixas do processo (compatibilização, reuniões, revisões, etc)
-        // Residencial completo: +115h validado pelo Vinícius (375h - 260h ambientes = 115h)
-        // Comercial completo:   +55h  validado pelo Jad (200h - 145h ambientes = 55h)
-        const OVERHEAD_SCOPE = {
-            'Residencial': 115,
-            'Comercial':    55,
-        };
+    <!-- Ambientes COMERCIAL -->
+    <div class="section-card hidden" id="ambComercial">
+      <div class="section-title">Ambientes — Comercial</div>
+      <div class="amb-grid">
+        <div class="amb-item" id="ai-deposito">
+          <div class="amb-info"><div class="amb-name">Depósito</div><div class="amb-hrs">12h</div></div>
+          <div class="counter">
+            <button class="counter-btn" data-key="deposito" data-action="dec">−</button>
+            <span class="counter-val" id="cv-deposito">0</span>
+            <button class="counter-btn" data-key="deposito" data-action="inc">+</button>
+          </div>
+        </div>
+        <div class="amb-item" id="ai-bcom">
+          <div class="amb-info"><div class="amb-name">Banheiro comercial</div><div class="amb-hrs">22h</div></div>
+          <div class="counter">
+            <button class="counter-btn" data-key="bcom" data-action="dec">−</button>
+            <span class="counter-val" id="cv-bcom">0</span>
+            <button class="counter-btn" data-key="bcom" data-action="inc">+</button>
+          </div>
+        </div>
+        <div class="amb-item" id="ai-recepcao">
+          <div class="amb-info"><div class="amb-name">Recepção / Reunião / Escritório</div><div class="amb-hrs">38h</div></div>
+          <div class="counter">
+            <button class="counter-btn" data-key="recepcao" data-action="dec">−</button>
+            <span class="counter-val" id="cv-recepcao">0</span>
+            <button class="counter-btn" data-key="recepcao" data-action="inc">+</button>
+          </div>
+        </div>
+        <div class="amb-item" id="ai-salao">
+          <div class="amb-info"><div class="amb-name">Salão</div><div class="amb-hrs">38h</div></div>
+          <div class="counter">
+            <button class="counter-btn" data-key="salao" data-action="dec">−</button>
+            <span class="counter-val" id="cv-salao">0</span>
+            <button class="counter-btn" data-key="salao" data-action="inc">+</button>
+          </div>
+        </div>
+        <div class="amb-item" id="ai-cozcom">
+          <div class="amb-info"><div class="amb-name">Cozinha comercial</div><div class="amb-hrs">38h</div></div>
+          <div class="counter">
+            <button class="counter-btn" data-key="cozcom" data-action="dec">−</button>
+            <span class="counter-val" id="cv-cozcom">0</span>
+            <button class="counter-btn" data-key="cozcom" data-action="inc">+</button>
+          </div>
+        </div>
+        <div class="amb-item" id="ai-cozind">
+          <div class="amb-info"><div class="amb-name">Cozinha industrial</div><div class="amb-hrs">72h</div></div>
+          <div class="counter">
+            <button class="counter-btn" data-key="cozind" data-action="dec">−</button>
+            <span class="counter-val" id="cv-cozind">0</span>
+            <button class="counter-btn" data-key="cozind" data-action="inc">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        // Extras opcionais (horas adicionais)
-        const HORAS_EXTRA = {
-            fachada_simples:   42,   // fachada sem grandes alterações
-            fachada_complexa:  120,  // com muitas alterações (Nadir, Elizandra, Campinas)
-            paisagismo:        20,
-            reforma:           25,   // plantas demolir/construir adicionais
-        };
+    <!-- Live Summary Bar -->
+    <div class="summary-bar">
+      <div class="summary-stats">
+        <div class="summary-stat">
+          <span class="val" id="sum-ambientes">0</span>
+          <span class="lbl">ambientes</span>
+        </div>
+        <div class="summary-stat">
+          <span class="val" id="sum-horas">0</span>
+          <span class="lbl">horas estimadas</span>
+        </div>
+      </div>
+      <button class="btn-primary" id="btnCalcular">Calcular</button>
+    </div>
 
-        // Multiplicador de escopo contratado
-        const MULT_ESCOPO = {
-            'layout':   0.40,   // só layout = ~40% do trabalho completo
-            'completo': 1.00,   // layout + 3D + executivo (padrão)
-        };
+    <!-- Results (hidden until calculate) -->
+    <div class="results-card hidden" id="resultsCard">
+      <div class="results-title">Resultado do Cálculo</div>
+      <div class="results-hero">
+        <div class="lbl">Valor Recomendado</div>
+        <div class="amount" id="res-rec">R$ —</div>
+        <div class="prazo" id="res-prazo">— dias úteis</div>
+      </div>
 
-        // ─── CUSTO-HORA ───────────────────────────────────────────────
-        // Residencial: R$ 45/h (Vinícius R$ 42,67, Elizandra R$ 90 mas escopo excepcional)
-        // Comercial:   R$ 44/h (Jad R$ 43,50, Campinas R$ 45)
-        // Arredondado para R$ 45 em ambos — diferença é pequena e simplifica
-        const CUSTO_HORA = {
-            'Residencial': 50,
-            'Comercial':   47,
-        };
+      <table class="breakdown-table">
+        <tbody>
+          <tr>
+            <td class="td-label">Horas de ambientes</td>
+            <td id="res-h-amb">—</td>
+          </tr>
+          <tr>
+            <td class="td-label">Horas extras (fachada, paisagismo, reforma)</td>
+            <td id="res-h-ext">—</td>
+          </tr>
+          <tr>
+            <td class="td-label">Overhead</td>
+            <td id="res-h-over">—</td>
+          </tr>
+          <tr class="tr-total">
+            <td class="td-label">Total de horas</td>
+            <td id="res-h-total">—</td>
+          </tr>
+          <tr>
+            <td class="td-label">Custo-hora</td>
+            <td id="res-ch">—</td>
+          </tr>
+          <tr class="tr-min">
+            <td class="td-label">Valor mínimo (85%)</td>
+            <td id="res-min">—</td>
+          </tr>
+          <tr class="tr-rec">
+            <td class="td-label">Valor recomendado (100%)</td>
+            <td id="res-rec-table">—</td>
+          </tr>
+          <tr class="tr-premium">
+            <td class="td-label">Valor premium (125%)</td>
+            <td id="res-prem">—</td>
+          </tr>
+        </tbody>
+      </table>
 
-        // Horas produtivas por dia útil (média histórica)
-        const HORAS_POR_DIA = 5;
+      <div class="results-actions">
+        <button class="btn-secondary" id="btnExport">Copiar resumo</button>
+        <button class="btn-ghost" id="btnPrint">Imprimir</button>
+      </div>
+    </div>
 
-        // ─── SHOW/HIDE AMBIENTES POR TIPO ────────────────────────────
-        function atualizarCampos() {
-            const tipo = document.getElementById('tipo').value;
-            document.getElementById('ambientes-residencial').style.display =
-                tipo === 'Residencial' ? 'block' : 'none';
-            document.getElementById('ambientes-comercial').style.display =
-                tipo === 'Comercial' ? 'block' : 'none';
-            recalcularResumo();
-        }
+  </div><!-- /tab-projeto -->
 
-        // ─── RECALCULAR RESUMO EM TEMPO REAL ─────────────────────────
-        function recalcularResumo() {
-            const { totalAmbientes, horasBase } = calcularHoras();
-            document.getElementById('total-amb-display').textContent = totalAmbientes;
-            document.getElementById('total-horas-display').textContent = horasBase + 'h';
-        }
 
-        // Adicionar listeners em todos os inputs de ambiente
-        document.querySelectorAll('.amb-input').forEach(input => {
-            input.addEventListener('input', recalcularResumo);
-        });
-        document.querySelectorAll('#tipo-fachada, #tem-paisagismo, #e-reforma, #escopo').forEach(el => {
-            el.addEventListener('change', recalcularResumo);
-        });
+  <!-- ══════════════════════════════════════════════════════════
+       TAB 2 — ACOMPANHAMENTO
+  ══════════════════════════════════════════════════════════ -->
+  <div id="tab-acompanhamento" class="tab-panel">
 
-        function calcularHoras() {
-            const tipo = document.getElementById('tipo')?.value || 'Residencial';
-            let horasAmbientes = 0;
-            let totalAmbientes = 0;
+    <div class="section-card">
+      <div class="section-title">Fornecedores</div>
 
-            Object.entries(HORAS_AMBIENTE).forEach(([id, horas]) => {
-                const el = document.getElementById(id);
-                if (el) {
-                    const qtd = parseInt(el.value) || 0;
-                    horasAmbientes += qtd * horas;
-                    totalAmbientes += qtd;
-                }
-            });
+      <div class="forn-section-title">Bem Complexo <span class="forn-badge">R$ 400</span></div>
+      <div class="forn-grid">
+        <div class="forn-check"><input type="checkbox" id="f-empreiteira" data-val="400"><label for="f-empreiteira">Empreiteiras</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-rev-piso" data-val="400"><label for="f-rev-piso">Revestimento Piso</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-rev-parede" data-val="400"><label for="f-rev-parede">Revestimento Parede</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-luminarias" data-val="400"><label for="f-luminarias">Luminárias</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-marcenaria" data-val="400"><label for="f-marcenaria">Marcenaria</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-marmoraria" data-val="400"><label for="f-marmoraria">Marmoraria</label></div>
+      </div>
 
-            // Extras opcionais
-            let horasExtras = 0;
-            const fachada = document.getElementById('tipo-fachada')?.value;
-            if (fachada === 'simples')   horasExtras += HORAS_EXTRA.fachada_simples;
-            if (fachada === 'complexa')  horasExtras += HORAS_EXTRA.fachada_complexa;
-            if (document.getElementById('tem-paisagismo')?.checked)  horasExtras += HORAS_EXTRA.paisagismo;
-            if (document.getElementById('e-reforma')?.checked)       horasExtras += HORAS_EXTRA.reforma;
+      <div class="forn-section-title">Complexo <span class="forn-badge">R$ 250</span></div>
+      <div class="forn-grid">
+        <div class="forn-check"><input type="checkbox" id="f-esquadrias" data-val="250"><label for="f-esquadrias">Esquadrias</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-coberturas" data-val="250"><label for="f-coberturas">Coberturas</label></div>
+      </div>
 
-            const escopo = document.getElementById('escopo')?.value || 'completo';
-            const multEscopo = MULT_ESCOPO[escopo] || 1;
+      <div class="forn-section-title">Médio <span class="forn-badge">R$ 150</span></div>
+      <div class="forn-grid">
+        <div class="forn-check"><input type="checkbox" id="f-automacao" data-val="150"><label for="f-automacao">Automação</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-eletro" data-val="150"><label for="f-eletro">Eletrodomésticos</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-metais" data-val="150"><label for="f-metais">Metais</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-coifas" data-val="150"><label for="f-coifas">Coifas</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-papel" data-val="150"><label for="f-papel">Papel de Parede</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-estofados" data-val="150"><label for="f-estofados">Estofados</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-puxadores" data-val="150"><label for="f-puxadores">Puxadores</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-paisagismo" data-val="150"><label for="f-paisagismo">Paisagismo</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-mobiliario" data-val="150"><label for="f-mobiliario">Mobiliário Solto</label></div>
+      </div>
 
-            // Overhead do processo (compatibilização, reuniões, revisões, 3D, PPT, etc)
-            const overhead = escopo === 'completo' ? (OVERHEAD_SCOPE[tipo] || 115) : 0;
+      <div class="forn-section-title">Fácil <span class="forn-badge">R$ 100</span></div>
+      <div class="forn-grid">
+        <div class="forn-check"><input type="checkbox" id="f-churras" data-val="100"><label for="f-churras">Churrasqueiras</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-pinturas" data-val="100"><label for="f-pinturas">Pinturas Artísticas</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-cortinas" data-val="100"><label for="f-cortinas">Cortinas</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-decoracao" data-val="100"><label for="f-decoracao">Decoração</label></div>
+        <div class="forn-check"><input type="checkbox" id="f-tapetes" data-val="100"><label for="f-tapetes">Tapetes</label></div>
+      </div>
+    </div>
 
-            const horasBase = Math.round((horasAmbientes + horasExtras + overhead) * multEscopo);
-            return { totalAmbientes, horasBase, horasAmbientes, horasExtras, overhead };
-        }
+    <div class="section-card">
+      <div class="section-title">Detalhes do Acompanhamento</div>
 
-        // ─── CALCULAR PROJETO ─────────────────────────────────────────
-        function calcularProjeto() {
-            const tipo = document.getElementById('tipo').value;
-            const escopo = document.getElementById('escopo').value;
+      <div class="inline-field">
+        <label for="aco-visitas">Número de visitas <span class="text-muted">(R$ 500/visita)</span></label>
+        <input type="number" id="aco-visitas" min="0" value="0">
+      </div>
 
-            if (!tipo) { mostrarErro('erro-projeto', 'Selecione o tipo de projeto.'); return; }
-            if (!escopo) { mostrarErro('erro-projeto', 'Selecione o escopo contratado.'); return; }
+      <div class="inline-field">
+        <label for="aco-horas">Horas dúvidas / alterações <span class="text-muted">(R$ 150/h)</span></label>
+        <input type="number" id="aco-horas" min="0" value="0" step="0.5">
+      </div>
 
-            const { totalAmbientes, horasBase, horasAmbientes, horasExtras, overhead } = calcularHoras();
+      <div class="check-card" style="display:inline-block;margin-top:8px;">
+        <input type="checkbox" id="aco-orcamentos">
+        <label for="aco-orcamentos"><span class="check-box"></span> Apenas orçamentos (sem acompanhamento presencial)</label>
+      </div>
+    </div>
 
-            if (totalAmbientes === 0) {
-                mostrarErro('erro-projeto', 'Informe pelo menos um ambiente.');
-                return;
-            }
+    <div class="summary-bar" style="margin-top:0;">
+      <div></div>
+      <button class="btn-primary" id="btnCalcularAco">Calcular Acompanhamento</button>
+    </div>
 
-            const custoHora = CUSTO_HORA[tipo];
-            const valorIdeal   = Math.round(horasBase * custoHora);
-            const valorMin     = Math.round(valorIdeal * 0.85);
-            const valorPremium = Math.round(valorIdeal * 1.25);
-            const prazo = Math.ceil(horasBase / HORAS_POR_DIA);
+    <div class="results-card hidden" id="acoResultsCard">
+      <div class="results-title">Resultado — Acompanhamento de Obra</div>
+      <div class="aco-results" id="acoResultsBody"></div>
+    </div>
 
-            document.getElementById('valor-projeto-ideal').textContent =
-                `R$ ${valorIdeal.toLocaleString('pt-BR')}`;
-            document.getElementById('res-horas').textContent =
-                `${horasAmbientes}h ambientes + ${horasExtras}h extras + ${overhead}h processo = ${horasBase}h total`;
-            document.getElementById('res-custo-hora').textContent =
-                `R$ ${custoHora}/hora × ${horasBase}h`;
-            document.getElementById('valor-projeto-min').textContent =
-                `R$ ${valorMin.toLocaleString('pt-BR')}`;
-            document.getElementById('valor-projeto-rec').textContent =
-                `R$ ${valorIdeal.toLocaleString('pt-BR')}`;
-            document.getElementById('valor-projeto-max').textContent =
-                `R$ ${valorPremium.toLocaleString('pt-BR')}`;
-            document.getElementById('res-prazo').textContent =
-                `~${prazo} dias úteis (${horasBase}h ÷ 5h/dia)`;
+  </div><!-- /tab-acompanhamento -->
 
-            mostrarResultado('resultado-projeto');
-            document.getElementById('resultado-projeto').scrollIntoView(
-                { behavior: 'smooth', block: 'start' }
-            );
-        }
 
-        // Calcular Acompanhamento
-        function calcularAcompanhamento() {
-            const fornecedoresSelecionados = document.querySelectorAll('.fornecedor-checkbox:checked');
-            const numVisitas = parseInt(document.getElementById('num-visitas').value) || 0;
-            const horasExtras = parseInt(document.getElementById('horas-extras').value) || 0;
-            const soOrcamento = document.getElementById('so-orcamento').checked;
+  <!-- ══════════════════════════════════════════════════════════
+       TAB 3 — CONFIGURAÇÕES
+  ══════════════════════════════════════════════════════════ -->
+  <div id="tab-config" class="tab-panel">
 
-            if (fornecedoresSelecionados.length === 0) {
-                mostrarErro('erro-acompanhamento', 'Selecione pelo menos um fornecedor.');
-                return;
-            }
+    <div class="section-card">
+      <div class="config-section">
+        <div class="config-section-title">Precificação de Projeto</div>
 
-            // Valores
-            const VALOR_POR_VISITA = 500;
-            const VALOR_HORA_DUVIDA = 150;
+        <div class="field-row">
+          <div>
+            <div class="field-label">Custo-hora Residencial</div>
+          </div>
+          <div class="field-input">
+            <span class="unit">R$</span>
+            <input type="number" id="cfg-res-h" value="50" min="0" step="1">
+            <span class="unit">/h</span>
+          </div>
+        </div>
 
-            // Calcular valor total dos orçamentos (soma dos valores individuais)
-            let valorOrcamentos = 0;
-            let breakdownFornecedores = '';
-            
-            fornecedoresSelecionados.forEach(cb => {
-                const valor = parseInt(cb.getAttribute('data-valor'));
-                valorOrcamentos += valor;
-            });
+        <div class="field-row">
+          <div>
+            <div class="field-label">Custo-hora Comercial</div>
+          </div>
+          <div class="field-input">
+            <span class="unit">R$</span>
+            <input type="number" id="cfg-com-h" value="47" min="0" step="1">
+            <span class="unit">/h</span>
+          </div>
+        </div>
 
-            const valorVisitas = soOrcamento ? 0 : (numVisitas * VALOR_POR_VISITA);
-            const valorDuvidas = soOrcamento ? 0 : (horasExtras * VALOR_HORA_DUVIDA);
-            
-            // Aplicar desconto de 6% para pacotes com mais de 3 visitas
-            const descontoPacote = numVisitas > 3 ? 0.06 : 0;
-            const subtotal = valorOrcamentos + valorVisitas + valorDuvidas;
-            const valorDesconto = Math.round(subtotal * descontoPacote);
-            const valorTotal = subtotal - valorDesconto;
+        <div class="field-row">
+          <div>
+            <div class="field-label">Horas produtivas por dia</div>
+          </div>
+          <div class="field-input">
+            <input type="number" id="cfg-hpd" value="5" min="1" max="24" step="0.5">
+            <span class="unit">h</span>
+          </div>
+        </div>
 
-            // Montar breakdown
-            let breakdown = `
-                <div class="breakdown-item">
-                    <span class="breakdown-label">Orçamentos (${fornecedoresSelecionados.length} fornecedores)</span>
-                    <span class="breakdown-value">R$ ${valorOrcamentos.toLocaleString('pt-BR')}</span>
-                </div>
-            `;
+        <div class="field-row">
+          <div>
+            <div class="field-label">Overhead Residencial</div>
+          </div>
+          <div class="field-input">
+            <input type="number" id="cfg-ovr" value="115" min="0" step="1">
+            <span class="unit">h</span>
+          </div>
+        </div>
 
-            if (!soOrcamento) {
-                if (numVisitas > 0) {
-                    breakdown += `
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Visitas (${numVisitas} × R$ 500)</span>
-                            <span class="breakdown-value">R$ ${valorVisitas.toLocaleString('pt-BR')}</span>
-                        </div>
-                    `;
-                }
-                if (horasExtras > 0) {
-                    breakdown += `
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Dúvidas/Alterações (${horasExtras}h × R$ 150)</span>
-                            <span class="breakdown-value">R$ ${valorDuvidas.toLocaleString('pt-BR')}</span>
-                        </div>
-                    `;
-                }
-            }
+        <div class="field-row">
+          <div>
+            <div class="field-label">Overhead Comercial</div>
+          </div>
+          <div class="field-input">
+            <input type="number" id="cfg-ovc" value="55" min="0" step="1">
+            <span class="unit">h</span>
+          </div>
+        </div>
 
-            // Mostrar desconto se aplicável
-            if (descontoPacote > 0) {
-                breakdown += `
-                    <div class="breakdown-item" style="color: var(--verde-escuro);">
-                        <span class="breakdown-label">Subtotal</span>
-                        <span class="breakdown-value">R$ ${subtotal.toLocaleString('pt-BR')}</span>
-                    </div>
-                    <div class="breakdown-item" style="color: var(--terracota);">
-                        <span class="breakdown-label">🎁 Desconto Pacote (6% - mais de 3 visitas)</span>
-                        <span class="breakdown-value">- R$ ${valorDesconto.toLocaleString('pt-BR')}</span>
-                    </div>
-                `;
-            }
+        <div class="field-row">
+          <div>
+            <div class="field-label">Multiplicador Layout apenas</div>
+            <div class="field-sub">Aplicado quando escopo = Apenas Layout</div>
+          </div>
+          <div class="field-input">
+            <input type="number" id="cfg-mult-layout" value="40" min="1" max="100" step="1">
+            <span class="unit">%</span>
+          </div>
+        </div>
 
-            breakdown += `
-                <div class="breakdown-item">
-                    <span class="breakdown-label">TOTAL</span>
-                    <span class="breakdown-value">R$ ${valorTotal.toLocaleString('pt-BR')}</span>
-                </div>
-            `;
+        <div class="field-row">
+          <div>
+            <div class="field-label">Multiplicador faixa Mínima</div>
+          </div>
+          <div class="field-input">
+            <input type="number" id="cfg-mult-min" value="85" min="1" max="100" step="1">
+            <span class="unit">%</span>
+          </div>
+        </div>
 
-            document.getElementById('valor-acompanhamento-total').textContent = `R$ ${valorTotal.toLocaleString('pt-BR')}`;
-            document.getElementById('breakdown-acompanhamento').innerHTML = breakdown;
-            mostrarResultado('resultado-acompanhamento');
-            document.getElementById('resultado-acompanhamento').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        <div class="field-row">
+          <div>
+            <div class="field-label">Multiplicador faixa Premium</div>
+          </div>
+          <div class="field-input">
+            <input type="number" id="cfg-mult-prem" value="125" min="100" max="300" step="1">
+            <span class="unit">%</span>
+          </div>
+        </div>
+      </div>
 
-        function limparTudo() {
-            // Aba projeto
-            const tipo = document.getElementById('tipo');
-            const escopo = document.getElementById('escopo');
-            const fachada = document.getElementById('tipo-fachada');
-            if (tipo) tipo.value = '';
-            if (escopo) escopo.value = '';
-            if (fachada) fachada.value = '';
-            const paisagismo = document.getElementById('tem-paisagismo');
-            const reforma = document.getElementById('e-reforma');
-            if (paisagismo) paisagismo.checked = false;
-            if (reforma) reforma.checked = false;
-            document.querySelectorAll('.amb-input').forEach(i => i.value = 0);
-            document.getElementById('ambientes-residencial').style.display = 'none';
-            document.getElementById('ambientes-comercial').style.display = 'none';
-            const totAmb = document.getElementById('total-amb-display');
-            const totHoras = document.getElementById('total-horas-display');
-            if (totAmb) totAmb.textContent = '0';
-            if (totHoras) totHoras.textContent = '0h';
-            document.getElementById('resultado-projeto').style.display = 'none';
+      <div class="config-section">
+        <div class="config-section-title">Acompanhamento de Obra</div>
 
-            // Aba acompanhamento
-            document.querySelectorAll('.fornecedor-checkbox').forEach(cb => cb.checked = false);
-            const numVisitas = document.getElementById('num-visitas');
-            const horasExtras = document.getElementById('horas-extras');
-            const soOrc = document.getElementById('so-orcamento');
-            const totalForn = document.getElementById('total-fornecedores');
-            if (numVisitas) numVisitas.value = '';
-            if (horasExtras) horasExtras.value = '';
-            if (soOrc) soOrc.checked = false;
-            if (totalForn) totalForn.textContent = '0';
-            document.getElementById('resultado-acompanhamento').style.display = 'none';
-        }
-    </script>
+        <div class="field-row">
+          <div class="field-label">Valor por visita</div>
+          <div class="field-input">
+            <span class="unit">R$</span>
+            <input type="number" id="cfg-visita" value="500" min="0" step="10">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-label">Valor hora dúvidas / alterações</div>
+          <div class="field-input">
+            <span class="unit">R$</span>
+            <input type="number" id="cfg-hduvida" value="150" min="0" step="5">
+            <span class="unit">/h</span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <div class="field-label">Desconto pacote</div>
+            <div class="field-sub">Aplicado quando número de visitas > mínimo</div>
+          </div>
+          <div class="field-input">
+            <input type="number" id="cfg-desc" value="6" min="0" max="50" step="1">
+            <span class="unit">%</span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-label">Mínimo de visitas para desconto</div>
+          <div class="field-input">
+            <input type="number" id="cfg-minvis" value="3" min="1" step="1">
+            <span class="unit">vis.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <button class="btn-primary" id="btnSalvar">Salvar Configurações</button>
+        <button class="btn-ghost" id="btnReset">Restaurar Padrões</button>
+        <span class="save-feedback" id="saveFeedback">Configurações salvas ✓</span>
+      </div>
+    </div>
+
+  </div><!-- /tab-config -->
+
+</div><!-- /app-wrapper -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════════════════════ */
+const DEFAULTS = {
+  custoHoraRes:   50,
+  custoHoraCom:   47,
+  horasDia:        5,
+  overheadRes:   115,
+  overheadCom:    55,
+  multLayout:   0.40,
+  multMin:      0.85,
+  multPremium:  1.25,
+  valorVisita:   500,
+  valorHDuvida:  150,
+  descontoPct:     6,
+  minVisitas:      3
+};
+
+function loadConfig() {
+  try {
+    const raw = localStorage.getItem('amo_calc_config');
+    if (raw) return Object.assign({}, DEFAULTS, JSON.parse(raw));
+  } catch(e) {}
+  return Object.assign({}, DEFAULTS);
+}
+
+function saveConfig(cfg) {
+  localStorage.setItem('amo_calc_config', JSON.stringify(cfg));
+}
+
+let cfg = loadConfig();
+
+/* ═══════════════════════════════════════════════════════════════
+   AMBIENTE DATA
+═══════════════════════════════════════════════════════════════ */
+const AMB_RES = {
+  qsimples:  28,
+  qinfantil: 38,
+  suite:     38,
+  closet:    38,
+  lavabo:    20,
+  bsimples:  22,
+  brev:      38,
+  bhidro:    50,
+  sala:      28,
+  cozsimp:   32,
+  cozgour:   65,
+  lavvar:    15,
+  areaext:   42
+};
+
+const AMB_COM = {
+  deposito:  12,
+  bcom:      22,
+  recepcao:  38,
+  salao:     38,
+  cozcom:    38,
+  cozind:    72
+};
+
+const counters = {};
+
+/* ═══════════════════════════════════════════════════════════════
+   TABS
+═══════════════════════════════════════════════════════════════ */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════════════════════════ */
+function updateStatsBar() {
+  document.getElementById('st-res').textContent  = 'R$ ' + cfg.custoHoraRes + '/h';
+  document.getElementById('st-com').textContent  = 'R$ ' + cfg.custoHoraCom + '/h';
+  document.getElementById('st-hpd').textContent  = cfg.horasDia;
+  document.getElementById('st-ovr').textContent  = cfg.overheadRes + 'h';
+  document.getElementById('st-ovc').textContent  = cfg.overheadCom + 'h';
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPO TOGGLE
+═══════════════════════════════════════════════════════════════ */
+function getTipo() {
+  return document.querySelector('input[name="tipo"]:checked').value;
+}
+
+function updateTipoVisibility() {
+  const res = getTipo() === 'residencial';
+  document.getElementById('ambResidencial').classList.toggle('hidden', !res);
+  document.getElementById('ambComercial').classList.toggle('hidden', res);
+  updateLiveSummary();
+}
+
+document.querySelectorAll('input[name="tipo"]').forEach(r => {
+  r.addEventListener('change', updateTipoVisibility);
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   COUNTER LOGIC
+═══════════════════════════════════════════════════════════════ */
+const allKeys = [...Object.keys(AMB_RES), ...Object.keys(AMB_COM)];
+allKeys.forEach(k => { counters[k] = 0; });
+
+document.querySelectorAll('.counter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.key;
+    const act = btn.dataset.action;
+    if (act === 'inc') {
+      counters[key]++;
+    } else if (act === 'dec' && counters[key] > 0) {
+      counters[key]--;
+    }
+    const el = document.getElementById('cv-' + key);
+    if (el) el.textContent = counters[key];
+    // highlight item
+    const item = document.getElementById('ai-' + key);
+    if (item) item.classList.toggle('has-value', counters[key] > 0);
+    updateLiveSummary();
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   LIVE SUMMARY
+═══════════════════════════════════════════════════════════════ */
+function getLiveHours() {
+  const tipo = getTipo();
+  const ambMap = tipo === 'residencial' ? AMB_RES : AMB_COM;
+  let totalAmb = 0, totalHrs = 0;
+  for (const [k, h] of Object.entries(ambMap)) {
+    totalAmb += counters[k];
+    totalHrs += counters[k] * h;
+  }
+
+  const fachada = parseInt(document.querySelector('input[name="fachada"]:checked').value) || 0;
+  const paisa   = document.getElementById('chk-paisa').checked ? 20 : 0;
+  const reforma = document.getElementById('chk-reforma').checked ? 25 : 0;
+  const extras  = fachada + paisa + reforma;
+
+  const escopo  = document.querySelector('input[name="escopo"]:checked').value;
+  const overhead = escopo === 'completo'
+    ? (tipo === 'residencial' ? cfg.overheadRes : cfg.overheadCom)
+    : 0;
+  const mult = escopo === 'completo' ? 1 : cfg.multLayout;
+
+  const horasBase = Math.round((totalHrs + extras + overhead) * mult);
+
+  return { totalAmb, totalHrs, extras, overhead, horasBase };
+}
+
+function updateLiveSummary() {
+  const { totalAmb, horasBase } = getLiveHours();
+  document.getElementById('sum-ambientes').textContent = totalAmb;
+  document.getElementById('sum-horas').textContent     = horasBase;
+}
+
+// wire all projeto inputs for live update
+['input[name="tipo"]', 'input[name="escopo"]', 'input[name="fachada"]',
+ '#chk-paisa', '#chk-reforma'].forEach(sel => {
+  document.querySelectorAll(sel).forEach(el => {
+    el.addEventListener('change', updateLiveSummary);
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   CALCULATE PROJETO
+═══════════════════════════════════════════════════════════════ */
+function fmt(n) {
+  return 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+document.getElementById('btnCalcular').addEventListener('click', () => {
+  const tipo   = getTipo();
+  const escopo = document.querySelector('input[name="escopo"]:checked').value;
+
+  const ambMap = tipo === 'residencial' ? AMB_RES : AMB_COM;
+  let horasAmb = 0;
+  for (const [k, h] of Object.entries(ambMap)) {
+    horasAmb += counters[k] * h;
+  }
+
+  const fachada = parseInt(document.querySelector('input[name="fachada"]:checked').value) || 0;
+  const paisa   = document.getElementById('chk-paisa').checked ? 20 : 0;
+  const reforma = document.getElementById('chk-reforma').checked ? 25 : 0;
+  const extras  = fachada + paisa + reforma;
+
+  const overhead = escopo === 'completo'
+    ? (tipo === 'residencial' ? cfg.overheadRes : cfg.overheadCom)
+    : 0;
+  const mult = escopo === 'completo' ? 1 : cfg.multLayout;
+
+  const horasBase   = Math.round((horasAmb + extras + overhead) * mult);
+  const custoHora   = tipo === 'residencial' ? cfg.custoHoraRes : cfg.custoHoraCom;
+  const valorRec    = horasBase * custoHora;
+  const valorMin    = Math.round(valorRec * cfg.multMin);
+  const valorPremium = Math.round(valorRec * cfg.multPremium);
+  const prazo       = Math.ceil(horasBase / cfg.horasDia);
+
+  // populate
+  document.getElementById('res-rec').textContent       = fmt(valorRec);
+  document.getElementById('res-prazo').textContent     = prazo + ' dias úteis';
+  document.getElementById('res-h-amb').textContent     = horasAmb + 'h';
+  document.getElementById('res-h-ext').textContent     = extras + 'h';
+  document.getElementById('res-h-over').textContent    = overhead + 'h';
+  document.getElementById('res-h-total').textContent   = horasBase + 'h';
+  document.getElementById('res-ch').textContent        = 'R$ ' + custoHora + '/h';
+  document.getElementById('res-min').textContent       = fmt(valorMin);
+  document.getElementById('res-rec-table').textContent = fmt(valorRec);
+  document.getElementById('res-prem').textContent      = fmt(valorPremium);
+
+  // also update min/premium labels dynamically
+  document.querySelector('.tr-min td.td-label').textContent =
+    'Valor mínimo (' + Math.round(cfg.multMin * 100) + '%)';
+  document.querySelector('.tr-premium td.td-label').textContent =
+    'Valor premium (' + Math.round(cfg.multPremium * 100) + '%)';
+
+  // show
+  document.getElementById('resultsCard').classList.remove('hidden');
+  document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // stash for export
+  window._lastCalc = { tipo, escopo, horasAmb, extras, overhead, horasBase,
+    custoHora, valorRec, valorMin, valorPremium, prazo };
+});
+
+/* ─── Export ─── */
+document.getElementById('btnExport').addEventListener('click', () => {
+  const c = window._lastCalc;
+  if (!c) return;
+  const lines = [
+    'AMO Arquitetura e Interiores — Calculadora de Honorários',
+    '─'.repeat(50),
+    'Tipo: ' + (c.tipo === 'residencial' ? 'Residencial' : 'Comercial'),
+    'Horas de ambientes: ' + c.horasAmb + 'h',
+    'Horas extras: ' + c.extras + 'h',
+    'Overhead: ' + c.overhead + 'h',
+    'Total de horas: ' + c.horasBase + 'h',
+    'Prazo: ' + c.prazo + ' dias úteis',
+    '─'.repeat(50),
+    'Custo-hora: R$ ' + c.custoHora + '/h',
+    'Valor mínimo: ' + fmt(c.valorMin),
+    'Valor recomendado: ' + fmt(c.valorRec),
+    'Valor premium: ' + fmt(c.valorPremium),
+  ];
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const btn = document.getElementById('btnExport');
+    btn.textContent = 'Copiado!';
+    setTimeout(() => { btn.textContent = 'Copiar resumo'; }, 2000);
+  }).catch(() => {
+    alert('Erro ao copiar. Verifique permissões do navegador.');
+  });
+});
+
+document.getElementById('btnPrint').addEventListener('click', () => { window.print(); });
+
+/* ═══════════════════════════════════════════════════════════════
+   ACOMPANHAMENTO
+═══════════════════════════════════════════════════════════════ */
+document.getElementById('btnCalcularAco').addEventListener('click', () => {
+  let fornTotal = 0;
+  const fornLines = [];
+
+  document.querySelectorAll('.forn-check input[type="checkbox"]:checked').forEach(cb => {
+    const val = parseInt(cb.dataset.val);
+    fornTotal += val;
+    const lbl = cb.nextElementSibling.textContent.trim();
+    fornLines.push({ lbl, val });
+  });
+
+  const visitas     = parseFloat(document.getElementById('aco-visitas').value) || 0;
+  const horas       = parseFloat(document.getElementById('aco-horas').value)   || 0;
+  const apenasOrc   = document.getElementById('aco-orcamentos').checked;
+  const valorVisita = cfg.valorVisita;
+  const valorHDuvida = cfg.valorHDuvida;
+
+  const vlVisitas = visitas * valorVisita;
+  const vlHoras   = horas * valorHDuvida;
+  const subtotal  = fornTotal + vlVisitas + vlHoras;
+
+  const desc = (!apenasOrc && visitas > cfg.minVisitas) ? cfg.descontoPct : 0;
+  const descVal = Math.round(subtotal * (desc / 100));
+  const total   = subtotal - descVal;
+
+  // Build result HTML
+  let html = '';
+
+  if (fornLines.length > 0) {
+    fornLines.forEach(f => {
+      html += `<div class="aco-line">
+        <span class="aco-lbl">${f.lbl}</span>
+        <span class="aco-val">${fmt(f.val)}</span>
+      </div>`;
+    });
+    html += `<div class="aco-line" style="border-top:1px solid var(--border);margin-top:4px;">
+      <span class="aco-lbl">Subtotal fornecedores</span>
+      <span class="aco-val">${fmt(fornTotal)}</span>
+    </div>`;
+  }
+
+  if (visitas > 0) {
+    html += `<div class="aco-line">
+      <span class="aco-lbl">${visitas} visita${visitas !== 1 ? 's' : ''} × R$ ${valorVisita}</span>
+      <span class="aco-val">${fmt(vlVisitas)}</span>
+    </div>`;
+  }
+
+  if (horas > 0) {
+    html += `<div class="aco-line">
+      <span class="aco-lbl">${horas}h dúvidas/alterações × R$ ${valorHDuvida}/h</span>
+      <span class="aco-val">${fmt(vlHoras)}</span>
+    </div>`;
+  }
+
+  if (apenasOrc) {
+    html += `<div class="aco-line">
+      <span class="aco-lbl" style="color:#aaa;font-style:italic;">Modo: apenas orçamentos</span>
+      <span class="aco-val"></span>
+    </div>`;
+  }
+
+  if (desc > 0) {
+    html += `<div class="aco-line aco-discount">
+      <span class="aco-lbl">Desconto pacote ${desc}% (${visitas} visitas)</span>
+      <span class="aco-val">− ${fmt(descVal)}</span>
+    </div>`;
+  }
+
+  html += `<div class="aco-line aco-total">
+    <span class="aco-lbl">Total Acompanhamento</span>
+    <span class="aco-val">${fmt(total)}</span>
+  </div>`;
+
+  document.getElementById('acoResultsBody').innerHTML = html;
+  document.getElementById('acoResultsCard').classList.remove('hidden');
+  document.getElementById('acoResultsCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   CONFIGURAÇÕES
+═══════════════════════════════════════════════════════════════ */
+function loadConfigToForm() {
+  document.getElementById('cfg-res-h').value       = cfg.custoHoraRes;
+  document.getElementById('cfg-com-h').value       = cfg.custoHoraCom;
+  document.getElementById('cfg-hpd').value         = cfg.horasDia;
+  document.getElementById('cfg-ovr').value         = cfg.overheadRes;
+  document.getElementById('cfg-ovc').value         = cfg.overheadCom;
+  document.getElementById('cfg-mult-layout').value = Math.round(cfg.multLayout * 100);
+  document.getElementById('cfg-mult-min').value    = Math.round(cfg.multMin * 100);
+  document.getElementById('cfg-mult-prem').value   = Math.round(cfg.multPremium * 100);
+  document.getElementById('cfg-visita').value      = cfg.valorVisita;
+  document.getElementById('cfg-hduvida').value     = cfg.valorHDuvida;
+  document.getElementById('cfg-desc').value        = cfg.descontoPct;
+  document.getElementById('cfg-minvis').value      = cfg.minVisitas;
+}
+
+document.getElementById('btnSalvar').addEventListener('click', () => {
+  cfg.custoHoraRes  = parseFloat(document.getElementById('cfg-res-h').value)       || DEFAULTS.custoHoraRes;
+  cfg.custoHoraCom  = parseFloat(document.getElementById('cfg-com-h').value)       || DEFAULTS.custoHoraCom;
+  cfg.horasDia      = parseFloat(document.getElementById('cfg-hpd').value)         || DEFAULTS.horasDia;
+  cfg.overheadRes   = parseFloat(document.getElementById('cfg-ovr').value)         || DEFAULTS.overheadRes;
+  cfg.overheadCom   = parseFloat(document.getElementById('cfg-ovc').value)         || DEFAULTS.overheadCom;
+  cfg.multLayout    = (parseFloat(document.getElementById('cfg-mult-layout').value) || 40) / 100;
+  cfg.multMin       = (parseFloat(document.getElementById('cfg-mult-min').value)   || 85) / 100;
+  cfg.multPremium   = (parseFloat(document.getElementById('cfg-mult-prem').value)  || 125) / 100;
+  cfg.valorVisita   = parseFloat(document.getElementById('cfg-visita').value)      || DEFAULTS.valorVisita;
+  cfg.valorHDuvida  = parseFloat(document.getElementById('cfg-hduvida').value)     || DEFAULTS.valorHDuvida;
+  cfg.descontoPct   = parseFloat(document.getElementById('cfg-desc').value)        || DEFAULTS.descontoPct;
+  cfg.minVisitas    = parseInt(document.getElementById('cfg-minvis').value)        || DEFAULTS.minVisitas;
+
+  saveConfig(cfg);
+  updateStatsBar();
+  updateLiveSummary();
+
+  const fb = document.getElementById('saveFeedback');
+  fb.classList.add('visible');
+  setTimeout(() => fb.classList.remove('visible'), 2500);
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  if (!confirm('Restaurar todos os padrões?')) return;
+  cfg = Object.assign({}, DEFAULTS);
+  saveConfig(cfg);
+  loadConfigToForm();
+  updateStatsBar();
+  updateLiveSummary();
+
+  const fb = document.getElementById('saveFeedback');
+  fb.textContent = 'Padrões restaurados ✓';
+  fb.classList.add('visible');
+  setTimeout(() => {
+    fb.classList.remove('visible');
+    fb.textContent = 'Configurações salvas ✓';
+  }, 2500);
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+loadConfigToForm();
+updateStatsBar();
+updateTipoVisibility();
+updateLiveSummary();
+</script>
 </body>
 </html>
