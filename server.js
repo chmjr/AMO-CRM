@@ -64,13 +64,13 @@ app.get('/api/leads', async (req, res) => {
 
 // POST /api/leads — Cria um novo lead (formulário da Landing Page)
 app.post('/api/leads', async (req, res) => {
-    const { name, phone, email, origin } = req.body;
+    const { name, phone, email, origin, note } = req.body;
     if (!name || !phone) return res.status(400).json({ error: 'Nome e telefone são obrigatórios.' });
 
     try {
         const result = await pool.query(
-            `INSERT INTO leads (name, phone, email, origin) VALUES ($1, $2, $3, $4) RETURNING *`,
-            [name, phone, email || '', origin || 'Site/Busca']
+            `INSERT INTO leads (name, phone, email, origin, note) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+            [name, phone, email || '', origin || 'Site/Busca', note || '']
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {

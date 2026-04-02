@@ -891,8 +891,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .orc-input, .orc-textarea {
     width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 14px 16px;
     border-radius: 4px;
     color: #fff;
@@ -900,8 +900,41 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
 }
 
-.orc-textarea { height: 100px; resize: none; }
-.orc-input:focus, .orc-textarea:focus { border-color: var(--color-primary); outline: none; }
+.orc-step-sub, .orc-label-light {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.orc-erro {
+    color: #ff6b6b;
+    font-size: 13px;
+    margin-bottom: 12px;
+    display: none;
+}
+
+.orc-form-titulo {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.orc-form-sub {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 32px;
+}
+
+.orc-form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.orc-input:focus, .orc-textarea:focus { border-color: var(--color-primary); outline: none; background: rgba(255, 255, 255, 0.08); }
 
 .orc-btn-whatsapp {
     width: 100%;

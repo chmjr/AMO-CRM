@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             await loadLeads();
         });
     }
+    
+    // Auto-refresh a cada 30 segundos
+    setInterval(loadLeads, 30000);
 });
 
 // ===== Configurações visuais (localStorage) =====
