@@ -122,6 +122,22 @@
         </div>
     </div>
 
+    <!-- Modal Detalhes do Lead -->
+    <div id="modal-details" class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2 id="details-title">Resumo do Orçamento</h2>
+                <button id="btn-close-details" class="btn-close">&times;</button>
+            </div>
+            <div id="details-body" style="padding: 20px; color: #333; line-height: 1.6; white-space: pre-wrap; background: #f9f9f9; border-radius: 8px; max-height: 400px; overflow-y: auto;">
+                <!-- Conteúdo preenchido via JS -->
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="btn-submit-modal" style="width: auto; padding: 10px 30px;" onclick="document.getElementById('modal-details').classList.remove('active')">Fechar Decalque</button>
+            </div>
+        </div>
+    </div>
+
     <!-- JS -->
     <script src="./admin.js"></script>
 </body>

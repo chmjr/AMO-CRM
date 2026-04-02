@@ -60,6 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // Fechar modal de detalhes
+    const modalDetails = document.getElementById('modal-details');
+    if(modalDetails) {
+        document.getElementById('btn-close-details').addEventListener('click', () => modalDetails.classList.remove('active'));
+    }
+
     // Auto-refresh a cada 30 segundos
     setInterval(loadLeads, 30000);
 });
@@ -147,7 +153,8 @@ function renderBoard() {
                 </a>
             </div>
             <input type="url" class="card-input-field" placeholder="Link do Orçamento/Drive/Anexo..." onblur="updateLink(${lead.id}, this.value)" value="${lead.link || ''}">
-            <textarea class="card-input-field card-note" placeholder="Escrever anotação..." onblur="updateNote(${lead.id}, this.value)">${lead.note || ''}</textarea>
+            <textarea class="card-input-field card-note" placeholder="Escrever anotação..." onblur="updateNote(${lead.id}, this.value)" style="height: 60px;">${lead.note || ''}</textarea>
+            ${lead.note ? `<button class="btn-primary-small" style="width: 100%; margin-top: 5px; background: #555;" onclick="showLeadDetails(${lead.id})">🔍 Ver Resumo Completo</button>` : ''}
             <div class="card-footer">
                 <span>📅 ${dateStr}</span>
                 <span class="tag-origem">${lead.origin || 'Site'}</span>
@@ -171,8 +178,17 @@ window.deleteLead = async function(id) {
     }
 };
 
-window.updateNote = async function(id, text) {
+async function updateNote(id, text) {
     await apiPut(id, { note: text });
+}
+
+window.showLeadDetails = function(id) {
+    const lead = leadsCache.find(l => l.id === id);
+    if(lead) {
+        document.getElementById('details-title').innerText = `Orçamento: ${lead.name}`;
+        document.getElementById('details-body').innerText = lead.note || "Sem informações de orçamento.";
+        document.getElementById('modal-details').classList.add('active');
+    }
 };
 
 window.updateLink = async function(id, text) {

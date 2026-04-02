@@ -698,7 +698,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .orc-step-sub {
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.8) !important;
     margin-bottom: 40px;
 }
 
@@ -960,7 +960,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Sucesso */
 .orc-sucesso { text-align: center; padding: 60px 20px; }
 .orc-sucesso-titulo { font-size: 32px; color: #fff; margin: 20px 0 12px; }
-.orc-sucesso-texto { color: rgba(255,255,255,0.5); font-size: 16px; max-width: 400px; margin: 0 auto; }
+.orc-sucesso-texto { color: rgba(255,255,255,0.8); font-size: 16px; max-width: 400px; margin: 0 auto; line-height: 1.6; }
+.orc-sucesso-badge { color: var(--color-primary); font-weight: 600; opacity: 1; display: block; margin-top: 20px; }
 
 /* Media Queries Simulator */
 @media (max-width: 768px) {
