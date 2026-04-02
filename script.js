@@ -225,7 +225,7 @@ window.orcCalcularEIr4 = function() {
     orcIrPara(4);
 };
 
-window.orcEnviarWhatsApp = async function() {
+window.orcEnviarWhatsApp = function() {
     const nome = document.getElementById('orc-nome').value;
     const fone = document.getElementById('orc-fone').value;
     const email = document.getElementById('orc-email').value;
@@ -239,17 +239,15 @@ window.orcEnviarWhatsApp = async function() {
 
     let resumo = `SOLICITAÇÃO DE ORÇAMENTO INTERATIVO\n`;
     resumo += `Tipo: ${orcDados.tipo}\n`;
-    resumo += `Ambientes: ${Object.entries(orcDados.ambientes).filter(e => e[1] > 0).map(e => `${e[1]}x ${e[0]}`).join(', ')}\n`;
     resumo += `Estimativa: ${orcDados.estimativa.min} a ${orcDados.estimativa.max}\n`;
     if(desc) resumo += `Obs Cliente: ${desc}`;
 
-    try {
-        await fetch('/api/leads', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: nome, phone: fone, email: email, origin: 'Calculadora LP', note: resumo })
-        });
-    } catch(e) { console.error("Lead save fail", e); }
+    // SALVAR NO CRM EM BACKGROUND (Não bloqueia o WhatsApp)
+    fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: nome, phone: fone, email: email, origin: 'Calculadora LP', note: resumo })
+    }).catch(e => console.error("Lead save fail", e));
 
     const msg = `Olá AMO Arquitetura! Acabei de fazer uma simulação no site:
 *Projeto:* ${orcDados.tipo}
@@ -258,7 +256,10 @@ window.orcEnviarWhatsApp = async function() {
 ${desc ? `*Notas:* ${desc}` : ''}`;
 
     const url = `https://wa.me/${ORC_CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+    
+    // ABRIR WHATSAPP IMEDIATAMENTE (User gesture context)
     window.open(url, '_blank');
+    
     orcIrPara('sucesso');
 };
 
