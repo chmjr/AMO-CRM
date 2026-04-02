@@ -576,3 +576,351 @@ h1, h2, h3, h4, h5, h6 {
         flex-direction: column;
     }
 }
+/* ================== Simulator Section ================== */
+.orc-section {
+    background-color: var(--color-dark);
+    padding: 100px 0;
+}
+
+.orc-titulo-branco {
+    color: var(--color-white) !important;
+}
+
+.orc-subtitulo-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.orc-progress-wrapper {
+    max-width: 600px;
+    margin: 0 auto 50px;
+}
+
+.orc-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.orc-line {
+    flex-grow: 1;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 10px;
+}
+
+.orc-line.ativo {
+    background: var(--color-primary);
+}
+
+.orc-dot {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--color-dark-alt);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    transition: var(--transition-smooth);
+}
+
+.orc-dot.ativo {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 15px rgba(197, 168, 128, 0.3);
+}
+
+.orc-prog-labels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.orc-prog-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.orc-prog-label.ativo {
+    color: var(--color-primary);
+}
+
+.orc-steps-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--color-dark-alt);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 60px 40px;
+    min-height: 520px;
+    position: relative;
+    overflow: hidden;
+}
+
+.orc-step {
+    display: none;
+    animation: fadeInSlide 0.5s forwards;
+}
+
+.orc-step.ativo {
+    display: block;
+}
+
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.orc-step-titulo {
+    font-size: 28px;
+    color: var(--color-white);
+    margin-bottom: 8px;
+}
+
+.orc-step-sub {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 40px;
+}
+
+/* Step 1: Tipo */
+.orc-tipo-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.orc-tipo-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 48px 24px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    text-align: center;
+    width: 100%;
+}
+
+.orc-tipo-card:hover {
+    border-color: var(--color-primary);
+    background: rgba(197, 168, 128, 0.05);
+    transform: translateY(-5px);
+}
+
+.orc-tipo-icone {
+    font-size: 48px;
+    margin-bottom: 24px;
+}
+
+.orc-tipo-nome {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    color: var(--color-white);
+    margin-bottom: 8px;
+}
+
+.orc-tipo-desc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Step 2: Ambientes */
+.orc-amb-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.orc-amb-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.orc-amb-nome {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.orc-controles {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.orc-btn-ctrl {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.orc-btn-ctrl:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.orc-num {
+    color: #fff;
+    font-weight: 600;
+    min-width: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Step 3: Details */
+.orc-card-det {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 24px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.orc-card-det-titulo {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.orc-radio-grupo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.orc-radio {
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition-smooth);
+}
+
+.orc-radio.selecionado {
+    border-color: var(--color-primary);
+    background: rgba(197, 168, 128, 0.1);
+    color: #fff;
+}
+
+.orc-radio input { display: none; }
+
+.orc-check {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 12px 0;
+    cursor: pointer;
+    color: #fff;
+}
+
+.orc-check input {
+    margin-top: 4px;
+}
+
+.orc-check-nome { font-weight: 500; font-size: 15px; }
+.orc-check-desc { font-size: 12px; color: rgba(255, 255, 255, 0.3); }
+
+/* Step 4: Result */
+.orc-res-card {
+    background: var(--color-white);
+    padding: 48px 32px;
+    border-radius: 4px;
+    text-align: center;
+    color: var(--color-dark);
+    margin-bottom: 32px;
+}
+
+.orc-res-rotulo { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
+.orc-res-faixa { font-size: 42px; font-weight: 700; color: var(--color-primary); margin: 12px 0; }
+.orc-res-rec { font-size: 14px; font-weight: 500; color: #666; margin-bottom: 32px; }
+
+.orc-res-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    padding-top: 32px;
+    border-top: 1px solid #EEE;
+}
+
+.orc-res-valor { font-weight: 700; font-size: 20px; color: var(--color-dark); }
+.orc-res-label { font-size: 10px; text-transform: uppercase; color: #AAA; letter-spacing: 1px; margin-top: 4px; }
+
+.orc-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.orc-input, .orc-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 16px;
+    border-radius: 4px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.orc-textarea { height: 100px; resize: none; }
+.orc-input:focus, .orc-textarea:focus { border-color: var(--color-primary); outline: none; }
+
+.orc-btn-whatsapp {
+    width: 100%;
+    background: #25D366;
+    color: #fff;
+    padding: 18px;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: 0.3s;
+}
+
+.orc-btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2); }
+
+.orc-btn-nav { display: flex; gap: 16px; margin-top: 40px; }
+.orc-btn-pri { background: var(--color-primary); color: #fff; border: none; padding: 14px 32px; border-radius: 4px; font-weight: 600; cursor: pointer; }
+.orc-btn-sec { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; padding: 14px 32px; border-radius: 4px; cursor: pointer; }
+
+/* Sucesso */
+.orc-sucesso { text-align: center; padding: 60px 20px; }
+.orc-sucesso-titulo { font-size: 32px; color: #fff; margin: 20px 0 12px; }
+.orc-sucesso-texto { color: rgba(255,255,255,0.5); font-size: 16px; max-width: 400px; margin: 0 auto; }
+
+/* Media Queries Simulator */
+@media (max-width: 768px) {
+    .orc-steps-container { padding: 40px 24px; }
+    .orc-tipo-cards { grid-template-columns: 1fr; }
+    .orc-amb-grid { grid-template-columns: 1fr; }
+    .orc-form-grid { grid-template-columns: 1fr; }
+    .orc-res-grid { grid-template-columns: 1fr; }
+    .orc-step-titulo { font-size: 24px; }
+}

@@ -28,6 +28,7 @@
             <nav class="nav">
                 <a href="#sobre" class="nav-link">Sobre nós</a>
                 <a href="#servicos" class="nav-link">Serviços</a>
+                <a href="#orcamento" class="nav-link">Orçamento</a>
                 <a href="#contato" class="btn-outline">Fale Conosco</a>
             </nav>
         </div>
@@ -103,6 +104,214 @@
                     <p>Arquitetura estratégica focada em alta rentabilidade e atração no aluguel por temporada.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Simulador de Orçamento -->
+    <section class="section-padding orc-section" id="orcamento">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="badge">Estimativa Gratuita</span>
+                <h2 class="section-title orc-titulo-branco">Simule o Valor do Seu Projeto</h2>
+                <p class="section-subtitle orc-subtitulo-muted">Responda algumas perguntas e receba uma estimativa em segundos. Nossa equipe confirma os valores reais.</p>
+            </div>
+
+            <!-- Barra de progresso -->
+            <div class="orc-progress-wrapper">
+                <div class="orc-progress">
+                    <div class="orc-dot ativo" id="orc-ind-1"><span>1</span></div>
+                    <div class="orc-line" id="orc-line-1"></div>
+                    <div class="orc-dot" id="orc-ind-2"><span>2</span></div>
+                    <div class="orc-line" id="orc-line-2"></div>
+                    <div class="orc-dot" id="orc-ind-3"><span>3</span></div>
+                    <div class="orc-line" id="orc-line-3"></div>
+                    <div class="orc-dot" id="orc-ind-4"><span>4</span></div>
+                </div>
+                <div class="orc-prog-labels">
+                    <span class="orc-prog-label ativo" id="orc-lb-1">Tipo</span>
+                    <span class="orc-prog-label" id="orc-lb-2">Ambientes</span>
+                    <span class="orc-prog-label" id="orc-lb-3">Detalhes</span>
+                    <span class="orc-prog-label" id="orc-lb-4">Estimativa</span>
+                </div>
+            </div>
+
+            <!-- Container de passos -->
+            <div class="orc-steps-container">
+
+                <!-- PASSO 1: TIPO -->
+                <div class="orc-step ativo" id="orc-passo-1">
+                    <h3 class="orc-step-titulo">Qual é o tipo do seu projeto?</h3>
+                    <p class="orc-step-sub">Selecione para começar</p>
+                    <div class="orc-tipo-cards">
+                        <button class="orc-tipo-card" id="orc-card-res" onclick="orcSelecionarTipo('Residencial')">
+                            <div class="orc-tipo-icone">🏠</div>
+                            <div class="orc-tipo-nome">Residencial</div>
+                            <div class="orc-tipo-desc">Apartamento, casa ou área privativa</div>
+                        </button>
+                        <button class="orc-tipo-card" id="orc-card-com" onclick="orcSelecionarTipo('Comercial')">
+                            <div class="orc-tipo-icone">🏢</div>
+                            <div class="orc-tipo-nome">Comercial</div>
+                            <div class="orc-tipo-desc">Loja, escritório, restaurante</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PASSO 2: AMBIENTES -->
+                <div class="orc-step" id="orc-passo-2">
+                    <h3 class="orc-step-titulo">Quais ambientes serão projetados?</h3>
+                    <p class="orc-step-sub">Informe a quantidade de cada um</p>
+                    <div id="orc-amb-container"></div>
+                    <div class="orc-resumo-row">
+                        <span><strong id="orc-total-amb">0</strong> ambiente(s) selecionado(s)</span>
+                        <span class="orc-resumo-hint">Selecione ao menos um para continuar</span>
+                    </div>
+                    <div id="orc-erro-2" class="orc-erro">Selecione pelo menos um ambiente para continuar.</div>
+                    <div class="orc-btn-nav">
+                        <button class="orc-btn-sec" onclick="orcIrPara(1)">← Voltar</button>
+                        <button class="orc-btn-pri" onclick="orcProximoP2()">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- PASSO 3: DETALHES -->
+                <div class="orc-step" id="orc-passo-3">
+                    <h3 class="orc-step-titulo">Detalhes do projeto</h3>
+                    <p class="orc-step-sub">Refine sua estimativa com informações adicionais</p>
+
+                    <div class="orc-card-det">
+                        <div class="orc-card-det-titulo">O que será entregue?</div>
+                        <div class="orc-radio-grupo" id="orc-rg-escopo">
+                            <label class="orc-radio selecionado" onclick="orcRadio('orc-rg-escopo', this)">
+                                <input type="radio" name="orc-escopo" value="completo" checked>
+                                Projeto completo — layout, 3D e executivo
+                            </label>
+                            <label class="orc-radio" onclick="orcRadio('orc-rg-escopo', this)">
+                                <input type="radio" name="orc-escopo" value="layout">
+                                Apenas planta baixa
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="orc-card-det">
+                        <div class="orc-card-det-titulo">Inclui fachada?</div>
+                        <div class="orc-radio-grupo" id="orc-rg-fachada">
+                            <label class="orc-radio selecionado" onclick="orcRadio('orc-rg-fachada', this)">
+                                <input type="radio" name="orc-fachada" value="" checked> Não
+                            </label>
+                            <label class="orc-radio" onclick="orcRadio('orc-rg-fachada', this)">
+                                <input type="radio" name="orc-fachada" value="simples"> Sim, simples
+                            </label>
+                            <label class="orc-radio" onclick="orcRadio('orc-rg-fachada', this)">
+                                <input type="radio" name="orc-fachada" value="complexa"> Sim, com reformas
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="orc-card-det">
+                        <div class="orc-card-det-titulo">Adicionais</div>
+                        <label class="orc-check">
+                            <input type="checkbox" id="orc-chk-reforma">
+                            <div>
+                                <div class="orc-check-nome">É uma reforma</div>
+                                <div class="orc-check-desc">Inclui plantas de demolição e construção</div>
+                            </div>
+                        </label>
+                        <label class="orc-check">
+                            <input type="checkbox" id="orc-chk-paisagismo">
+                            <div>
+                                <div class="orc-check-nome">Inclui paisagismo</div>
+                                <div class="orc-check-desc">Projeto de jardim e áreas externas</div>
+                            </div>
+                        </label>
+                        <label class="orc-check">
+                            <input type="checkbox" id="orc-chk-acomp">
+                            <div>
+                                <div class="orc-check-nome">Interesse em acompanhamento de obra</div>
+                                <div class="orc-check-desc">Gestão de fornecedores e visitas durante a execução</div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="orc-btn-nav">
+                        <button class="orc-btn-sec" onclick="orcIrPara(2)">← Voltar</button>
+                        <button class="orc-btn-pri" onclick="orcCalcularEIr4()">Ver minha estimativa →</button>
+                    </div>
+                </div>
+
+                <!-- PASSO 4: RESULTADO + FORMULÁRIO -->
+                <div class="orc-step" id="orc-passo-4">
+                    <div class="orc-aviso">
+                        <strong>Estimativa preliminar —</strong> valores calculados com base nas informações fornecidas. Nossa equipe confirma o orçamento real em até 24 horas úteis.
+                    </div>
+
+                    <div class="orc-res-card">
+                        <div class="orc-res-rotulo">Estimativa para o seu projeto</div>
+                        <div class="orc-res-faixa" id="orc-res-faixa">—</div>
+                        <div class="orc-res-rec" id="orc-res-rec">—</div>
+                        <div class="orc-res-grid">
+                            <div class="orc-res-item">
+                                <div class="orc-res-valor" id="orc-res-min">—</div>
+                                <div class="orc-res-label">Mínimo</div>
+                            </div>
+                            <div class="orc-res-item">
+                                <div class="orc-res-valor" id="orc-res-recomendado">—</div>
+                                <div class="orc-res-label">Recomendado</div>
+                            </div>
+                            <div class="orc-res-item">
+                                <div class="orc-res-valor" id="orc-res-prazo">—</div>
+                                <div class="orc-res-label">Prazo estimado</div>
+                            </div>
+                        </div>
+                        <div class="orc-acomp-nota" id="orc-acomp-nota">
+                            🏗️ Acompanhamento de obra: valor a confirmar conforme fornecedores e escopo
+                        </div>
+                    </div>
+
+                    <div class="orc-separador"></div>
+
+                    <p class="orc-form-titulo">Confirme sua estimativa</p>
+                    <p class="orc-form-sub">Preencha seus dados e nossa equipe entrará em contato para confirmar o orçamento real.</p>
+
+                    <div class="orc-form-grid">
+                        <div class="orc-form-grupo">
+                            <label class="orc-form-label">Nome completo *</label>
+                            <input type="text" class="orc-input" id="orc-nome" placeholder="Seu nome" autocomplete="name">
+                        </div>
+                        <div class="orc-form-grupo">
+                            <label class="orc-form-label">WhatsApp *</label>
+                            <input type="tel" class="orc-input" id="orc-fone" placeholder="(48) 99999-9999" autocomplete="tel">
+                        </div>
+                    </div>
+                    <div class="orc-form-grupo">
+                        <label class="orc-form-label">E-mail</label>
+                        <input type="email" class="orc-input" id="orc-email" placeholder="seu@email.com" autocomplete="email">
+                    </div>
+                    <div class="orc-form-grupo">
+                        <label class="orc-form-label">Sobre o projeto <span style="opacity:.5; font-weight:400;">(opcional)</span></label>
+                        <textarea class="orc-textarea" id="orc-desc" placeholder="Ex: apartamento de 80m² em Florianópolis, reforma completa…"></textarea>
+                    </div>
+
+                    <div id="orc-erro-4" class="orc-erro">Preencha nome e WhatsApp para continuar.</div>
+
+                    <button class="orc-btn-whatsapp" onclick="orcEnviarWhatsApp()">
+                        💬 Solicitar Confirmação via WhatsApp
+                    </button>
+
+                    <div class="orc-btn-nav" style="margin-top:16px;">
+                        <button class="orc-btn-sec" onclick="orcIrPara(3)">← Ajustar detalhes</button>
+                    </div>
+                </div>
+
+                <!-- SUCESSO -->
+                <div class="orc-step" id="orc-sucesso">
+                    <div class="orc-sucesso">
+                        <div style="font-size:3.5rem; margin-bottom:20px;">✅</div>
+                        <h3 class="orc-sucesso-titulo">Solicitação enviada!</h3>
+                        <p class="orc-sucesso-texto">Nossa equipe entrará em contato em até <strong>24 horas úteis</strong> para confirmar o orçamento e agendar uma conversa sobre seu projeto.</p>
+                        <span class="orc-sucesso-badge">AMO Arquitetura e Interiores</span>
+                    </div>
+                </div>
+
+            </div><!-- /orc-steps-container -->
         </div>
     </section>
 
