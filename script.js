@@ -225,7 +225,7 @@ window.orcCalcularEIr4 = function() {
     orcIrPara(4);
 };
 
-window.orcEnviarWhatsApp = function() {
+window.orcEnviarCRM = function() {
     const nome = document.getElementById('orc-nome').value;
     const fone = document.getElementById('orc-fone').value;
     const email = document.getElementById('orc-email').value;
@@ -239,28 +239,29 @@ window.orcEnviarWhatsApp = function() {
 
     let resumo = `SOLICITAÇÃO DE ORÇAMENTO INTERATIVO\n`;
     resumo += `Tipo: ${orcDados.tipo}\n`;
+    resumo += `Ambientes: ${Object.entries(orcDados.ambientes).filter(e => e[1] > 0).map(e => `${e[1]}x ${e[0]}`).join(', ')}\n`;
     resumo += `Estimativa: ${orcDados.estimativa.min} a ${orcDados.estimativa.max}\n`;
     if(desc) resumo += `Obs Cliente: ${desc}`;
 
-    // SALVAR NO CRM EM BACKGROUND (Não bloqueia o WhatsApp)
+    // SALVAR NO CRM
     fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nome, phone: fone, email: email, origin: 'Calculadora LP', note: resumo })
-    }).catch(e => console.error("Lead save fail", e));
-
-    const msg = `Olá AMO Arquitetura! Acabei de fazer uma simulação no site:
-*Projeto:* ${orcDados.tipo}
-*Estimativa:* ${orcDados.estimativa.min} a ${orcDados.estimativa.max}
-*Nome:* ${nome}
-${desc ? `*Notas:* ${desc}` : ''}`;
-
-    const url = `https://wa.me/${ORC_CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
-    
-    // ABRIR WHATSAPP IMEDIATAMENTE (User gesture context)
-    window.open(url, '_blank');
-    
-    orcIrPara('sucesso');
+    })
+    .then(res => {
+        if(res.ok) orcIrPara('sucesso');
+        else alert("Erro ao enviar. Tente novamente.");
+    })
+    .catch(e => {
+        console.error("Lead save fail", e);
+        // Fallback local
+        const newLead = { id: Date.now().toString(), name: nome, phone: fone, email, origin: 'Calculadora LP', note: resumo, date: new Date().toLocaleDateString('pt-BR'), status: 'novos' };
+        const leads = JSON.parse(localStorage.getItem('amo_leads') || '[]');
+        leads.push(newLead);
+        localStorage.setItem('amo_leads', JSON.stringify(leads));
+        orcIrPara('sucesso');
+    });
 };
 
 // Phone Mask for Calculator
@@ -271,3 +272,20 @@ document.getElementById('orc-fone')?.addEventListener('input', function (e) {
 
 // Init
 orcRenderAmbientes();
+
+// Intersection Observer for Reveal Animations
+const revealCallback = (entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        }
+    });
+};
+
+const revealObserver = new IntersectionObserver(revealCallback, {
+    threshold: 0.1
+});
+
+document.querySelectorAll('.reveal').forEach(el => {
+    revealObserver.observe(el);
+});

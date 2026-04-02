@@ -30,6 +30,19 @@ html {
     scroll-behavior: smooth;
 }
 
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    color: var(--color-dark);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+p {
+    line-height: 1.8;
+    color: var(--color-dark-alt);
+    font-weight: 400;
+}
+
 body {
     font-family: var(--font-body);
     background-color: var(--color-bg);
@@ -163,25 +176,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     width: 100%;
-    padding: 16px 32px;
-    background: var(--color-primary);
+    padding: 18px 36px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
     border: none;
     color: var(--color-white);
     font-family: var(--font-heading);
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     cursor: pointer;
-    transition: var(--transition-smooth);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 4px 15px rgba(197, 168, 128, 0.15);
 }
 
 .btn-primary:hover {
-    background: var(--color-primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(197, 168, 128, 0.3);
+    background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(197, 168, 128, 0.4);
+    letter-spacing: 2.5px;
 }
 
 /* ================== Hero Section Dual Path ================== */
@@ -225,31 +243,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 60px 50px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 70px 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
     cursor: pointer;
 }
 
 .hero-card:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(197, 168, 128, 0.6);
-    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(197, 168, 128, 0.8);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
 }
 
 .simulator-promo {
-    border-left: 5px solid var(--color-primary);
+    border-left: 6px solid var(--color-primary);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
 }
 
 .contact-promo {
-    background: rgba(255, 255, 255, 0.05); /* Lighter than before */
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, rgba(26,26,26,0.5) 0%, rgba(26,26,26,0.8) 100%);
+    border: 1px solid rgba(197, 168, 128, 0.2);
 }
 
 .hero-path-title {
@@ -916,4 +937,42 @@ h1, h2, h3, h4, h5, h6 {
     .orc-form-grid { grid-template-columns: 1fr; }
     .orc-res-grid { grid-template-columns: 1fr; }
     .orc-step-titulo { font-size: 24px; }
+}
+
+/* ================== Wow Factor: Scroll Reveal ================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Luxury Section Backgrounds */
+.orc-section {
+    background: linear-gradient(180deg, #1a1a1a 0%, #111111 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.about-section {
+    background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+}
+
+.services-section {
+    background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+}
+
+/* Floating Animation for Badges */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.badge {
+    animation: float 6s ease-in-out infinite;
 }

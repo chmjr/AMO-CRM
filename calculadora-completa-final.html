@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Completa - Studio da Nina</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracota: #C67357;
+            --laranja: #E67E50;
+            --verde: #7A9B76;
+            --verde-escuro: #5A7A56;
+            --bege: #F5F1ED;
+            --marfim: #FDFBF7;
+            --cinza: #4A4A4A;
+            --cinza-claro: #E8E4DF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--marfim);
+            color: var(--cinza);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-family: 'Cormorant', serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--verde-escuro);
+            margin-bottom: 1.5rem;
+        }
+
+        .title {
+            font-family: 'Cormorant', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 500;
+            color: var(--cinza);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--verde);
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--cinza-claro);
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: white;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--cinza);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .tab:hover {
+            background: var(--bege);
+        }
+
+        .tab.active {
+            background: var(--verde-escuro);
+            color: white;
+            border-bottom-color: var(--verde-escuro);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Stats */
+        .stats-section {
+            background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .stats-title {
+            font-family: 'Cormorant', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 6px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-family: 'Cormorant', serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Form */
+        .calculator-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--verde);
+        }
+
+        .section-title {
+            font-family: 'Cormorant', serif;
+            font-size: 1.8rem;
+            color: var(--cinza);
+            margin-bottom: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--cinza);
+        }
+
+        .form-input, .form-select {
+            padding: 1rem;
+            border: 2px solid var(--cinza-claro);
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--verde);
+            box-shadow: 0 0 0 3px rgba(122,155,118,0.1);
+        }
+
+        .form-help {
+            font-size: 0.85rem;
+            color: var(--verde-escuro);
+            font-style: italic;
+        }
+
+        /* Fornecedores Grid */
+        .fornecedores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bege);
+            border-radius: 6px;
+        }
+
+        .fornecedor-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .fornecedor-bem-complexo {
+            border-left-color: #8B0000;
+        }
+
+        .fornecedor-complexo {
+            border-left-color: var(--terracota);
+        }
+
+        .fornecedor-medio {
+            border-left-color: var(--laranja);
+        }
+
+        .fornecedor-facil {
+            border-left-color: var(--verde);
+        }
+
+        .fornecedor-item:hover {
+            background: var(--marfim);
+            transform: translateX(3px);
+        }
+
+        .fornecedor-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .fornecedor-label {
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .fornecedor-count {
+            font-size: 0.75rem;
+            color: var(--verde-escuro);
+            font-weight: 600;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: var(--bege);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-group:hover {
+            background: var(--cinza-claro);
+        }
+
+        .checkbox-input {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Alert */
+        .alert {
+            background: #FFF8F5;
+            border-left: 4px solid var(--laranja);
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .alert-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .alert-text {
+            font-size: 0.95rem;
+            color: var(--cinza);
+        }
+
+        /* Results Card */
+        .results-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--terracota);
+        }
+
+        .results-value {
+            font-family: 'Cormorant', serif;
+            font-size: 3.5rem;
+            font-weight: 500;
+            color: var(--terracota);
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .results-breakdown {
+            background: var(--bege);
+            padding: 1.5rem;
+            border-radius: 6px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--cinza-claro);
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            border-top: 2px solid var(--verde-escuro);
+        }
+
+        .breakdown-label {
+            color: var(--cinza);
+        }
+
+        .breakdown-value {
+            font-weight: 600;
+            color: var(--verde-escuro);
+        }
+
+        /* Button */
+        .btn-calculate {
+            width: 100%;
+            padding: 1.3rem;
+            background: var(--verde-escuro);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        .btn-calculate:hover {
+            background: var(--verde);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(90,122,86,0.3);
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--verde-escuro);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--verde);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--verde-escuro);
+            border: 2px solid var(--verde-escuro);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bege);
+        }
+
+        /* Ambientes */
+        .ambientes-categoria {
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .ambientes-cat-titulo {
+            background: var(--verde-escuro);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .ambientes-linha {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid var(--cinza-claro);
+            gap: 1rem;
+        }
+
+        .ambientes-linha:last-child {
+            border-bottom: none;
+        }
+
+        .amb-nome {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .amb-peso {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        .verde-tag { background: #e8f5e9; color: var(--verde-escuro); }
+        .laranja-tag { background: #fff3e0; color: #E65100; }
+        .terracota-tag { background: #fbe9e7; color: #b71c1c; }
+
+        .amb-input {
+            width: 70px;
+            padding: 0.5rem;
+            border: 2px solid var(--cinza-claro);
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .amb-input:focus {
+            outline: none;
+            border-color: var(--verde);
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+            }
+
+            .form-grid,
+            .fornecedores-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            .tabs, .actions {
+                display: none;
+            }
+        }
+
+        /* Mensagens de erro inline */
+        .calc-error {
+            background: #fff5f2;
+            border-left: 3px solid var(--terracota);
+            color: var(--terracota);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            font-size: 0.92rem;
+            margin-top: 0.75rem;
+            display: none;
+        }
+        .calc-error.visivel { display: block; }
+
+        /* Animação ao exibir resultados */
+        @keyframes resultFadeIn {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .resultado-animado { animation: resultFadeIn 0.45s ease; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Studio da Nina</div>
+            <h1 class="title">Calculadora Completa</h1>
+            <p class="subtitle">Projeto + Acompanhamento de Obra</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('projeto')">💼 Precificação de Projeto</button>
+            <button class="tab" onclick="switchTab('acompanhamento')">🏗️ Acompanhamento de Obra</button>
+        </div>
+
+        <!-- TAB 1: Projeto -->
+        <div id="tab-projeto" class="tab-content active">
+            <div class="stats-section">
+                <h2 class="stats-title">Base: 22 Projetos + Dados de Ambientes Calibrados</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">R$ 51/h</div>
+                        <div class="stat-label">Custo-hora médio</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">~38h</div>
+                        <div class="stat-label">Horas por ambiente</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">R$ 50/h</div>
+                        <div class="stat-label">Residencial</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">R$ 47/h</div>
+                        <div class="stat-label">Comercial</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calculator-section">
+                <h2 class="section-title">Calcular Projeto</h2>
+
+                <!-- Tipo e Escopo -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Projeto</label>
+                        <select id="tipo" class="form-select" onchange="atualizarCampos()">
+                            <option value="">Selecione...</option>
+                            <option value="Residencial">Residencial</option>
+                            <option value="Comercial">Comercial</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Escopo Contratado</label>
+                        <select id="escopo" class="form-select">
+                            <option value="">Selecione...</option>
+                            <option value="layout">Apenas Layout</option>
+                            <option value="completo">Completo (Layout + 3D + Executivo)</option>
+                        </select>
+                        <span class="form-help">A maioria dos projetos é completo</span>
+                    </div>
+                </div>
+
+                <!-- Inclui Fachada? -->
+                <div style="display:flex; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; align-items:stretch;">
+                    <div class="form-group" style="flex:1.5; min-width:240px;">
+                        <label class="form-label">Fachada</label>
+                        <select id="tipo-fachada" class="form-select" onchange="recalcularResumo()">
+                            <option value="">Sem fachada</option>
+                            <option value="simples">Fachada simples (sem grandes alterações) · 42h</option>
+                            <option value="complexa">Fachada complexa (com alterações, revisões) · 120h</option>
+                        </select>
+                    </div>
+                    <label class="checkbox-group" style="flex:1; min-width:200px;">
+                        <input type="checkbox" id="tem-paisagismo" class="checkbox-input" onchange="recalcularResumo()">
+                        <span class="checkbox-label">Inclui Paisagismo · +20h</span>
+                    </label>
+                    <label class="checkbox-group" style="flex:1; min-width:200px;">
+                        <input type="checkbox" id="e-reforma" class="checkbox-input" onchange="recalcularResumo()">
+                        <span class="checkbox-label">É Reforma · +25h</span>
+                    </label>
+                </div>
+
+                <!-- Ambientes -->
+                <h3 style="font-family:'Cormorant',serif; font-size:1.5rem; margin-bottom:0.5rem;">Informe os Ambientes do Projeto</h3>
+                <p style="font-size:0.9rem; color:var(--verde-escuro); margin-bottom:1.5rem;">
+                    <strong>💡 Horas por ambiente (calibradas com projetos reais):</strong>
+                    <span style="color:var(--verde);">■ Simples (12-20h)</span> ·
+                    <span style="color:var(--laranja);">■ Médio (22-38h)</span> ·
+                    <span style="color:var(--terracota);">■ Complexo (50-72h)</span>
+                </p>
+
+                <div id="ambientes-residencial" style="display:none;">
+                    <div class="ambientes-categoria">
+                        <div class="ambientes-cat-titulo">🛏️ Quartos</div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Quarto simples (sem closet)</span>
+                            <span class="amb-peso verde-tag">Simples · 28h</span>
+                            <input type="number" class="amb-input" id="quarto-simples" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Quarto infantil (mais detalhes)</span>
+                            <span class="amb-peso laranja-tag">Médio · 38h</span>
+                            <input type="number" class="amb-input" id="quarto-infantil" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Suíte (quarto + banheiro integrado)</span>
+                            <span class="amb-peso laranja-tag">Médio · 38h</span>
+                            <input type="number" class="amb-input" id="suite" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Closet (separado)</span>
+                            <span class="amb-peso laranja-tag">Médio · 38h</span>
+                            <input type="number" class="amb-input" id="closet" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="ambientes-categoria">
+                        <div class="ambientes-cat-titulo">🛁 Banheiros</div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Lavabo</span>
+                            <span class="amb-peso verde-tag">Simples · 20h</span>
+                            <input type="number" class="amb-input" id="lavabo" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Banheiro sem troca de revestimento</span>
+                            <span class="amb-peso verde-tag">Simples · 22h</span>
+                            <input type="number" class="amb-input" id="banheiro-simples" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Banheiro com troca de revestimento</span>
+                            <span class="amb-peso laranja-tag">Médio · 38h</span>
+                            <input type="number" class="amb-input" id="banheiro-revestimento" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Banheiro com hidro / banheira</span>
+                            <span class="amb-peso terracota-tag">Complexo · 50h</span>
+                            <input type="number" class="amb-input" id="banheiro-hidro" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="ambientes-categoria">
+                        <div class="ambientes-cat-titulo">🛋️ Ambientes Sociais</div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Sala (estar / TV / jantar) — por ambiente</span>
+                            <span class="amb-peso verde-tag">Simples · 28h</span>
+                            <input type="number" class="amb-input" id="sala" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Cozinha simples</span>
+                            <span class="amb-peso laranja-tag">Médio · 32h</span>
+                            <input type="number" class="amb-input" id="cozinha-simples" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Cozinha gourmet / área gourmet</span>
+                            <span class="amb-peso terracota-tag">Complexo · 65h</span>
+                            <input type="number" class="amb-input" id="cozinha-gourmet" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Lavanderia / Sacada / Varanda</span>
+                            <span class="amb-peso verde-tag">Simples · 15h</span>
+                            <input type="number" class="amb-input" id="lavanderia" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Área externa (piscina, jardim)</span>
+                            <span class="amb-peso laranja-tag">Médio · 42h</span>
+                            <input type="number" class="amb-input" id="area-externa-res" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ambientes-comercial" style="display:none;">
+                    <div class="ambientes-categoria">
+                        <div class="ambientes-cat-titulo">🏪 Ambientes Comerciais</div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Depósito / Almoxarifado</span>
+                            <span class="amb-peso verde-tag">Simples · 12h</span>
+                            <input type="number" class="amb-input" id="deposito" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Banheiro / Lavabo comercial</span>
+                            <span class="amb-peso verde-tag">Simples · 22h</span>
+                            <input type="number" class="amb-input" id="ban-com" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Recepção / Sala de reunião / Escritório</span>
+                            <span class="amb-peso laranja-tag">Médio · 38h</span>
+                            <input type="number" class="amb-input" id="sala-com" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Salão principal / Área de atendimento</span>
+                            <span class="amb-peso laranja-tag">Médio · 38h</span>
+                            <input type="number" class="amb-input" id="salao" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Cozinha comercial</span>
+                            <span class="amb-peso laranja-tag">Médio · 38h</span>
+                            <input type="number" class="amb-input" id="cozinha-com" min="0" value="0">
+                        </div>
+                        <div class="ambientes-linha">
+                            <span class="amb-nome">Cozinha industrial</span>
+                            <span class="amb-peso terracota-tag">Complexo · 72h</span>
+                            <input type="number" class="amb-input" id="cozinha-ind" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumo e Calcular -->
+                <div style="background:var(--bege); padding:1.5rem; border-radius:6px; margin:1.5rem 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                    <div>
+                        <span style="font-weight:600; color:var(--verde-escuro);">Total de ambientes: </span>
+                        <span id="total-amb-display" style="font-family:'Cormorant',serif; font-size:1.8rem; color:var(--terracota);">0</span>
+                    </div>
+                    <div>
+                        <span style="font-weight:600; color:var(--verde-escuro);">Horas estimadas: </span>
+                        <span id="total-horas-display" style="font-family:'Cormorant',serif; font-size:1.8rem; color:var(--terracota);">0h</span>
+                    </div>
+                </div>
+
+                <button class="btn-calculate" onclick="calcularProjeto()">Calcular Precificação</button>
+                <div id="erro-projeto" class="calc-error"></div>
+
+                <div id="resultado-projeto" style="display:none; margin-top:2rem;">
+                    <div class="results-card">
+                        <h3 class="section-title">💰 Valores Sugeridos para 2026</h3>
+                        <div class="results-value" id="valor-projeto-ideal">—</div>
+                        <div class="results-breakdown">
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">Horas estimadas</span>
+                                <span class="breakdown-value" id="res-horas">—</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">Custo-hora aplicado</span>
+                                <span class="breakdown-value" id="res-custo-hora">—</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">🔻 Mínimo</span>
+                                <span class="breakdown-value" id="valor-projeto-min">—</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">✅ Recomendado</span>
+                                <span class="breakdown-value" id="valor-projeto-rec">—</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">⭐ Premium</span>
+                                <span class="breakdown-value" id="valor-projeto-max">—</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">Prazo estimado</span>
+                                <span class="breakdown-value" id="res-prazo">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Acompanhamento -->
+        <div id="tab-acompanhamento" class="tab-content">
+            <div class="stats-section">
+                <h2 class="stats-title">Acompanhamento de Obra</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">R$ 100-400</div>
+                        <div class="stat-label">Valor/Fornecedor</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">R$ 500</div>
+                        <div class="stat-label">Valor/Visita</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6%</div>
+                        <div class="stat-label">Desconto Pacote (>3 visitas)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">22</div>
+                        <div class="stat-label">Fornecedores Disponíveis</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calculator-section">
+                <h2 class="section-title">🏗️ Calcular Acompanhamento</h2>
+
+                <div class="alert">
+                    <span class="alert-icon">💡</span>
+                    <span class="alert-text"><strong>Como funciona:</strong> Selecione os fornecedores necessários (2-3 orçamentos cada) + número de visitas de acompanhamento</span>
+                </div>
+
+                <h3 style="margin-bottom: 1rem; color: var(--verde-escuro);">Selecione os Fornecedores Necessários:</h3>
+                <p style="margin-bottom: 1.5rem; color: var(--cinza); font-size: 0.9rem;">
+                    <strong>💡 Valores por complexidade:</strong> 
+                    <span style="color: #8B0000;">■ Bem Complexo (R$ 400)</span> · 
+                    <span style="color: var(--terracota);">■ Complexo (R$ 250)</span> · 
+                    <span style="color: var(--laranja);">■ Médio (R$ 150)</span> · 
+                    <span style="color: var(--verde);">■ Fácil (R$ 100)</span>
+                </p>
+                <div class="fornecedores-grid">
+                    <!-- BEM COMPLEXO (R$ 400) -->
+                    <label class="fornecedor-item fornecedor-bem-complexo">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="empreiteira" data-valor="400">
+                        <span class="fornecedor-label">Empreiteiras</span>
+                        <span class="fornecedor-count">R$ 400</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-bem-complexo">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="piso" data-valor="400">
+                        <span class="fornecedor-label">Revestimento Piso</span>
+                        <span class="fornecedor-count">R$ 400</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-bem-complexo">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="parede" data-valor="400">
+                        <span class="fornecedor-label">Revestimento Parede</span>
+                        <span class="fornecedor-count">R$ 400</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-bem-complexo">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="luminaria" data-valor="400">
+                        <span class="fornecedor-label">Luminárias</span>
+                        <span class="fornecedor-count">R$ 400</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-bem-complexo">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="marcenaria" data-valor="400">
+                        <span class="fornecedor-label">Marcenaria</span>
+                        <span class="fornecedor-count">R$ 400</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-bem-complexo">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="marmoraria" data-valor="400">
+                        <span class="fornecedor-label">Marmoraria</span>
+                        <span class="fornecedor-count">R$ 400</span>
+                    </label>
+
+                    <!-- COMPLEXO (R$ 250) -->
+                    <label class="fornecedor-item fornecedor-complexo">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="esquadria" data-valor="250">
+                        <span class="fornecedor-label">Esquadrias</span>
+                        <span class="fornecedor-count">R$ 250</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-complexo">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="cobertura" data-valor="250">
+                        <span class="fornecedor-label">Coberturas</span>
+                        <span class="fornecedor-count">R$ 250</span>
+                    </label>
+
+                    <!-- MÉDIO (R$ 150) -->
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="automacao" data-valor="150">
+                        <span class="fornecedor-label">Automação</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="eletro" data-valor="150">
+                        <span class="fornecedor-label">Eletrodomésticos</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="metais" data-valor="150">
+                        <span class="fornecedor-label">Metais</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="coifa" data-valor="150">
+                        <span class="fornecedor-label">Coifas</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="papel" data-valor="150">
+                        <span class="fornecedor-label">Papel de Parede</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="estofado" data-valor="150">
+                        <span class="fornecedor-label">Estofados</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="puxador" data-valor="150">
+                        <span class="fornecedor-label">Puxadores</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="paisagismo" data-valor="150">
+                        <span class="fornecedor-label">Paisagismo</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-medio">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="mobiliario" data-valor="150">
+                        <span class="fornecedor-label">Mobiliário Solto</span>
+                        <span class="fornecedor-count">R$ 150</span>
+                    </label>
+
+                    <!-- FÁCIL (R$ 100) -->
+                    <label class="fornecedor-item fornecedor-facil">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="churrasqueira" data-valor="100">
+                        <span class="fornecedor-label">Churrasqueiras</span>
+                        <span class="fornecedor-count">R$ 100</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-facil">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="pintura" data-valor="100">
+                        <span class="fornecedor-label">Pinturas Artísticas</span>
+                        <span class="fornecedor-count">R$ 100</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-facil">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="cortina" data-valor="100">
+                        <span class="fornecedor-label">Cortinas</span>
+                        <span class="fornecedor-count">R$ 100</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-facil">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="decoracao" data-valor="100">
+                        <span class="fornecedor-label">Decoração</span>
+                        <span class="fornecedor-count">R$ 100</span>
+                    </label>
+                    <label class="fornecedor-item fornecedor-facil">
+                        <input type="checkbox" class="fornecedor-checkbox" data-fornecedor="tapete" data-valor="100">
+                        <span class="fornecedor-label">Tapetes</span>
+                        <span class="fornecedor-count">R$ 100</span>
+                    </label>
+                </div>
+
+                <div style="background: white; padding: 1.5rem; border-radius: 6px; margin: 2rem 0;">
+                    <h3 style="margin-bottom: 1rem; color: var(--verde-escuro);">Total de Fornecedores: <span id="total-fornecedores">0</span></h3>
+                </div>
+
+                <div class="form-grid" style="margin-top: 2rem;">
+                    <div class="form-group">
+                        <label class="form-label">Número de Visitas de Acompanhamento</label>
+                        <input type="number" id="num-visitas" class="form-input" placeholder="Ex: 12" min="0">
+                        <span class="form-help">Visitas semanais na obra (R$ 500/visita)</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Horas Estimadas de Dúvidas/Alterações</label>
+                        <input type="number" id="horas-extras" class="form-input" placeholder="Ex: 20" min="0">
+                        <span class="form-help">Tempo respondendo dúvidas e alterando projeto (R$ 150/hora)</span>
+                    </div>
+                </div>
+
+                <label class="checkbox-group" style="margin-top: 1rem;">
+                    <input type="checkbox" id="so-orcamento" class="checkbox-input">
+                    <span class="checkbox-label">Cliente contrata APENAS os orçamentos (sem visitas)</span>
+                </label>
+
+                <button class="btn-calculate" onclick="calcularAcompanhamento()">Calcular Acompanhamento</button>
+                <div id="erro-acompanhamento" class="calc-error"></div>
+
+                <div id="resultado-acompanhamento" style="display:none;">
+                    <div class="results-card">
+                        <h3 class="section-title">Valor Total do Acompanhamento</h3>
+                        <div class="results-value" id="valor-acompanhamento-total">—</div>
+                        <div class="results-breakdown" id="breakdown-acompanhamento"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="window.print()">Imprimir</button>
+            <button class="btn btn-secondary" onclick="confirmarLimpar()">Limpar Tudo</button>
+        </div>
+    </div>
+
+    <script>
+        // ─── HELPERS ──────────────────────────────────────────────────
+        function mostrarErro(id, msg) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = msg;
+            el.classList.add('visivel');
+            setTimeout(() => el.classList.remove('visivel'), 5000);
+        }
+
+        function mostrarResultado(id) {
+            const el = document.getElementById(id);
+            el.style.display = 'block';
+            el.classList.remove('resultado-animado');
+            void el.offsetWidth; // força reflow para reanimar
+            el.classList.add('resultado-animado');
+        }
+
+        function confirmarLimpar() {
+            if (confirm('Deseja limpar todos os campos?')) limparTudo();
+        }
+
+        // ─── TABS ─────────────────────────────────────────────────────
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // Contador de fornecedores em tempo real
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.fornecedor-checkbox').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const total = document.querySelectorAll('.fornecedor-checkbox:checked').length;
+                    const el = document.getElementById('total-fornecedores');
+                    if (el) el.textContent = total;
+                });
+            });
+        });
+
+        // ─── HORAS POR AMBIENTE ───────────────────────────────────────
+        // Calibrado com 5 projetos reais: Elizandra (500h/14amb),
+        // Vinícius (375h/9amb), Nadir (300h/2amb),
+        // Hot Dog Campinas (400h/9amb), Sala Jad (200h/5amb)
+
+        // ─── HORAS POR AMBIENTE ───────────────────────────────────────
+        // Calibrado com 5 projetos reais + validado matematicamente:
+        // Vinícius 375h → calc 375h ✓ | Jad 200h → calc 200h ✓ | Nadir 300h → calc 263h (~ok)
+        //
+        // RESIDENCIAL:
+        //   Quarto simples (sem closet): 28h  → rápido, marcenaria básica
+        //   Quarto infantil: 38h          → mais detalhes, marcenaria específica
+        //   Suite casal: 38h              → mais elaborada, detalhes extras
+        //   Closet separado: 38h          → marcenaria densa, muitos detalhes
+        //   Lavabo: 20h                   → simples, sem chuveiro
+        //   Banheiro sem troca revestimento: 22h  → só layout, sem paginação de parede
+        //   Banheiro com troca revestimento: 38h  → paginação de parede = +16h
+        //   Banheiro com hidro/banheira: 50h      → mais complexo, mais detalhes
+        //   Sala / Estar / Jantar (cada): 28h
+        //   Cozinha simples: 32h
+        //   Cozinha gourmet / área gourmet: 65h   → marcenaria densa + marmoraria + detalhes
+        //   Lavanderia / Sacada / Varanda: 15h
+        //   Área externa (piscina, jardim): 42h
+        //
+        // COMERCIAL:
+        //   Depósito / Almoxarifado: 12h
+        //   Banheiro / Lavabo comercial: 22h
+        //   Recepção / Sala de reunião / Escritório: 38h
+        //   Salão principal / Área de atendimento: 38h
+        //   Cozinha comercial simples: 38h
+        //   Cozinha industrial: 72h   → instalações complexas, layout rigoroso
+
+        const HORAS_AMBIENTE = {
+            // RESIDENCIAL
+            'quarto-simples':          28,
+            'quarto-infantil':         38,
+            'suite':                   38,
+            'closet':                  38,
+            'lavabo':                  20,
+            'banheiro-simples':        22,
+            'banheiro-revestimento':   38,
+            'banheiro-hidro':          50,
+            'sala':                    28,
+            'cozinha-simples':         32,
+            'cozinha-gourmet':         65,
+            'lavanderia':              15,
+            'area-externa-res':        42,
+            // COMERCIAL
+            'deposito':                12,
+            'ban-com':                 22,
+            'sala-com':                38,
+            'salao':                   38,
+            'cozinha-com':             38,
+            'cozinha-ind':             72,
+        };
+
+        // ─── OVERHEAD DE SCOPE ────────────────────────────────────────
+        // Horas fixas do processo (compatibilização, reuniões, revisões, etc)
+        // Residencial completo: +115h validado pelo Vinícius (375h - 260h ambientes = 115h)
+        // Comercial completo:   +55h  validado pelo Jad (200h - 145h ambientes = 55h)
+        const OVERHEAD_SCOPE = {
+            'Residencial': 115,
+            'Comercial':    55,
+        };
+
+        // Extras opcionais (horas adicionais)
+        const HORAS_EXTRA = {
+            fachada_simples:   42,   // fachada sem grandes alterações
+            fachada_complexa:  120,  // com muitas alterações (Nadir, Elizandra, Campinas)
+            paisagismo:        20,
+            reforma:           25,   // plantas demolir/construir adicionais
+        };
+
+        // Multiplicador de escopo contratado
+        const MULT_ESCOPO = {
+            'layout':   0.40,   // só layout = ~40% do trabalho completo
+            'completo': 1.00,   // layout + 3D + executivo (padrão)
+        };
+
+        // ─── CUSTO-HORA ───────────────────────────────────────────────
+        // Residencial: R$ 45/h (Vinícius R$ 42,67, Elizandra R$ 90 mas escopo excepcional)
+        // Comercial:   R$ 44/h (Jad R$ 43,50, Campinas R$ 45)
+        // Arredondado para R$ 45 em ambos — diferença é pequena e simplifica
+        const CUSTO_HORA = {
+            'Residencial': 50,
+            'Comercial':   47,
+        };
+
+        // Horas produtivas por dia útil (média histórica)
+        const HORAS_POR_DIA = 5;
+
+        // ─── SHOW/HIDE AMBIENTES POR TIPO ────────────────────────────
+        function atualizarCampos() {
+            const tipo = document.getElementById('tipo').value;
+            document.getElementById('ambientes-residencial').style.display =
+                tipo === 'Residencial' ? 'block' : 'none';
+            document.getElementById('ambientes-comercial').style.display =
+                tipo === 'Comercial' ? 'block' : 'none';
+            recalcularResumo();
+        }
+
+        // ─── RECALCULAR RESUMO EM TEMPO REAL ─────────────────────────
+        function recalcularResumo() {
+            const { totalAmbientes, horasBase } = calcularHoras();
+            document.getElementById('total-amb-display').textContent = totalAmbientes;
+            document.getElementById('total-horas-display').textContent = horasBase + 'h';
+        }
+
+        // Adicionar listeners em todos os inputs de ambiente
+        document.querySelectorAll('.amb-input').forEach(input => {
+            input.addEventListener('input', recalcularResumo);
+        });
+        document.querySelectorAll('#tipo-fachada, #tem-paisagismo, #e-reforma, #escopo').forEach(el => {
+            el.addEventListener('change', recalcularResumo);
+        });
+
+        function calcularHoras() {
+            const tipo = document.getElementById('tipo')?.value || 'Residencial';
+            let horasAmbientes = 0;
+            let totalAmbientes = 0;
+
+            Object.entries(HORAS_AMBIENTE).forEach(([id, horas]) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const qtd = parseInt(el.value) || 0;
+                    horasAmbientes += qtd * horas;
+                    totalAmbientes += qtd;
+                }
+            });
+
+            // Extras opcionais
+            let horasExtras = 0;
+            const fachada = document.getElementById('tipo-fachada')?.value;
+            if (fachada === 'simples')   horasExtras += HORAS_EXTRA.fachada_simples;
+            if (fachada === 'complexa')  horasExtras += HORAS_EXTRA.fachada_complexa;
+            if (document.getElementById('tem-paisagismo')?.checked)  horasExtras += HORAS_EXTRA.paisagismo;
+            if (document.getElementById('e-reforma')?.checked)       horasExtras += HORAS_EXTRA.reforma;
+
+            const escopo = document.getElementById('escopo')?.value || 'completo';
+            const multEscopo = MULT_ESCOPO[escopo] || 1;
+
+            // Overhead do processo (compatibilização, reuniões, revisões, 3D, PPT, etc)
+            const overhead = escopo === 'completo' ? (OVERHEAD_SCOPE[tipo] || 115) : 0;
+
+            const horasBase = Math.round((horasAmbientes + horasExtras + overhead) * multEscopo);
+            return { totalAmbientes, horasBase, horasAmbientes, horasExtras, overhead };
+        }
+
+        // ─── CALCULAR PROJETO ─────────────────────────────────────────
+        function calcularProjeto() {
+            const tipo = document.getElementById('tipo').value;
+            const escopo = document.getElementById('escopo').value;
+
+            if (!tipo) { mostrarErro('erro-projeto', 'Selecione o tipo de projeto.'); return; }
+            if (!escopo) { mostrarErro('erro-projeto', 'Selecione o escopo contratado.'); return; }
+
+            const { totalAmbientes, horasBase, horasAmbientes, horasExtras, overhead } = calcularHoras();
+
+            if (totalAmbientes === 0) {
+                mostrarErro('erro-projeto', 'Informe pelo menos um ambiente.');
+                return;
+            }
+
+            const custoHora = CUSTO_HORA[tipo];
+            const valorIdeal   = Math.round(horasBase * custoHora);
+            const valorMin     = Math.round(valorIdeal * 0.85);
+            const valorPremium = Math.round(valorIdeal * 1.25);
+            const prazo = Math.ceil(horasBase / HORAS_POR_DIA);
+
+            document.getElementById('valor-projeto-ideal').textContent =
+                `R$ ${valorIdeal.toLocaleString('pt-BR')}`;
+            document.getElementById('res-horas').textContent =
+                `${horasAmbientes}h ambientes + ${horasExtras}h extras + ${overhead}h processo = ${horasBase}h total`;
+            document.getElementById('res-custo-hora').textContent =
+                `R$ ${custoHora}/hora × ${horasBase}h`;
+            document.getElementById('valor-projeto-min').textContent =
+                `R$ ${valorMin.toLocaleString('pt-BR')}`;
+            document.getElementById('valor-projeto-rec').textContent =
+                `R$ ${valorIdeal.toLocaleString('pt-BR')}`;
+            document.getElementById('valor-projeto-max').textContent =
+                `R$ ${valorPremium.toLocaleString('pt-BR')}`;
+            document.getElementById('res-prazo').textContent =
+                `~${prazo} dias úteis (${horasBase}h ÷ 5h/dia)`;
+
+            mostrarResultado('resultado-projeto');
+            document.getElementById('resultado-projeto').scrollIntoView(
+                { behavior: 'smooth', block: 'start' }
+            );
+        }
+
+        // Calcular Acompanhamento
+        function calcularAcompanhamento() {
+            const fornecedoresSelecionados = document.querySelectorAll('.fornecedor-checkbox:checked');
+            const numVisitas = parseInt(document.getElementById('num-visitas').value) || 0;
+            const horasExtras = parseInt(document.getElementById('horas-extras').value) || 0;
+            const soOrcamento = document.getElementById('so-orcamento').checked;
+
+            if (fornecedoresSelecionados.length === 0) {
+                mostrarErro('erro-acompanhamento', 'Selecione pelo menos um fornecedor.');
+                return;
+            }
+
+            // Valores
+            const VALOR_POR_VISITA = 500;
+            const VALOR_HORA_DUVIDA = 150;
+
+            // Calcular valor total dos orçamentos (soma dos valores individuais)
+            let valorOrcamentos = 0;
+            let breakdownFornecedores = '';
+            
+            fornecedoresSelecionados.forEach(cb => {
+                const valor = parseInt(cb.getAttribute('data-valor'));
+                valorOrcamentos += valor;
+            });
+
+            const valorVisitas = soOrcamento ? 0 : (numVisitas * VALOR_POR_VISITA);
+            const valorDuvidas = soOrcamento ? 0 : (horasExtras * VALOR_HORA_DUVIDA);
+            
+            // Aplicar desconto de 6% para pacotes com mais de 3 visitas
+            const descontoPacote = numVisitas > 3 ? 0.06 : 0;
+            const subtotal = valorOrcamentos + valorVisitas + valorDuvidas;
+            const valorDesconto = Math.round(subtotal * descontoPacote);
+            const valorTotal = subtotal - valorDesconto;
+
+            // Montar breakdown
+            let breakdown = `
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Orçamentos (${fornecedoresSelecionados.length} fornecedores)</span>
+                    <span class="breakdown-value">R$ ${valorOrcamentos.toLocaleString('pt-BR')}</span>
+                </div>
+            `;
+
+            if (!soOrcamento) {
+                if (numVisitas > 0) {
+                    breakdown += `
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Visitas (${numVisitas} × R$ 500)</span>
+                            <span class="breakdown-value">R$ ${valorVisitas.toLocaleString('pt-BR')}</span>
+                        </div>
+                    `;
+                }
+                if (horasExtras > 0) {
+                    breakdown += `
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Dúvidas/Alterações (${horasExtras}h × R$ 150)</span>
+                            <span class="breakdown-value">R$ ${valorDuvidas.toLocaleString('pt-BR')}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            // Mostrar desconto se aplicável
+            if (descontoPacote > 0) {
+                breakdown += `
+                    <div class="breakdown-item" style="color: var(--verde-escuro);">
+                        <span class="breakdown-label">Subtotal</span>
+                        <span class="breakdown-value">R$ ${subtotal.toLocaleString('pt-BR')}</span>
+                    </div>
+                    <div class="breakdown-item" style="color: var(--terracota);">
+                        <span class="breakdown-label">🎁 Desconto Pacote (6% - mais de 3 visitas)</span>
+                        <span class="breakdown-value">- R$ ${valorDesconto.toLocaleString('pt-BR')}</span>
+                    </div>
+                `;
+            }
+
+            breakdown += `
+                <div class="breakdown-item">
+                    <span class="breakdown-label">TOTAL</span>
+                    <span class="breakdown-value">R$ ${valorTotal.toLocaleString('pt-BR')}</span>
+                </div>
+            `;
+
+            document.getElementById('valor-acompanhamento-total').textContent = `R$ ${valorTotal.toLocaleString('pt-BR')}`;
+            document.getElementById('breakdown-acompanhamento').innerHTML = breakdown;
+            mostrarResultado('resultado-acompanhamento');
+            document.getElementById('resultado-acompanhamento').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function limparTudo() {
+            // Aba projeto
+            const tipo = document.getElementById('tipo');
+            const escopo = document.getElementById('escopo');
+            const fachada = document.getElementById('tipo-fachada');
+            if (tipo) tipo.value = '';
+            if (escopo) escopo.value = '';
+            if (fachada) fachada.value = '';
+            const paisagismo = document.getElementById('tem-paisagismo');
+            const reforma = document.getElementById('e-reforma');
+            if (paisagismo) paisagismo.checked = false;
+            if (reforma) reforma.checked = false;
+            document.querySelectorAll('.amb-input').forEach(i => i.value = 0);
+            document.getElementById('ambientes-residencial').style.display = 'none';
+            document.getElementById('ambientes-comercial').style.display = 'none';
+            const totAmb = document.getElementById('total-amb-display');
+            const totHoras = document.getElementById('total-horas-display');
+            if (totAmb) totAmb.textContent = '0';
+            if (totHoras) totHoras.textContent = '0h';
+            document.getElementById('resultado-projeto').style.display = 'none';
+
+            // Aba acompanhamento
+            document.querySelectorAll('.fornecedor-checkbox').forEach(cb => cb.checked = false);
+            const numVisitas = document.getElementById('num-visitas');
+            const horasExtras = document.getElementById('horas-extras');
+            const soOrc = document.getElementById('so-orcamento');
+            const totalForn = document.getElementById('total-fornecedores');
+            if (numVisitas) numVisitas.value = '';
+            if (horasExtras) horasExtras.value = '';
+            if (soOrc) soOrc.checked = false;
+            if (totalForn) totalForn.textContent = '0';
+            document.getElementById('resultado-acompanhamento').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -41,7 +41,7 @@
         
         <div class="container hero-content-dual">
             <!-- Esquerda: Orçamento Prévio -->
-            <div class="hero-card simulator-promo">
+            <div class="hero-card simulator-promo reveal">
                 <span class="badge">Passo 1: Estimativa Imediata</span>
                 <h2 class="hero-path-title">Calcule o Valor do Seu Projeto</h2>
                 <p class="hero-path-desc">Tenha uma noção real de investimento e prazo em menos de 1 minuto, sem compromisso.</p>
@@ -53,7 +53,7 @@
             </div>
             
             <!-- Direita: Contato Direto -->
-            <div class="hero-card contact-promo">
+            <div class="hero-card contact-promo reveal">
                 <span class="badge" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff;">Exclusivo: Presencial ou Online</span>
                 <h2 class="hero-path-title">Consultoria com Arquitetas</h2>
                 <p class="hero-path-desc" style="color: rgba(255,255,255,0.7);">Prefere um atendimento personalizado? Agende uma reunião para um orçamento executivo detalhado.</p>
@@ -72,7 +72,7 @@
     </section>
 
     <!-- Services Section -->
-    <section class="services section-padding" id="servicos">
+    <section class="services-section section-padding reveal" id="servicos">
         <div class="container">
             <div class="section-header text-center">
                 <span class="badge badge-dark">Nossas Especialidades</span>
@@ -106,7 +106,7 @@
     </section>
 
     <!-- Simulador de Orçamento -->
-    <section class="section-padding orc-section" id="orcamento">
+    <section class="section-padding orc-section reveal" id="orcamento">
         <div class="container">
             <div class="section-header text-center">
                 <span class="badge">Passo 1: Qualificação</span>
@@ -305,8 +305,8 @@
 
                     <div id="orc-erro-4" class="orc-erro">Preencha nome e WhatsApp para continuar.</div>
 
-                    <button class="orc-btn-whatsapp" onclick="orcEnviarWhatsApp()">
-                        💬 Solicitar Confirmação via WhatsApp
+                    <button class="orc-btn-pri" style="width: 100%; margin-top: 20px; font-size: 16px; padding: 20px;" onclick="orcEnviarCRM()">
+                        🚀 Confirmar Estimativa e Solicitar Contato Real
                     </button>
 
                     <div class="orc-btn-nav" style="margin-top:16px;">
@@ -314,12 +314,11 @@
                     </div>
                 </div>
 
-                <!-- SUCESSO -->
                 <div class="orc-step" id="orc-sucesso">
                     <div class="orc-sucesso">
-                        <div style="font-size:3.5rem; margin-bottom:20px;">✅</div>
-                        <h3 class="orc-sucesso-titulo">Solicitação enviada!</h3>
-                        <p class="orc-sucesso-texto">Nossa equipe entrará em contato em até <strong>24 horas úteis</strong> para confirmar o orçamento e agendar uma conversa sobre seu projeto.</p>
+                        <div style="font-size: 3.5rem; margin-bottom: 20px;">🛎️</div>
+                        <h3 class="orc-sucesso-titulo">Solicitação Confirmada!</h3>
+                        <p class="orc-sucesso-texto">Sua estimativa foi enviada para nossas arquitetas. <strong>Por favor, aguarde:</strong> nossa equipe entrará em contato em breve para agendar seu briefing e o orçamento final.</p>
                         <span class="orc-sucesso-badge">AMO Arquitetura e Interiores</span>
                     </div>
                 </div>
@@ -329,7 +328,7 @@
     </section>
 
     <!-- About Section -->
-    <section class="about section-padding bg-light" id="sobre">
+    <section class="about-section section-padding bg-light reveal" id="sobre">
         <div class="container about-content">
             <div class="about-image-wrapper">
                 <div class="about-image-placeholder">

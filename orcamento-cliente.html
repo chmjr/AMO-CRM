@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simule seu Projeto — Studio da Nina</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracota: #C67357;
+            --laranja: #E67E50;
+            --verde: #7A9B76;
+            --verde-escuro: #5A7A56;
+            --bege: #F5F1ED;
+            --marfim: #FDFBF7;
+            --cinza: #4A4A4A;
+            --cinza-claro: #E8E4DF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--marfim);
+            color: var(--cinza);
+            line-height: 1.6;
+        }
+
+        /* ── HERO ──────────────────────────────────────────── */
+        .hero {
+            background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem 3.5rem;
+        }
+        .hero-logo {
+            font-family: 'Cormorant', serif;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-family: 'Cormorant', serif;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.05rem;
+            opacity: 0.88;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* ── PROGRESS ──────────────────────────────────────── */
+        .wizard-wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+        .progress-step {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--cinza-claro);
+            color: var(--cinza);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+        .progress-step.ativo {
+            background: var(--verde-escuro);
+            color: white;
+            box-shadow: 0 0 0 5px rgba(90,122,86,0.18);
+        }
+        .progress-step.feito {
+            background: var(--verde);
+            color: white;
+        }
+        .progress-step.feito::after {
+            content: '✓';
+            position: absolute;
+            font-size: 1rem;
+        }
+        .progress-step.feito span { display: none; }
+        .progress-line {
+            flex: 1;
+            height: 2px;
+            background: var(--cinza-claro);
+            max-width: 100px;
+            transition: background 0.4s ease;
+        }
+        .progress-line.feito { background: var(--verde); }
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.6rem;
+            padding: 0 4px;
+        }
+        .progress-label {
+            font-size: 0.72rem;
+            color: var(--verde-escuro);
+            text-align: center;
+            flex: 1;
+            opacity: 0.7;
+        }
+        .progress-label.ativo { opacity: 1; font-weight: 600; }
+
+        /* ── STEPS ─────────────────────────────────────────── */
+        .wizard-step { display: none; }
+        .wizard-step.ativo {
+            display: block;
+            animation: fadeSlide 0.35s ease;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-titulo {
+            font-family: 'Cormorant', serif;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 500;
+            color: var(--cinza);
+            margin-bottom: 0.4rem;
+        }
+        .step-subtitulo {
+            font-size: 0.98rem;
+            color: var(--verde-escuro);
+            margin-bottom: 2rem;
+        }
+
+        /* ── STEP 1: TIPO ──────────────────────────────────── */
+        .tipo-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 500px) {
+            .tipo-cards { grid-template-columns: 1fr; }
+        }
+        .tipo-card {
+            background: white;
+            border: 2px solid var(--cinza-claro);
+            border-radius: 14px;
+            padding: 2.5rem 1.5rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.25s ease;
+            font-family: 'DM Sans', sans-serif;
+            display: block;
+            width: 100%;
+        }
+        .tipo-card:hover {
+            border-color: var(--verde);
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(90,122,86,0.14);
+        }
+        .tipo-card.selecionado {
+            border-color: var(--verde-escuro);
+            background: #f0f5ef;
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(90,122,86,0.14);
+        }
+        .tipo-icone { font-size: 2.8rem; margin-bottom: 1rem; }
+        .tipo-nome {
+            font-family: 'Cormorant', serif;
+            font-size: 1.7rem;
+            font-weight: 500;
+            color: var(--cinza);
+            margin-bottom: 0.35rem;
+        }
+        .tipo-desc { font-size: 0.88rem; color: var(--verde-escuro); }
+
+        /* ── STEP 2: AMBIENTES ─────────────────────────────── */
+        .ambientes-categoria { margin-bottom: 1.5rem; }
+        .categoria-titulo {
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--verde-escuro);
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            border-bottom: 1px solid var(--cinza-claro);
+        }
+        .ambiente-linha {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.85rem 0;
+            border-bottom: 1px solid var(--bege);
+        }
+        .ambiente-info { flex: 1; }
+        .ambiente-nome { font-size: 0.96rem; font-weight: 500; }
+        .ambiente-tag { font-size: 0.75rem; color: var(--verde-escuro); opacity: 0.75; }
+
+        .contador {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .contador-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid var(--cinza-claro);
+            background: white;
+            font-size: 1.1rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--cinza);
+            font-family: 'DM Sans', sans-serif;
+        }
+        .contador-btn:hover { border-color: var(--verde); background: var(--bege); }
+        .contador-btn.menos:hover { border-color: var(--terracota); }
+        .contador-valor {
+            font-family: 'Cormorant', serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            width: 28px;
+            text-align: center;
+            color: var(--cinza-claro);
+            transition: color 0.2s ease;
+        }
+        .contador-valor.ativo { color: var(--terracota); }
+
+        .resumo-ambientes {
+            background: var(--bege);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.5rem 0 0.5rem;
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .resumo-ambientes strong {
+            font-family: 'Cormorant', serif;
+            font-size: 1.6rem;
+            color: var(--terracota);
+        }
+
+        /* ── STEP 3: DETALHES ──────────────────────────────── */
+        .detalhe-card {
+            background: white;
+            border: 2px solid var(--cinza-claro);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .detalhe-card-titulo {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--cinza);
+        }
+        .radio-grupo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+        }
+        .radio-opcao {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1rem;
+            border: 2px solid var(--cinza-claro);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .radio-opcao input[type="radio"] { display: none; }
+        .radio-opcao.selecionado {
+            border-color: var(--verde-escuro);
+            background: #f0f5ef;
+            color: var(--verde-escuro);
+            font-weight: 600;
+        }
+        .check-opcao {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.85rem 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .check-opcao:hover { background: var(--bege); }
+        .check-opcao input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--verde-escuro);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .check-nome { font-size: 0.95rem; font-weight: 500; }
+        .check-desc { font-size: 0.82rem; color: var(--verde-escuro); margin-top: 0.1rem; }
+
+        /* ── STEP 4: RESULTADO ─────────────────────────────── */
+        .aviso-preliminar {
+            background: #FFF8E7;
+            border-left: 4px solid #F4A623;
+            padding: 1rem 1.2rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #7A5A00;
+        }
+        .aviso-preliminar strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .resultado-card {
+            background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 14px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .resultado-rotulo {
+            font-size: 0.8rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            opacity: 0.82;
+            margin-bottom: 0.75rem;
+        }
+        .resultado-faixa {
+            font-family: 'Cormorant', serif;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+        .resultado-rec {
+            font-size: 0.9rem;
+            opacity: 0.88;
+            margin-bottom: 2rem;
+        }
+        .resultado-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        @media (max-width: 420px) {
+            .resultado-grid { grid-template-columns: 1fr; }
+        }
+        .resultado-item {
+            background: rgba(255,255,255,0.12);
+            padding: 0.85rem 0.5rem;
+            border-radius: 8px;
+        }
+        .resultado-item-valor {
+            font-family: 'Cormorant', serif;
+            font-size: 1.35rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+        .resultado-item-label {
+            font-size: 0.72rem;
+            opacity: 0.82;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .resultado-acomp-nota {
+            display: none;
+            margin-top: 1.5rem;
+            background: rgba(255,255,255,0.14);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            opacity: 0.95;
+        }
+
+        /* ── FORMULÁRIO ────────────────────────────────────── */
+        .form-section {
+            background: white;
+            border: 2px solid var(--cinza-claro);
+            border-radius: 14px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-section h3 {
+            font-family: 'Cormorant', serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+        .form-section > p {
+            font-size: 0.9rem;
+            color: var(--verde-escuro);
+            margin-bottom: 1.5rem;
+        }
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 480px) {
+            .form-grid-2 { grid-template-columns: 1fr; }
+        }
+        .form-grupo { margin-bottom: 1.1rem; }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.88rem;
+            margin-bottom: 0.4rem;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid var(--cinza-claro);
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            background: var(--marfim);
+            transition: border-color 0.2s ease;
+        }
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--verde);
+            background: white;
+        }
+        .form-textarea { resize: vertical; min-height: 80px; }
+
+        /* ── BOTÕES ────────────────────────────────────────── */
+        .btn-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            align-items: center;
+        }
+        .btn-nav.fim { justify-content: flex-start; }
+        .btn {
+            padding: 0.95rem 2rem;
+            border-radius: 30px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: none;
+        }
+        .btn-primario {
+            background: var(--verde-escuro);
+            color: white;
+            flex: 1;
+        }
+        .btn-primario:hover {
+            background: var(--verde);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(90,122,86,0.28);
+        }
+        .btn-secundario {
+            background: white;
+            color: var(--cinza);
+            border: 2px solid var(--cinza-claro);
+            white-space: nowrap;
+        }
+        .btn-secundario:hover { background: var(--bege); }
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            width: 100%;
+            padding: 1.1rem;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .btn-whatsapp:hover {
+            background: #1db954;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(37,211,102,0.32);
+        }
+
+        /* ── ERROS ─────────────────────────────────────────── */
+        .step-erro {
+            background: #fff5f2;
+            border-left: 3px solid var(--terracota);
+            color: var(--terracota);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            display: none;
+        }
+        .step-erro.visivel { display: block; }
+
+        /* ── SUCESSO ───────────────────────────────────────── */
+        .sucesso-estado {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        .sucesso-icone { font-size: 4rem; margin-bottom: 1.2rem; }
+        .sucesso-estado h2 {
+            font-family: 'Cormorant', serif;
+            font-size: 2.4rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        .sucesso-estado p {
+            font-size: 1.05rem;
+            color: var(--verde-escuro);
+            max-width: 400px;
+            margin: 0 auto 2rem;
+        }
+        .sucesso-badge {
+            display: inline-block;
+            background: var(--bege);
+            border: 1px solid var(--cinza-claro);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--verde-escuro);
+            font-weight: 500;
+        }
+
+        /* ── MOBILE ────────────────────────────────────────── */
+        @media (max-width: 600px) {
+            .resultado-card { padding: 2rem 1.25rem; }
+            .form-section { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <header class="hero">
+        <div class="hero-logo">Studio da Nina</div>
+        <h1>Descubra o valor do seu projeto</h1>
+        <p>Estimativa personalizada em menos de 2 minutos — sem compromisso</p>
+    </header>
+
+    <div class="wizard-wrapper">
+
+        <!-- Barra de progresso -->
+        <div class="progress-bar">
+            <div class="progress-step ativo" id="ps-1"><span>1</span></div>
+            <div class="progress-line" id="pl-1"></div>
+            <div class="progress-step" id="ps-2"><span>2</span></div>
+            <div class="progress-line" id="pl-2"></div>
+            <div class="progress-step" id="ps-3"><span>3</span></div>
+            <div class="progress-line" id="pl-3"></div>
+            <div class="progress-step" id="ps-4"><span>4</span></div>
+        </div>
+        <div class="progress-labels">
+            <span class="progress-label ativo" id="pl-label-1">Tipo</span>
+            <span class="progress-label" id="pl-label-2">Ambientes</span>
+            <span class="progress-label" id="pl-label-3">Detalhes</span>
+            <span class="progress-label" id="pl-label-4">Estimativa</span>
+        </div>
+
+        <!-- ── PASSO 1: TIPO ── -->
+        <section id="passo-1" class="wizard-step ativo">
+            <h2 class="step-titulo">Qual é o tipo do seu projeto?</h2>
+            <p class="step-subtitulo">Selecione uma opção para começar</p>
+            <div class="tipo-cards">
+                <button class="tipo-card" id="card-residencial" onclick="selecionarTipo('Residencial')">
+                    <div class="tipo-icone">🏠</div>
+                    <div class="tipo-nome">Residencial</div>
+                    <div class="tipo-desc">Apartamento, casa ou área privativa</div>
+                </button>
+                <button class="tipo-card" id="card-comercial" onclick="selecionarTipo('Comercial')">
+                    <div class="tipo-icone">🏪</div>
+                    <div class="tipo-nome">Comercial</div>
+                    <div class="tipo-desc">Loja, escritório, restaurante</div>
+                </button>
+            </div>
+        </section>
+
+        <!-- ── PASSO 2: AMBIENTES ── -->
+        <section id="passo-2" class="wizard-step">
+            <h2 class="step-titulo">Quais ambientes serão projetados?</h2>
+            <p class="step-subtitulo">Informe a quantidade de cada ambiente</p>
+            <div id="ambientes-container"></div>
+            <div class="resumo-ambientes">
+                <span><strong id="s2-total-amb">0</strong> ambiente(s)</span>
+                <span style="font-size:0.85rem; color:var(--verde-escuro);">Selecione ao menos um para continuar</span>
+            </div>
+            <div id="erro-passo2" class="step-erro">Selecione pelo menos um ambiente para continuar.</div>
+            <div class="btn-nav">
+                <button class="btn btn-secundario" onclick="irParaPasso(1)">← Voltar</button>
+                <button class="btn btn-primario" onclick="proximoDoPasso2()">Próximo →</button>
+            </div>
+        </section>
+
+        <!-- ── PASSO 3: DETALHES ── -->
+        <section id="passo-3" class="wizard-step">
+            <h2 class="step-titulo">Detalhes do projeto</h2>
+            <p class="step-subtitulo">Algumas informações finais para refinar a estimativa</p>
+
+            <!-- Escopo -->
+            <div class="detalhe-card">
+                <div class="detalhe-card-titulo">O que será entregue?</div>
+                <div class="radio-grupo" id="rg-escopo">
+                    <label class="radio-opcao selecionado" data-val="completo" onclick="selecionarRadio('rg-escopo', this)">
+                        <input type="radio" name="escopo" value="completo" checked>
+                        Projeto completo — layout, 3D e executivo
+                    </label>
+                    <label class="radio-opcao" data-val="layout" onclick="selecionarRadio('rg-escopo', this)">
+                        <input type="radio" name="escopo" value="layout">
+                        Apenas planta baixa (layout)
+                    </label>
+                </div>
+            </div>
+
+            <!-- Fachada -->
+            <div class="detalhe-card">
+                <div class="detalhe-card-titulo">O projeto inclui fachada?</div>
+                <div class="radio-grupo" id="rg-fachada">
+                    <label class="radio-opcao selecionado" data-val="" onclick="selecionarRadio('rg-fachada', this)">
+                        <input type="radio" name="fachada" value="" checked>
+                        Não inclui
+                    </label>
+                    <label class="radio-opcao" data-val="simples" onclick="selecionarRadio('rg-fachada', this)">
+                        <input type="radio" name="fachada" value="simples">
+                        Sim, simples (pequenas mudanças)
+                    </label>
+                    <label class="radio-opcao" data-val="complexa" onclick="selecionarRadio('rg-fachada', this)">
+                        <input type="radio" name="fachada" value="complexa">
+                        Sim, com reformas e alterações
+                    </label>
+                </div>
+            </div>
+
+            <!-- Adicionais -->
+            <div class="detalhe-card">
+                <div class="detalhe-card-titulo">Adicionais</div>
+                <label class="check-opcao">
+                    <input type="checkbox" id="chk-reforma">
+                    <div>
+                        <div class="check-nome">É uma reforma</div>
+                        <div class="check-desc">O projeto inclui plantas de demolição e construção</div>
+                    </div>
+                </label>
+                <label class="check-opcao">
+                    <input type="checkbox" id="chk-paisagismo">
+                    <div>
+                        <div class="check-nome">Inclui paisagismo</div>
+                        <div class="check-desc">Projeto de jardim e áreas externas</div>
+                    </div>
+                </label>
+                <label class="check-opcao">
+                    <input type="checkbox" id="chk-acomp">
+                    <div>
+                        <div class="check-nome">Tenho interesse em acompanhamento de obra</div>
+                        <div class="check-desc">Gestão de fornecedores e visitas durante a execução — valor confirmado pela equipe</div>
+                    </div>
+                </label>
+            </div>
+
+            <div class="btn-nav">
+                <button class="btn btn-secundario" onclick="irParaPasso(2)">← Voltar</button>
+                <button class="btn btn-primario" onclick="calcularEIrPasso4()">Ver minha estimativa →</button>
+            </div>
+        </section>
+
+        <!-- ── PASSO 4: RESULTADO + FORMULÁRIO ── -->
+        <section id="passo-4" class="wizard-step">
+            <div class="aviso-preliminar">
+                <strong>⚠️ Estimativa preliminar</strong>
+                Os valores abaixo são uma estimativa baseada nas informações fornecidas. Nossa equipe analisará os detalhes do seu projeto e confirmará os valores reais em até 24 horas úteis.
+            </div>
+
+            <div class="resultado-card">
+                <div class="resultado-rotulo">Estimativa para o seu projeto</div>
+                <div class="resultado-faixa" id="res-faixa">—</div>
+                <div class="resultado-rec" id="res-rec">—</div>
+                <div class="resultado-grid">
+                    <div class="resultado-item">
+                        <div class="resultado-item-valor" id="res-min">—</div>
+                        <div class="resultado-item-label">Mínimo</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-item-valor" id="res-recomendado">—</div>
+                        <div class="resultado-item-label">Recomendado</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-item-valor" id="res-prazo">—</div>
+                        <div class="resultado-item-label">Prazo estimado</div>
+                    </div>
+                </div>
+                <div class="resultado-acomp-nota" id="res-acomp-nota">
+                    🏗️ Acompanhamento de obra: valor a confirmar conforme fornecedores e escopo
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Confirme sua estimativa</h3>
+                <p>Preencha seus dados e nossa equipe entrará em contato para confirmar o orçamento real do seu projeto.</p>
+                <div class="form-grid-2">
+                    <div class="form-grupo">
+                        <label class="form-label" for="f-nome">Nome completo *</label>
+                        <input type="text" class="form-input" id="f-nome" placeholder="Seu nome completo" autocomplete="name">
+                    </div>
+                    <div class="form-grupo">
+                        <label class="form-label" for="f-whatsapp">WhatsApp *</label>
+                        <input type="tel" class="form-input" id="f-whatsapp" placeholder="(11) 99999-9999" autocomplete="tel">
+                    </div>
+                </div>
+                <div class="form-grupo">
+                    <label class="form-label" for="f-email">E-mail</label>
+                    <input type="email" class="form-input" id="f-email" placeholder="seu@email.com" autocomplete="email">
+                </div>
+                <div class="form-grupo">
+                    <label class="form-label" for="f-desc">Conte um pouco sobre seu projeto <span style="font-weight:400; opacity:0.6;">(opcional)</span></label>
+                    <textarea class="form-textarea" id="f-desc" placeholder="Ex: apartamento de 80m² na Vila Madalena, reforma completa, estilo contemporâneo…"></textarea>
+                </div>
+                <div id="erro-form" class="step-erro">Por favor, preencha nome e WhatsApp para continuar.</div>
+                <button class="btn btn-whatsapp" onclick="enviarWhatsApp()">
+                    💬 Enviar para o WhatsApp do Studio
+                </button>
+            </div>
+
+            <div class="btn-nav fim">
+                <button class="btn btn-secundario" onclick="irParaPasso(3)">← Ajustar detalhes</button>
+            </div>
+        </section>
+
+        <!-- ── SUCESSO ── -->
+        <section id="passo-sucesso" class="wizard-step">
+            <div class="sucesso-estado">
+                <div class="sucesso-icone">✅</div>
+                <h2>Solicitação enviada!</h2>
+                <p>Nossa equipe entrará em contato em até <strong>24 horas úteis</strong> para confirmar o orçamento e agendar uma conversa sobre seu projeto.</p>
+                <span class="sucesso-badge">Studio da Nina — Design de Interiores</span>
+            </div>
+        </section>
+
+    </div><!-- /wizard-wrapper -->
+
+    <script>
+        // ─── DADOS ──────────────────────────────────────────────────────
+        const AMBIENTES = {
+            Residencial: [
+                {
+                    cat: 'Quartos',
+                    items: [
+                        { id: 'quarto-simples',        nome: 'Quarto (sem closet)',                    tag: 'Simples',  horas: 28 },
+                        { id: 'quarto-infantil',       nome: 'Quarto infantil',                        tag: 'Médio',    horas: 38 },
+                        { id: 'suite',                 nome: 'Suíte master',                           tag: 'Médio',    horas: 38 },
+                        { id: 'closet',                nome: 'Closet',                                 tag: 'Médio',    horas: 38 },
+                    ]
+                },
+                {
+                    cat: 'Banheiros',
+                    items: [
+                        { id: 'lavabo',                nome: 'Lavabo',                                 tag: 'Simples',  horas: 20 },
+                        { id: 'banheiro-simples',      nome: 'Banheiro simples',                       tag: 'Simples',  horas: 22 },
+                        { id: 'banheiro-revestimento', nome: 'Banheiro com reforma de revestimento',   tag: 'Médio',    horas: 38 },
+                        { id: 'banheiro-hidro',        nome: 'Banheiro com banheira ou hidromassagem', tag: 'Complexo', horas: 50 },
+                    ]
+                },
+                {
+                    cat: 'Áreas Sociais',
+                    items: [
+                        { id: 'sala',                  nome: 'Sala de estar / TV / jantar',            tag: 'Simples',  horas: 28 },
+                        { id: 'cozinha-simples',       nome: 'Cozinha',                                tag: 'Médio',    horas: 32 },
+                        { id: 'cozinha-gourmet',       nome: 'Cozinha gourmet / área gourmet',         tag: 'Complexo', horas: 65 },
+                        { id: 'lavanderia',            nome: 'Lavanderia, sacada ou varanda',          tag: 'Simples',  horas: 15 },
+                        { id: 'area-externa-res',      nome: 'Área externa (piscina, jardim)',         tag: 'Médio',    horas: 42 },
+                    ]
+                },
+            ],
+            Comercial: [
+                {
+                    cat: 'Ambientes Comerciais',
+                    items: [
+                        { id: 'deposito',   nome: 'Depósito / Almoxarifado',                        tag: 'Simples',  horas: 12 },
+                        { id: 'ban-com',    nome: 'Banheiro / Lavabo',                              tag: 'Simples',  horas: 22 },
+                        { id: 'sala-com',   nome: 'Recepção / Sala de reunião / Escritório',        tag: 'Médio',    horas: 38 },
+                        { id: 'salao',      nome: 'Salão principal / Área de atendimento',          tag: 'Médio',    horas: 38 },
+                        { id: 'cozinha-com',nome: 'Cozinha comercial',                              tag: 'Médio',    horas: 38 },
+                        { id: 'cozinha-ind',nome: 'Cozinha industrial',                             tag: 'Complexo', horas: 72 },
+                    ]
+                }
+            ]
+        };
+
+        const OVERHEAD   = { Residencial: 115, Comercial: 55 };
+        const CUSTO_HORA = { Residencial: 50,  Comercial: 47 };
+        const MULT_ESCOPO = { completo: 1.0, layout: 0.40 };
+
+        // ─── ESTADO ─────────────────────────────────────────────────────
+        const estado = { tipo: null, qtd: {}, calc: null };
+
+        // ─── PASSO 1 ─────────────────────────────────────────────────────
+        function selecionarTipo(tipo) {
+            estado.tipo = tipo;
+            estado.qtd  = {};
+            document.getElementById('card-residencial').classList.toggle('selecionado', tipo === 'Residencial');
+            document.getElementById('card-comercial').classList.toggle('selecionado',   tipo === 'Comercial');
+            construirAmbientes(tipo);
+            setTimeout(() => irParaPasso(2), 180);
+        }
+
+        // ─── CONSTRUIR AMBIENTES ─────────────────────────────────────────
+        function construirAmbientes(tipo) {
+            const cats = AMBIENTES[tipo];
+            const html = cats.map(cat => `
+                <div class="ambientes-categoria">
+                    <div class="categoria-titulo">${cat.cat}</div>
+                    ${cat.items.map(item => `
+                        <div class="ambiente-linha">
+                            <div class="ambiente-info">
+                                <div class="ambiente-nome">${item.nome}</div>
+                                <div class="ambiente-tag">${item.tag} · ${item.horas}h</div>
+                            </div>
+                            <div class="contador">
+                                <button class="contador-btn menos" onclick="mudarQtd('${item.id}', -1)" aria-label="Remover ${item.nome}">−</button>
+                                <span class="contador-valor" id="cv-${item.id}">0</span>
+                                <button class="contador-btn mais" onclick="mudarQtd('${item.id}', 1)"  aria-label="Adicionar ${item.nome}">+</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+            document.getElementById('ambientes-container').innerHTML = html;
+        }
+
+        function mudarQtd(id, delta) {
+            const atual = estado.qtd[id] || 0;
+            const novo  = Math.max(0, atual + delta);
+            estado.qtd[id] = novo;
+            const el = document.getElementById('cv-' + id);
+            if (el) {
+                el.textContent = novo;
+                el.classList.toggle('ativo', novo > 0);
+            }
+            atualizarResumoAmbientes();
+        }
+
+        function atualizarResumoAmbientes() {
+            const total = Object.values(estado.qtd).reduce((s, v) => s + v, 0);
+            document.getElementById('s2-total-amb').textContent = total;
+        }
+
+        function horasAmbientes() {
+            let h = 0;
+            const todos = (AMBIENTES[estado.tipo] || []).flatMap(c => c.items);
+            todos.forEach(item => { h += (estado.qtd[item.id] || 0) * item.horas; });
+            return h;
+        }
+
+        // ─── PASSO 2 → 3 ────────────────────────────────────────────────
+        function proximoDoPasso2() {
+            const total = Object.values(estado.qtd).reduce((s, v) => s + v, 0);
+            const err = document.getElementById('erro-passo2');
+            if (total === 0) { err.classList.add('visivel'); return; }
+            err.classList.remove('visivel');
+            irParaPasso(3);
+        }
+
+        // ─── RADIO OPCOES ────────────────────────────────────────────────
+        function selecionarRadio(grupoId, labelClicado) {
+            document.querySelectorAll(`#${grupoId} .radio-opcao`).forEach(l => l.classList.remove('selecionado'));
+            labelClicado.classList.add('selecionado');
+            labelClicado.querySelector('input').checked = true;
+        }
+
+        // ─── CALCULAR E IR PARA PASSO 4 ─────────────────────────────────
+        function calcularEIrPasso4() {
+            const tipo     = estado.tipo;
+            const escopo   = document.querySelector('input[name="escopo"]:checked')?.value   || 'completo';
+            const fachada  = document.querySelector('input[name="fachada"]:checked')?.value  || '';
+            const reforma    = document.getElementById('chk-reforma').checked;
+            const paisagismo = document.getElementById('chk-paisagismo').checked;
+            const acomp      = document.getElementById('chk-acomp').checked;
+
+            let extras = 0;
+            if (fachada === 'simples')   extras += 42;
+            if (fachada === 'complexa')  extras += 120;
+            if (paisagismo)              extras += 20;
+            if (reforma)                 extras += 25;
+
+            const mult    = MULT_ESCOPO[escopo] || 1;
+            const overhead = escopo === 'completo' ? (OVERHEAD[tipo] || 115) : 0;
+            const horasBase = Math.round((horasAmbientes() + extras + overhead) * mult);
+
+            const custo   = CUSTO_HORA[tipo];
+            const valRec  = Math.round(horasBase * custo);
+            const valMin  = Math.round(valRec * 0.85);
+            const valPrem = Math.round(valRec * 1.25);
+            const semanas = Math.ceil(horasBase / (5 * 5)); // 5h/dia × 5 dias
+
+            estado.calc = { valRec, valMin, valPrem, semanas, escopo, fachada, reforma, paisagismo, acomp, horasBase, tipo };
+
+            const fmt = v => 'R$ ' + v.toLocaleString('pt-BR');
+            document.getElementById('res-faixa').textContent      = `${fmt(valMin)} — ${fmt(valPrem)}`;
+            document.getElementById('res-rec').textContent        = `Valor recomendado: ${fmt(valRec)}`;
+            document.getElementById('res-min').textContent        = fmt(valMin);
+            document.getElementById('res-recomendado').textContent= fmt(valRec);
+            document.getElementById('res-prazo').textContent      = `~${semanas} semanas`;
+            document.getElementById('res-acomp-nota').style.display = acomp ? 'block' : 'none';
+
+            irParaPasso(4);
+        }
+
+        // ─── NAVEGAÇÃO ───────────────────────────────────────────────────
+        function irParaPasso(n) {
+            document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('ativo'));
+            document.getElementById(`passo-${n}`).classList.add('ativo');
+            atualizarProgressBar(n);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function atualizarProgressBar(passoAtual) {
+            const rotulos = ['Tipo', 'Ambientes', 'Detalhes', 'Estimativa'];
+            for (let i = 1; i <= 4; i++) {
+                const ps = document.getElementById(`ps-${i}`);
+                const lb = document.getElementById(`pl-label-${i}`);
+                ps.classList.remove('ativo', 'feito');
+                lb.classList.remove('ativo');
+                if (i < passoAtual)      { ps.classList.add('feito'); }
+                else if (i === passoAtual){ ps.classList.add('ativo'); lb.classList.add('ativo'); }
+            }
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`pl-${i}`).classList.toggle('feito', i < passoAtual);
+            }
+        }
+
+        // ─── WHATSAPP ────────────────────────────────────────────────────
+        function enviarWhatsApp() {
+            const nome  = document.getElementById('f-nome').value.trim();
+            const fone  = document.getElementById('f-whatsapp').value.trim();
+            const email = document.getElementById('f-email').value.trim();
+            const desc  = document.getElementById('f-desc').value.trim();
+            const err   = document.getElementById('erro-form');
+
+            if (!nome || !fone) { err.classList.add('visivel'); return; }
+            err.classList.remove('visivel');
+
+            const c   = estado.calc || {};
+            const fmt = v => 'R$ ' + v.toLocaleString('pt-BR');
+
+            // Montar lista de ambientes selecionados
+            const ambNomes = (AMBIENTES[c.tipo] || [])
+                .flatMap(cat => cat.items)
+                .filter(item => (estado.qtd[item.id] || 0) > 0)
+                .map(item => `• ${estado.qtd[item.id]}x ${item.nome}`)
+                .join('\n');
+
+            const extras = [];
+            if (c.fachada === 'simples')  extras.push('Fachada simples');
+            if (c.fachada === 'complexa') extras.push('Fachada com reformas');
+            if (c.reforma)                extras.push('Reforma');
+            if (c.paisagismo)             extras.push('Paisagismo');
+            if (c.acomp)                  extras.push('Acompanhamento de obra');
+
+            const linhas = [
+                `Olá! Vim pelo simulador do Studio da Nina e gostaria de confirmar meu orçamento.`,
+                ``,
+                `*Meus dados:*`,
+                `Nome: ${nome}`,
+                `WhatsApp: ${fone}`,
+                email ? `E-mail: ${email}` : null,
+                ``,
+                `*Projeto ${c.tipo}:*`,
+                ambNomes,
+                extras.length ? `\nAdicionais: ${extras.join(', ')}` : null,
+                desc   ? `\nSobre o projeto: ${desc}` : null,
+                ``,
+                `*Estimativa calculada:*`,
+                `Mínimo: ${fmt(c.valMin)}`,
+                `Recomendado: ${fmt(c.valRec)}`,
+                `Premium: ${fmt(c.valPrem)}`,
+                `Prazo estimado: ~${c.semanas} semanas`,
+                ``,
+                `Aguardo o contato para confirmar os valores!`,
+            ].filter(l => l !== null && l !== undefined).join('\n');
+
+            // ⚠️ Substitua NUMERO_STUDIO pelo número real: ex. 5511999999999
+            const NUMERO_STUDIO = 'NUMERO_STUDIO';
+            window.open(`https://wa.me/${NUMERO_STUDIO}?text=${encodeURIComponent(linhas)}`, '_blank');
+
+            // Mostrar tela de sucesso
+            document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('ativo'));
+            document.getElementById('passo-sucesso').classList.add('ativo');
+            atualizarProgressBar(5);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
