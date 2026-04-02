@@ -38,7 +38,9 @@ async function initDB() {
                 origin VARCHAR(100),
                 status VARCHAR(50) DEFAULT 'novos',
                 note TEXT DEFAULT '',
+                annotation TEXT DEFAULT '',
                 link TEXT DEFAULT '',
+                est_rec NUMERIC DEFAULT 0,
                 created_at TIMESTAMPTZ DEFAULT NOW()
             );
         `);
@@ -52,28 +54,30 @@ async function initDB() {
 
 // ==================== ROTAS DA API ====================
 
-// GET /api/leads — Retorna todos os leads
+// GET /api/leads — Retorna todos os leads (com filtros opcionais se necessário no futuro)
 app.get('/api/leads', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM leads ORDER BY created_at DESC');
         res.json(result.rows);
     } catch (err) {
+        console.error('Erro GET /api/leads:', err);
         res.status(500).json({ error: 'Erro ao buscar leads.' });
     }
 });
 
-// POST /api/leads — Cria um novo lead (formulário da Landing Page)
+// POST /api/leads — Cria um novo lead
 app.post('/api/leads', async (req, res) => {
-    const { name, phone, email, origin, note } = req.body;
+    const { name, phone, email, origin, note, est_rec } = req.body;
     if (!name || !phone) return res.status(400).json({ error: 'Nome e telefone são obrigatórios.' });
 
     try {
         const result = await pool.query(
-            `INSERT INTO leads (name, phone, email, origin, note) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-            [name, phone, email || '', origin || 'Site/Busca', note || '']
+            `INSERT INTO leads (name, phone, email, origin, note, est_rec) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+            [name, phone, email || '', origin || 'Site/Busca', note || '', est_rec || 0]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
+        console.error('Erro POST /api/leads:', err);
         res.status(500).json({ error: 'Erro ao criar lead.' });
     }
 });

@@ -45,7 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modal Novo Lead
     const modalAdd = document.getElementById('modal-add');
     document.getElementById('btn-add-lead').addEventListener('click', () => modalAdd.classList.add('active'));
-    document.getElementById('btn-close-modal').addEventListener('click', () => modalAdd.classList.remove('active'));
+    document.getElementById('btn-close-modal').onclick = () => modalAdd.classList.remove('active');
+    
+    // Modal Calculadora
+    const modalCalc = document.getElementById('modal-calculator');
+    const btnOpenCalc = document.getElementById('btn-open-calculator');
+    const btnCloseCalc = document.getElementById('btn-close-calculator');
+    if(btnOpenCalc)  btnOpenCalc.onclick = () => modalCalc.classList.add('active');
+    if(btnCloseCalc) btnCloseCalc.onclick = () => modalCalc.classList.remove('active');
+
+    // Fechar ao clicar fora
+    window.onclick = (e) => {
+        if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
+    };
     document.getElementById('form-add-lead').addEventListener('submit', async (e) => {
         e.preventDefault();
         await apiPost({
@@ -203,7 +215,7 @@ function renderBoard() {
             <textarea class="card-input-field card-note" placeholder="Anotação rápida…" onblur="updateField('${lead.id}', 'annotation', this.value)">${escHtml(lead.annotation || '')}</textarea>
             <div class="card-actions">
                 <button class="card-btn card-btn-wa" onclick="window.open('${waLink}','_blank')">💬 WhatsApp</button>
-                ${isCalc || sim ? `<button class="card-btn" onclick="showLeadDetails('${lead.id}')">📋 Orçamento</button>` : `<button class="card-btn" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>`}
+                ${isCalc || sim ? `<button class="card-btn btn-show-orc" onclick="showLeadDetails('${lead.id}')">📋 Orçamento</button>` : `<button class="card-btn" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>`}
             </div>
             <div class="card-footer">
                 <span>📅 ${dateStr}</span>

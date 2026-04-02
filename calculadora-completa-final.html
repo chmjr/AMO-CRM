@@ -19,8 +19,8 @@
       --border-gold:  rgba(197,168,128,0.35);
       --color-primary:#C5A880;
       --color-primary-dim: rgba(197,168,128,0.15);
-      --color-text:   #EAE6DF;
-      --color-muted:  #777;
+      --color-text:   #F5F3EF;
+      --color-muted:  #999;
       --color-danger: #e07070;
       --font-heading: 'Outfit', sans-serif;
       --font-body:    'Inter', sans-serif;
@@ -45,7 +45,7 @@
     .app-wrapper {
       max-width: 960px;
       margin: 0 auto;
-      padding: 0 24px 60px;
+      padding: 0 24px 30px;
     }
 
     /* ─── Header ────────────────────────────────────────────── */
@@ -53,9 +53,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 28px 0 24px;
+      padding: 16px 0 16px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       gap: 16px;
       flex-wrap: wrap;
     }
@@ -101,37 +101,66 @@
     }
     .btn-back:hover { color: var(--color-text); border-color: rgba(255,255,255,0.2); }
 
-    /* ─── Tabs ──────────────────────────────────────────────── */
-    .tabs-bar {
+    /* ─── Steps Bar ─────────────────────────────────────────── */
+    .steps-bar {
       display: flex;
-      gap: 6px;
+      justify-content: space-between;
+      gap: 15px;
       margin-bottom: 28px;
+      position: relative;
     }
-
-    .tab-btn {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 9px 20px;
-      border-radius: 30px;
-      border: 1px solid var(--border);
-      background: transparent;
+    .steps-bar::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 30px;
+      right: 30px;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .step-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 1;
+      cursor: default;
+    }
+    .step-item span {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-main);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 700;
       color: var(--color-muted);
-      cursor: pointer;
-      transition: all var(--transition);
-      white-space: nowrap;
+      transition: all 0.3s;
     }
-
-    .tab-btn:hover {
-      color: var(--color-text);
-      border-color: rgba(255,255,255,0.2);
-    }
-
-    .tab-btn.active {
-      background: var(--color-primary-dim);
-      border-color: var(--border-gold);
+    .step-item.active span {
+      border-color: var(--color-primary);
       color: var(--color-primary);
+      box-shadow: 0 0 15px var(--color-primary-dim);
     }
+    .step-item.completed span {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #111;
+    }
+    .step-item label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-muted);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .step-item.active label { color: var(--color-primary); }
 
     /* ─── Tab panels ────────────────────────────────────────── */
     .tab-panel {
@@ -190,1597 +219,708 @@
       margin-bottom: 18px;
     }
 
-    /* ─── Radio Cards ───────────────────────────────────────── */
-    .radio-group {
+    /* ─── Radio & Choice Cards ──────────────────────────────── */
+    .radio-group, .checkbox-group {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    .radio-card input[type="radio"] { display: none; }
+    .radio-card input, .check-card input { display: none; }
 
-    .radio-card label {
+    .radio-card label, .check-card label {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--bg-input);
-      cursor: pointer;
-      font-size: 13px;
-      color: var(--color-muted);
-      transition: all var(--transition);
-      user-select: none;
-    }
-
-    .radio-card label:hover {
-      border-color: rgba(255,255,255,0.2);
-      color: var(--color-text);
-    }
-
-    .radio-card input[type="radio"]:checked + label {
-      border-color: var(--border-gold);
-      background: var(--color-primary-dim);
-      color: var(--color-primary);
-    }
-
-    .radio-card label .radio-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      border: 2px solid currentColor;
-      flex-shrink: 0;
-      position: relative;
-      transition: all var(--transition);
-    }
-
-    .radio-card input[type="radio"]:checked + label .radio-dot::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--color-primary);
-    }
-
-    /* ─── Checkboxes ────────────────────────────────────────── */
-    .checkbox-group {
-      display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-    }
-
-    .check-card input[type="checkbox"] { display: none; }
-
-    .check-card label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
+      padding: 14px 22px;
       border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--bg-input);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.02);
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 500;
       color: var(--color-muted);
-      transition: all var(--transition);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
     }
 
-    .check-card label:hover {
+    .radio-card label:hover, .check-card label:hover {
       border-color: rgba(255,255,255,0.2);
-      color: var(--color-text);
-    }
-
-    .check-card input[type="checkbox"]:checked + label {
-      border-color: var(--border-gold);
-      background: var(--color-primary-dim);
-      color: var(--color-primary);
-    }
-
-    .check-card label .check-box {
-      width: 15px;
-      height: 15px;
-      border: 2px solid currentColor;
-      border-radius: 3px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition);
-    }
-
-    .check-card input[type="checkbox"]:checked + label .check-box::after {
-      content: '✓';
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--color-primary);
-    }
-
-    /* ─── Ambientes Grid ────────────────────────────────────── */
-    .amb-group {
-      margin-bottom: 20px;
-    }
-
-    .amb-group-title {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--color-muted);
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .amb-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 8px;
-    }
-
-    .amb-item {
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      transition: border-color var(--transition);
-    }
-
-    .amb-item.has-value {
-      border-color: var(--border-gold);
-    }
-
-    .amb-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .amb-name {
-      font-size: 13px;
-      color: var(--color-text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .amb-hrs {
-      font-size: 11px;
-      color: var(--color-muted);
-      margin-top: 1px;
-    }
-
-    .counter {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .counter-btn {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
       background: rgba(255,255,255,0.05);
       color: var(--color-text);
-      font-size: 16px;
-      line-height: 1;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition);
-      flex-shrink: 0;
+      transform: translateY(-1px);
     }
 
-    .counter-btn:hover {
+    .radio-card input:checked + label, .check-card input:checked + label {
       border-color: var(--color-primary);
+      background: rgba(197,168,128,0.08);
       color: var(--color-primary);
-      background: var(--color-primary-dim);
+      box-shadow: 0 0 20px rgba(197,168,128,0.1);
     }
 
-    .counter-val {
-      min-width: 20px;
-      text-align: center;
-      font-family: var(--font-heading);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--color-primary);
+    .radio-dot, .check-box {
+      width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor;
+      flex-shrink: 0; position: relative; transition: all var(--transition);
+    }
+    .check-box { border-radius: 3px; }
+    
+    .radio-card input:checked + label .radio-dot::after {
+      content: ''; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary);
+    }
+    .check-card input:checked + label .check-box::after {
+      content: '✓'; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      font-size: 10px; color: var(--color-primary); font-weight: 700;
+    }
+
+    /* ─── Ambientes ─────────────────────────────────────────── */
+    .amb-group { margin-bottom: 20px; }
+    .amb-group-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--color-muted); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .amb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+    .amb-item {
+      background: rgba(255,255,255,0.02); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius);
+      padding: 16px 18px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      gap: 12px; 
+      transition: all 0.3s;
+    }
+    .amb-item:hover {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .amb-item.has-value { 
+      border-color: var(--color-primary);
+      background: rgba(197,168,128,0.03);
+    }
+    .amb-name { font-size: 14px; font-weight: 500; color: var(--color-text); }
+    .amb-hrs { font-size: 11px; color: var(--color-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .counter { 
+      display: flex; 
+      align-items: center; 
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 2px;
+      height: 36px;
+    }
+    .count-btn {
+      width: 32px; 
+      height: 32px; 
+      border-radius: 50%; 
+      border: none;
+      background: transparent; 
+      color: var(--color-text); 
+      font-size: 18px;
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      transition: all 0.2s;
+    }
+    .count-btn:hover { 
+      background: rgba(255,255,255,0.1);
+      color: var(--color-primary); 
+    }
+    .c-val { 
+      min-width: 34px; 
+      text-align: center; 
+      font-family: var(--font-heading); 
+      font-size: 16px; 
+      font-weight: 700; 
+      color: var(--color-primary); 
     }
 
     /* ─── Summary Bar ───────────────────────────────────────── */
     .summary-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px 24px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 24px; margin-bottom: 16px; flex-wrap: wrap;
     }
-
-    .summary-stats {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .summary-stat {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .summary-stat .val {
-      font-family: var(--font-heading);
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--color-primary);
-    }
-
-    .summary-stat .lbl {
-      font-size: 12px;
-      color: var(--color-muted);
-    }
+    .summary-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+    .summary-stat { display: flex; align-items: baseline; gap: 6px; }
+    .summary-stat .val { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--color-primary); }
+    .summary-stat .lbl { font-size: 12px; color: var(--color-muted); }
 
     /* ─── Buttons ───────────────────────────────────────────── */
     .btn-primary {
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 500;
-      padding: 12px 28px;
-      border-radius: var(--radius-sm);
-      border: none;
-      background: var(--color-primary);
-      color: #111;
-      cursor: pointer;
-      transition: opacity var(--transition), transform var(--transition);
+      font-family: var(--font-body); font-size: 14px; font-weight: 600; padding: 12px 28px;
+      border-radius: var(--radius-sm); border: none; background: var(--color-primary); color: #111;
+      cursor: pointer; transition: all 0.2s;
     }
-
-    .btn-primary:hover {
-      opacity: 0.88;
-      transform: translateY(-1px);
-    }
-
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
     .btn-secondary {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 10px 20px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border-gold);
-      background: transparent;
-      color: var(--color-primary);
-      cursor: pointer;
-      transition: all var(--transition);
+      font-family: var(--font-body); font-size: 13px; font-weight: 500; padding: 10px 20px;
+      border-radius: var(--radius-sm); border: 1px solid var(--border-gold); background: transparent;
+      color: var(--color-primary); cursor: pointer; transition: 0.2s;
     }
-
-    .btn-secondary:hover {
-      background: var(--color-primary-dim);
-    }
-
+    .btn-secondary:hover { background: var(--color-primary-dim); }
     .btn-ghost {
-      font-family: var(--font-body);
-      font-size: 13px;
-      padding: 10px 20px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--color-muted);
-      cursor: pointer;
-      transition: all var(--transition);
+      font-family: var(--font-body); font-size: 13px; padding: 10px 20px;
+      border-radius: var(--radius-sm); border: 1px solid var(--border); background: transparent;
+      color: var(--color-muted); cursor: pointer; transition: 0.2s;
     }
+    .btn-ghost:hover { color: var(--color-text); border-color: rgba(255,255,255,0.2); }
 
-    .btn-ghost:hover {
-      color: var(--color-text);
-      border-color: rgba(255,255,255,0.2);
+    /* ─── Results & Other ───────────────────────────────────── */
+    .results-card { background: var(--bg-card); border: 1px solid var(--border); border-top: 3px solid var(--color-primary); border-radius: var(--radius); padding: 28px 24px; }
+    .results-title { font-family: var(--font-heading); font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-muted); margin-bottom: 20px; }
+    .results-hero { text-align: center; margin-bottom: 28px; padding: 20px; background: rgba(197,168,128,0.07); border-radius: var(--radius); border: 1px solid var(--border-gold); }
+    .results-hero .lbl { font-size: 12px; color: var(--color-muted); text-transform: uppercase; margin-bottom: 6px; }
+    .results-hero .amount { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--color-primary); }
+    .results-hero .prazo { font-size: 13px; color: var(--color-muted); margin-top: 6px; }
+
+    .breakdown-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .breakdown-table td { padding: 10px 4px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .breakdown-table td:last-child { text-align: right; font-weight: 600; font-family: var(--font-heading); }
+    .tr-rec td { color: var(--color-primary); }
+    .tr-rec td:last-child { font-size: 18px; }
+
+    .hidden { display: none !important; }
+    .aco-config-wrapper { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
+    .forn-section-title { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--color-muted); margin: 18px 0 10px; display: flex; align-items: center; gap: 10px; }
+    .forn-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .forn-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); }
+    .forn-grid { 
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
     }
-
-    /* ─── Results Card ──────────────────────────────────────── */
-    .results-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--color-primary);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-      margin-top: 20px;
-    }
-
-    .results-title {
-      font-family: var(--font-heading);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--color-muted);
-      margin-bottom: 20px;
-    }
-
-    .results-hero {
-      text-align: center;
-      margin-bottom: 28px;
-      padding: 20px;
-      background: rgba(197,168,128,0.07);
-      border-radius: var(--radius);
-      border: 1px solid var(--border-gold);
-    }
-
-    .results-hero .lbl {
-      font-size: 12px;
-      color: var(--color-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-
-    .results-hero .amount {
-      font-family: var(--font-heading);
-      font-size: 42px;
-      font-weight: 700;
-      color: var(--color-primary);
-      letter-spacing: -1px;
-    }
-
-    .results-hero .prazo {
-      font-size: 13px;
-      color: var(--color-muted);
-      margin-top: 6px;
-    }
-
-    .breakdown-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    .breakdown-table tr {
-      border-bottom: 1px solid var(--border);
-    }
-
-    .breakdown-table tr:last-child {
-      border-bottom: none;
-    }
-
-    .breakdown-table td {
-      padding: 10px 4px;
-      font-size: 13px;
-    }
-
-    .breakdown-table td:last-child {
-      text-align: right;
-      font-weight: 500;
-      font-family: var(--font-heading);
-    }
-
-    .breakdown-table .td-label { color: var(--color-muted); }
-    .breakdown-table .tr-total td { color: var(--color-text); font-weight: 600; }
-    .breakdown-table .tr-min td:last-child { color: #aaa; }
-    .breakdown-table .tr-rec td { color: var(--color-primary); }
-    .breakdown-table .tr-rec td:last-child { font-size: 16px; }
-    .breakdown-table .tr-premium td:last-child { color: #a8c8a0; }
-
-    .results-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    /* ─── Acompanhamento ────────────────────────────────────── */
-    .forn-section-title {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--color-muted);
-      margin: 18px 0 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .forn-section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .forn-badge {
-      font-size: 11px;
-      font-weight: 500;
-      padding: 2px 8px;
-      border-radius: 10px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--color-muted);
-    }
-
-    .forn-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .forn-check input[type="checkbox"] { display: none; }
-
+    
+    .forn-check input { display: none; }
+    
     .forn-check label {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
-      border-radius: 30px;
-      background: var(--bg-input);
-      cursor: pointer;
-      font-size: 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
       color: var(--color-muted);
-      transition: all var(--transition);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
     }
 
+    .forn-check label::before {
+      content: '+';
+      font-size: 16px;
+      margin-right: 8px;
+      font-family: var(--font-heading);
+      transition: transform 0.2s;
+    }
+
     .forn-check label:hover {
+      background: rgba(255,255,255,0.07);
       border-color: rgba(255,255,255,0.2);
       color: var(--color-text);
     }
 
-    .forn-check input[type="checkbox"]:checked + label {
-      border-color: var(--border-gold);
+    .forn-check input:checked + label {
       background: var(--color-primary-dim);
+      border-color: var(--color-primary);
       color: var(--color-primary);
+      box-shadow: 0 4px 12px rgba(197,168,128,0.15);
     }
 
-    /* ─── Form Inputs ───────────────────────────────────────── */
-    .field-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
+    .forn-check input:checked + label::before {
+      content: '✓';
+      transform: scale(1.1);
     }
 
-    .field-row:last-child { border-bottom: none; }
-
-    .field-label {
-      font-size: 13px;
-      color: var(--color-text);
-      flex: 1;
-    }
-
-    .field-sub {
-      font-size: 11px;
-      color: var(--color-muted);
-      margin-top: 2px;
-    }
-
-    .field-input {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .field-input input {
-      width: 90px;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--color-text);
-      font-family: var(--font-body);
-      font-size: 14px;
-      padding: 8px 12px;
-      text-align: right;
-      outline: none;
-      transition: border-color var(--transition);
-    }
-
-    .field-input input:focus {
-      border-color: var(--border-gold);
-    }
-
-    .field-input .unit {
-      font-size: 12px;
-      color: var(--color-muted);
-      min-width: 24px;
-    }
-
-    /* Inline number field for acompanhamento */
-    .inline-field {
-      margin-bottom: 12px;
-    }
-
-    .inline-field label {
-      display: block;
-      font-size: 13px;
-      color: var(--color-muted);
-      margin-bottom: 6px;
-    }
-
-    .inline-field input[type="number"] {
-      width: 120px;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--color-text);
-      font-family: var(--font-body);
-      font-size: 14px;
-      padding: 9px 12px;
-      outline: none;
-      transition: border-color var(--transition);
-    }
-
-    .inline-field input[type="number"]:focus {
-      border-color: var(--border-gold);
-    }
-
-    /* ─── Config Panel ──────────────────────────────────────── */
-    .config-section {
-      margin-bottom: 28px;
-    }
-
-    .config-section-title {
+    .field-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .field-input input { 
+      width: 100px; 
+      background: rgba(0,0,0,0.3); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-sm); 
+      color: var(--color-primary); 
+      padding: 10px 14px; 
+      text-align: center; 
       font-family: var(--font-heading);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--color-text);
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 16px;
     }
+    .field-input input:focus { border-color: var(--color-primary); outline: none; }
 
-    .save-feedback {
-      font-size: 13px;
-      color: #7ec87e;
-      margin-left: 12px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .save-feedback.visible { opacity: 1; }
-
-    /* ─── Utilities ─────────────────────────────────────────── */
-    .hidden { display: none !important; }
-
-    .mt-16 { margin-top: 16px; }
-    .mt-8  { margin-top: 8px; }
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 20px 0;
-    }
-
-    .text-muted { color: var(--color-muted); }
-    .text-gold  { color: var(--color-primary); }
-
-    /* ─── Acompanhamento results ────────────────────────────── */
-    .aco-results {
-      margin-top: 20px;
-    }
-
-    .aco-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 9px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
-
-    .aco-line:last-child { border-bottom: none; }
-    .aco-line .aco-lbl { color: var(--color-muted); }
-    .aco-line .aco-val { font-family: var(--font-heading); font-weight: 600; }
-    .aco-line.aco-total { padding-top: 14px; margin-top: 4px; border-top: 2px solid var(--border-gold); border-bottom: none; }
-    .aco-line.aco-total .aco-lbl { color: var(--color-text); font-weight: 600; font-size: 14px; }
-    .aco-line.aco-total .aco-val { color: var(--color-primary); font-size: 20px; }
-    .aco-line.aco-discount .aco-val { color: #7ec87e; }
-
-    /* ─── Print ─────────────────────────────────────────────── */
-    @media print {
-      body { background: #fff; color: #000; }
-      .tabs-bar, .tab-panel:not(#tab-projeto), .app-header .btn-back,
-      .btn-primary, .btn-secondary, .btn-ghost, #tab-config { display: none !important; }
-      .tab-panel#tab-projeto { display: block !important; }
-      .results-card { border-color: #000; }
-      .section-card, .summary-bar { border: 1px solid #ccc; }
+    @media (max-width: 600px) {
+      .app-wrapper { padding: 0 16px 120px; }
+      .steps-bar label { display: none; }
+      .summary-bar { position: fixed; bottom: 0; left: 0; right: 0; border-radius: 0; z-index: 1000; background: rgba(17,17,17,0.95); backdrop-filter: blur(8px); }
     }
   </style>
 </head>
 <body>
 
 <div class="app-wrapper">
-
-  <!-- ─── Header ─── -->
   <header class="app-header">
     <div class="header-brand">
       <span class="label">AMO Arquitetura e Interiores</span>
       <h1>Calculadora de Honorários</h1>
     </div>
     <div class="header-right">
-      <a href="admin.html" class="btn-back">← Voltar ao CRM</a>
+      <button class="btn-ghost" onclick="toggleSettings()">⚙️ Configurações</button>
+      <a href="admin.html" class="btn-back">← Voltar</a>
     </div>
   </header>
 
-  <!-- ─── Tabs ─── -->
-  <div class="tabs-bar">
-    <button class="tab-btn active" data-tab="tab-projeto">Projeto</button>
-    <button class="tab-btn" data-tab="tab-acompanhamento">Acompanhamento</button>
-    <button class="tab-btn" data-tab="tab-config">⚙️ Configurações</button>
+  <div class="steps-bar" id="stepsBar">
+    <div class="step-item active" data-step="1"><span>1</span><label>Definição</label></div>
+    <div class="step-item" data-step="2"><span>2</span><label>Ambientes</label></div>
+    <div class="step-item" data-step="3"><span>3</span><label>Acompanham.</label></div>
+    <div class="step-item" data-step="4"><span>4</span><label>Resultado</label></div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════════
-       TAB 1 — PROJETO
-  ══════════════════════════════════════════════════════════ -->
-  <div id="tab-projeto" class="tab-panel active">
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-chip">Custo/h Res: <strong id="st-res">50</strong></div>
+    <div class="stat-chip">Custo/h Com: <strong id="st-com">47</strong></div>
+    <div class="stat-chip">Overhead: <strong id="st-ov">115h</strong></div>
+  </div>
 
-    <!-- Stats Bar -->
-    <div class="stats-bar" id="statsBar">
-      <div class="stat-chip">Custo/h Residencial <strong id="st-res">R$ 50/h</strong></div>
-      <div class="stat-chip">Custo/h Comercial <strong id="st-com">R$ 47/h</strong></div>
-      <div class="stat-chip">Horas produtivas/dia <strong id="st-hpd">5</strong></div>
-      <div class="stat-chip">Overhead Residencial <strong id="st-ovr">115h</strong></div>
-      <div class="stat-chip">Overhead Comercial <strong id="st-ovc">55h</strong></div>
-    </div>
-
-    <!-- Tipo de Projeto -->
+  <!-- PASSO 1: DEFINIÇÃO -->
+  <div id="step-1" class="tab-panel active">
     <div class="section-card">
-      <div class="section-title">Tipo de Projeto</div>
-      <div class="radio-group">
-        <div class="radio-card">
-          <input type="radio" name="tipo" id="tipo-res" value="residencial" checked>
-          <label for="tipo-res"><span class="radio-dot"></span> Residencial</label>
+      <div class="section-title">Tipo e Escopo</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+           <label class="text-muted" style="display:block;margin-bottom:8px;font-size:11px;text-transform:uppercase;">Tipo</label>
+           <div class="radio-group">
+            <div class="radio-card"><input type="radio" name="tipo" id="t-res" value="residencial" checked><label for="t-res"><span class="radio-dot"></span> Residencial</label></div>
+            <div class="radio-card"><input type="radio" name="tipo" id="t-com" value="comercial"><label for="t-com"><span class="radio-dot"></span> Comercial</label></div>
+           </div>
         </div>
-        <div class="radio-card">
-          <input type="radio" name="tipo" id="tipo-com" value="comercial">
-          <label for="tipo-com"><span class="radio-dot"></span> Comercial</label>
+        <div>
+           <label class="text-muted" style="display:block;margin-bottom:8px;font-size:11px;text-transform:uppercase;">Escopo</label>
+           <div class="radio-group">
+            <div class="radio-card"><input type="radio" name="escopo" id="e-full" value="completo" checked><label for="e-full"><span class="radio-dot"></span> Completo</label></div>
+            <div class="radio-card"><input type="radio" name="escopo" id="e-lay" value="layout"><label for="e-lay"><span class="radio-dot"></span> Layout</label></div>
+           </div>
         </div>
       </div>
     </div>
 
-    <!-- Escopo -->
     <div class="section-card">
-      <div class="section-title">Escopo do Projeto</div>
-      <div class="radio-group">
-        <div class="radio-card">
-          <input type="radio" name="escopo" id="esc-completo" value="completo" checked>
-          <label for="esc-completo"><span class="radio-dot"></span> Projeto Completo <span class="text-muted" style="font-size:11px;margin-left:4px;">(layout + 3D + executivo)</span></label>
-        </div>
-        <div class="radio-card">
-          <input type="radio" name="escopo" id="esc-layout" value="layout">
-          <label for="esc-layout"><span class="radio-dot"></span> Apenas Layout</label>
-        </div>
+      <div class="section-title">Estrutura e Adicionais</div>
+      <div class="radio-group" style="margin-bottom:15px;">
+        <div class="radio-card"><input type="radio" name="fachada" id="f-0" value="0" checked><label for="f-0"><span class="radio-dot"></span> Sem Fachada</label></div>
+        <div class="radio-card"><input type="radio" name="fachada" id="f-42" value="42"><label for="f-42"><span class="radio-dot"></span> Fachada Simples</label></div>
+        <div class="radio-card"><input type="radio" name="fachada" id="f-120" value="120"><label for="f-120"><span class="radio-dot"></span> Fachada Complexa</label></div>
       </div>
-    </div>
-
-    <!-- Fachada -->
-    <div class="section-card">
-      <div class="section-title">Fachada</div>
-      <div class="radio-group">
-        <div class="radio-card">
-          <input type="radio" name="fachada" id="fach-0" value="0" checked>
-          <label for="fach-0"><span class="radio-dot"></span> Sem fachada</label>
-        </div>
-        <div class="radio-card">
-          <input type="radio" name="fachada" id="fach-42" value="42">
-          <label for="fach-42"><span class="radio-dot"></span> Simples <span class="text-muted" style="font-size:11px;margin-left:4px;">42h</span></label>
-        </div>
-        <div class="radio-card">
-          <input type="radio" name="fachada" id="fach-120" value="120">
-          <label for="fach-120"><span class="radio-dot"></span> Complexa <span class="text-muted" style="font-size:11px;margin-left:4px;">120h</span></label>
-        </div>
-      </div>
-    </div>
-
-    <!-- Extras -->
-    <div class="section-card">
-      <div class="section-title">Extras</div>
       <div class="checkbox-group">
-        <div class="check-card">
-          <input type="checkbox" id="chk-paisa" value="paisa">
-          <label for="chk-paisa"><span class="check-box"></span> Paisagismo <span class="text-muted" style="font-size:11px;margin-left:4px;">+20h</span></label>
-        </div>
-        <div class="check-card">
-          <input type="checkbox" id="chk-reforma" value="reforma">
-          <label for="chk-reforma"><span class="check-box"></span> É Reforma <span class="text-muted" style="font-size:11px;margin-left:4px;">+25h</span></label>
-        </div>
+        <div class="check-card"><input type="checkbox" id="c-paisa"><label for="c-paisa"><span class="check-box"></span> Paisagismo (+20h)</label></div>
+        <div class="check-card"><input type="checkbox" id="c-reforma"><label for="c-reforma"><span class="check-box"></span> Reforma (+25h)</label></div>
       </div>
     </div>
 
-    <!-- Ambientes RESIDENCIAL -->
-    <div class="section-card" id="ambResidencial">
-      <div class="section-title">Ambientes — Residencial</div>
+    <div style="display:flex;justify-content:flex-end;margin-top:20px;">
+      <button class="btn-primary" onclick="goToStep(2)">Próximo: Ambientes →</button>
+    </div>
+  </div>
 
-      <div class="amb-group">
-        <div class="amb-group-title">Quartos</div>
-        <div class="amb-grid">
-          <div class="amb-item" id="ai-qsimples">
-            <div class="amb-info"><div class="amb-name">Quarto simples</div><div class="amb-hrs">28h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="qsimples" data-action="dec">−</button>
-              <span class="counter-val" id="cv-qsimples">0</span>
-              <button class="counter-btn" data-key="qsimples" data-action="inc">+</button>
+  <!-- PASSO 2: AMBIENTES -->
+  <div id="step-2" class="tab-panel">
+    <div id="amb-res-wrapper">
+        <div class="section-card">
+            <div class="section-title">Dormitórios</div>
+            <div class="amb-grid">
+                <div class="amb-item" data-key="qsimples"><div class="amb-info"><div class="amb-name">Quarto Simples</div><div class="amb-hrs">28h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="qinfantil"><div class="amb-info"><div class="amb-name">Quarto Infantil</div><div class="amb-hrs">38h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="suite"><div class="amb-info"><div class="amb-name">Suíte</div><div class="amb-hrs">38h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="closet"><div class="amb-info"><div class="amb-name">Closet</div><div class="amb-hrs">38h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
             </div>
-          </div>
-          <div class="amb-item" id="ai-qinfantil">
-            <div class="amb-info"><div class="amb-name">Quarto infantil</div><div class="amb-hrs">38h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="qinfantil" data-action="dec">−</button>
-              <span class="counter-val" id="cv-qinfantil">0</span>
-              <button class="counter-btn" data-key="qinfantil" data-action="inc">+</button>
-            </div>
-          </div>
-          <div class="amb-item" id="ai-suite">
-            <div class="amb-info"><div class="amb-name">Suíte</div><div class="amb-hrs">38h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="suite" data-action="dec">−</button>
-              <span class="counter-val" id="cv-suite">0</span>
-              <button class="counter-btn" data-key="suite" data-action="inc">+</button>
-            </div>
-          </div>
-          <div class="amb-item" id="ai-closet">
-            <div class="amb-info"><div class="amb-name">Closet</div><div class="amb-hrs">38h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="closet" data-action="dec">−</button>
-              <span class="counter-val" id="cv-closet">0</span>
-              <button class="counter-btn" data-key="closet" data-action="inc">+</button>
-            </div>
-          </div>
         </div>
-      </div>
-
-      <div class="amb-group">
-        <div class="amb-group-title">Banheiros</div>
-        <div class="amb-grid">
-          <div class="amb-item" id="ai-lavabo">
-            <div class="amb-info"><div class="amb-name">Lavabo</div><div class="amb-hrs">20h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="lavabo" data-action="dec">−</button>
-              <span class="counter-val" id="cv-lavabo">0</span>
-              <button class="counter-btn" data-key="lavabo" data-action="inc">+</button>
+        <div class="section-card">
+            <div class="section-title">Áreas Úmidas</div>
+            <div class="amb-grid">
+                <div class="amb-item" data-key="lavabo"><div class="amb-info"><div class="amb-name">Lavabo</div><div class="amb-hrs">20h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="bsimples"><div class="amb-info"><div class="amb-name">Banheiro</div><div class="amb-hrs">22h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="brev"><div class="amb-info"><div class="amb-name">Banheiro c/ Revest.</div><div class="amb-hrs">38h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="bhidro"><div class="amb-info"><div class="amb-name">Banheiro c/ Hidro</div><div class="amb-hrs">50h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
             </div>
-          </div>
-          <div class="amb-item" id="ai-bsimples">
-            <div class="amb-info"><div class="amb-name">Banheiro simples</div><div class="amb-hrs">22h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="bsimples" data-action="dec">−</button>
-              <span class="counter-val" id="cv-bsimples">0</span>
-              <button class="counter-btn" data-key="bsimples" data-action="inc">+</button>
-            </div>
-          </div>
-          <div class="amb-item" id="ai-brev">
-            <div class="amb-info"><div class="amb-name">Banheiro c/ revestimento</div><div class="amb-hrs">38h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="brev" data-action="dec">−</button>
-              <span class="counter-val" id="cv-brev">0</span>
-              <button class="counter-btn" data-key="brev" data-action="inc">+</button>
-            </div>
-          </div>
-          <div class="amb-item" id="ai-bhidro">
-            <div class="amb-info"><div class="amb-name">Banheiro c/ hidro</div><div class="amb-hrs">50h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="bhidro" data-action="dec">−</button>
-              <span class="counter-val" id="cv-bhidro">0</span>
-              <button class="counter-btn" data-key="bhidro" data-action="inc">+</button>
-            </div>
-          </div>
         </div>
-      </div>
-
-      <div class="amb-group">
-        <div class="amb-group-title">Sociais</div>
-        <div class="amb-grid">
-          <div class="amb-item" id="ai-sala">
-            <div class="amb-info"><div class="amb-name">Sala / Estar</div><div class="amb-hrs">28h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="sala" data-action="dec">−</button>
-              <span class="counter-val" id="cv-sala">0</span>
-              <button class="counter-btn" data-key="sala" data-action="inc">+</button>
+        <div class="section-card">
+            <div class="section-title">Sociais e Outros</div>
+            <div class="amb-grid">
+                <div class="amb-item" data-key="sala"><div class="amb-info"><div class="amb-name">Sala / Estar</div><div class="amb-hrs">28h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="cozsimp"><div class="amb-info"><div class="amb-name">Cozinha Simples</div><div class="amb-hrs">32h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="cozgour"><div class="amb-info"><div class="amb-name">Cozinha Gourmet</div><div class="amb-hrs">65h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="lavvar"><div class="amb-info"><div class="amb-name">Lavand. / Varanda</div><div class="amb-hrs">15h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="areaext"><div class="amb-info"><div class="amb-name">Área Externa</div><div class="amb-hrs">42h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
             </div>
-          </div>
-          <div class="amb-item" id="ai-cozsimp">
-            <div class="amb-info"><div class="amb-name">Cozinha simples</div><div class="amb-hrs">32h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="cozsimp" data-action="dec">−</button>
-              <span class="counter-val" id="cv-cozsimp">0</span>
-              <button class="counter-btn" data-key="cozsimp" data-action="inc">+</button>
-            </div>
-          </div>
-          <div class="amb-item" id="ai-cozgour">
-            <div class="amb-info"><div class="amb-name">Cozinha gourmet</div><div class="amb-hrs">65h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="cozgour" data-action="dec">−</button>
-              <span class="counter-val" id="cv-cozgour">0</span>
-              <button class="counter-btn" data-key="cozgour" data-action="inc">+</button>
-            </div>
-          </div>
-          <div class="amb-item" id="ai-lavvar">
-            <div class="amb-info"><div class="amb-name">Lavanderia / Varanda</div><div class="amb-hrs">15h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="lavvar" data-action="dec">−</button>
-              <span class="counter-val" id="cv-lavvar">0</span>
-              <button class="counter-btn" data-key="lavvar" data-action="inc">+</button>
-            </div>
-          </div>
-          <div class="amb-item" id="ai-areaext">
-            <div class="amb-info"><div class="amb-name">Área externa</div><div class="amb-hrs">42h</div></div>
-            <div class="counter">
-              <button class="counter-btn" data-key="areaext" data-action="dec">−</button>
-              <span class="counter-val" id="cv-areaext">0</span>
-              <button class="counter-btn" data-key="areaext" data-action="inc">+</button>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
 
-    <!-- Ambientes COMERCIAL -->
-    <div class="section-card hidden" id="ambComercial">
-      <div class="section-title">Ambientes — Comercial</div>
-      <div class="amb-grid">
-        <div class="amb-item" id="ai-deposito">
-          <div class="amb-info"><div class="amb-name">Depósito</div><div class="amb-hrs">12h</div></div>
-          <div class="counter">
-            <button class="counter-btn" data-key="deposito" data-action="dec">−</button>
-            <span class="counter-val" id="cv-deposito">0</span>
-            <button class="counter-btn" data-key="deposito" data-action="inc">+</button>
-          </div>
+    <div id="amb-com-wrapper" class="hidden">
+        <div class="section-card">
+            <div class="section-title">Comercial</div>
+            <div class="amb-grid">
+                <div class="amb-item" data-key="deposito"><div class="amb-info"><div class="amb-name">Depósito</div><div class="amb-hrs">12h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="bcom"><div class="amb-info"><div class="amb-name">Banheiro Comercial</div><div class="amb-hrs">22h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="recepcao"><div class="amb-info"><div class="amb-name">Recepção / Reunião</div><div class="amb-hrs">38h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="salao"><div class="amb-info"><div class="amb-name">Salão Comercial</div><div class="amb-hrs">38h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="cozcom"><div class="amb-info"><div class="amb-name">Cozinha Com.</div><div class="amb-hrs">38h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+                <div class="amb-item" data-key="cozind"><div class="amb-info"><div class="amb-name">Cozinha Ind.</div><div class="amb-hrs">72h</div></div><div class="counter"><button class="count-btn" data-dir="dec">−</button><span class="c-val">0</span><button class="count-btn" data-dir="inc">+</button></div></div>
+            </div>
         </div>
-        <div class="amb-item" id="ai-bcom">
-          <div class="amb-info"><div class="amb-name">Banheiro comercial</div><div class="amb-hrs">22h</div></div>
-          <div class="counter">
-            <button class="counter-btn" data-key="bcom" data-action="dec">−</button>
-            <span class="counter-val" id="cv-bcom">0</span>
-            <button class="counter-btn" data-key="bcom" data-action="inc">+</button>
-          </div>
-        </div>
-        <div class="amb-item" id="ai-recepcao">
-          <div class="amb-info"><div class="amb-name">Recepção / Reunião / Escritório</div><div class="amb-hrs">38h</div></div>
-          <div class="counter">
-            <button class="counter-btn" data-key="recepcao" data-action="dec">−</button>
-            <span class="counter-val" id="cv-recepcao">0</span>
-            <button class="counter-btn" data-key="recepcao" data-action="inc">+</button>
-          </div>
-        </div>
-        <div class="amb-item" id="ai-salao">
-          <div class="amb-info"><div class="amb-name">Salão</div><div class="amb-hrs">38h</div></div>
-          <div class="counter">
-            <button class="counter-btn" data-key="salao" data-action="dec">−</button>
-            <span class="counter-val" id="cv-salao">0</span>
-            <button class="counter-btn" data-key="salao" data-action="inc">+</button>
-          </div>
-        </div>
-        <div class="amb-item" id="ai-cozcom">
-          <div class="amb-info"><div class="amb-name">Cozinha comercial</div><div class="amb-hrs">38h</div></div>
-          <div class="counter">
-            <button class="counter-btn" data-key="cozcom" data-action="dec">−</button>
-            <span class="counter-val" id="cv-cozcom">0</span>
-            <button class="counter-btn" data-key="cozcom" data-action="inc">+</button>
-          </div>
-        </div>
-        <div class="amb-item" id="ai-cozind">
-          <div class="amb-info"><div class="amb-name">Cozinha industrial</div><div class="amb-hrs">72h</div></div>
-          <div class="counter">
-            <button class="counter-btn" data-key="cozind" data-action="dec">−</button>
-            <span class="counter-val" id="cv-cozind">0</span>
-            <button class="counter-btn" data-key="cozind" data-action="inc">+</button>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Live Summary Bar -->
     <div class="summary-bar">
       <div class="summary-stats">
-        <div class="summary-stat">
-          <span class="val" id="sum-ambientes">0</span>
-          <span class="lbl">ambientes</span>
-        </div>
-        <div class="summary-stat">
-          <span class="val" id="sum-horas">0</span>
-          <span class="lbl">horas estimadas</span>
-        </div>
+        <div class="summary-stat"><span class="val" id="sum-amb">0</span><span class="lbl">ambientes</span></div>
+        <div class="summary-stat"><span class="val" id="sum-hrs">0</span><span class="lbl">horas projeto</span></div>
       </div>
-      <button class="btn-primary" id="btnCalcular">Calcular</button>
-    </div>
-
-    <!-- Results (hidden until calculate) -->
-    <div class="results-card hidden" id="resultsCard">
-      <div class="results-title">Resultado do Cálculo</div>
-      <div class="results-hero">
-        <div class="lbl">Valor Recomendado</div>
-        <div class="amount" id="res-rec">R$ —</div>
-        <div class="prazo" id="res-prazo">— dias úteis</div>
-      </div>
-
-      <table class="breakdown-table">
-        <tbody>
-          <tr>
-            <td class="td-label">Horas de ambientes</td>
-            <td id="res-h-amb">—</td>
-          </tr>
-          <tr>
-            <td class="td-label">Horas extras (fachada, paisagismo, reforma)</td>
-            <td id="res-h-ext">—</td>
-          </tr>
-          <tr>
-            <td class="td-label">Overhead</td>
-            <td id="res-h-over">—</td>
-          </tr>
-          <tr class="tr-total">
-            <td class="td-label">Total de horas</td>
-            <td id="res-h-total">—</td>
-          </tr>
-          <tr>
-            <td class="td-label">Custo-hora</td>
-            <td id="res-ch">—</td>
-          </tr>
-          <tr class="tr-min">
-            <td class="td-label">Valor mínimo (85%)</td>
-            <td id="res-min">—</td>
-          </tr>
-          <tr class="tr-rec">
-            <td class="td-label">Valor recomendado (100%)</td>
-            <td id="res-rec-table">—</td>
-          </tr>
-          <tr class="tr-premium">
-            <td class="td-label">Valor premium (125%)</td>
-            <td id="res-prem">—</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="results-actions">
-        <button class="btn-secondary" id="btnExport">Copiar resumo</button>
-        <button class="btn-ghost" id="btnPrint">Imprimir</button>
+      <div style="display:flex;gap:12px;">
+        <button class="btn-ghost" onclick="goToStep(1)">← Voltar</button>
+        <button class="btn-primary" onclick="goToStep(3)">Próximo: Obra →</button>
       </div>
     </div>
+  </div>
 
-  </div><!-- /tab-projeto -->
-
-
-  <!-- ══════════════════════════════════════════════════════════
-       TAB 2 — ACOMPANHAMENTO
-  ══════════════════════════════════════════════════════════ -->
-  <div id="tab-acompanhamento" class="tab-panel">
-
+  <!-- PASSO 3: ACOMPANHAMENTO -->
+  <div id="step-3" class="tab-panel">
     <div class="section-card">
-      <div class="section-title">Fornecedores</div>
+      <div class="section-title">Escolha o Nível de Suporte</div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:15px;">
+        
+        <!-- OPÇÃO 1: NENHUM -->
+        <div class="radio-card">
+            <input type="radio" name="acoLine" id="aco-none" value="none" checked>
+            <label for="aco-none" style="padding:22px; flex-direction:column; align-items:flex-start; text-align:left;">
+                <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px;">
+                    <span class="radio-dot" style="margin:0;"></span>
+                    <strong style="font-size:16px;">Somente Projeto</strong>
+                </div>
+                <span class="text-muted" style="font-size:12px;">Entrega do projeto técnico sem acompanhamento posterior.</span>
+            </label>
+        </div>
 
-      <div class="forn-section-title">Bem Complexo <span class="forn-badge">R$ 400</span></div>
-      <div class="forn-grid">
-        <div class="forn-check"><input type="checkbox" id="f-empreiteira" data-val="400"><label for="f-empreiteira">Empreiteiras</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-rev-piso" data-val="400"><label for="f-rev-piso">Revestimento Piso</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-rev-parede" data-val="400"><label for="f-rev-parede">Revestimento Parede</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-luminarias" data-val="400"><label for="f-luminarias">Luminárias</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-marcenaria" data-val="400"><label for="f-marcenaria">Marcenaria</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-marmoraria" data-val="400"><label for="f-marmoraria">Marmoraria</label></div>
-      </div>
+        <!-- OPÇÃO 2: ORÇAMENTOS -->
+        <div class="radio-card">
+            <input type="radio" name="acoLine" id="aco-budget" value="budget">
+            <label for="aco-budget" style="padding:22px; flex-direction:column; align-items:flex-start; text-align:left;">
+                <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px;">
+                    <span class="radio-dot" style="margin:0;"></span>
+                    <strong style="font-size:16px;">Gestão de Orçamentos</strong>
+                </div>
+                <span class="text-muted" style="font-size:12px;">Planilhamento e curadoria de fornecedores (sem visitas obra).</span>
+            </label>
+        </div>
 
-      <div class="forn-section-title">Complexo <span class="forn-badge">R$ 250</span></div>
-      <div class="forn-grid">
-        <div class="forn-check"><input type="checkbox" id="f-esquadrias" data-val="250"><label for="f-esquadrias">Esquadrias</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-coberturas" data-val="250"><label for="f-coberturas">Coberturas</label></div>
-      </div>
+        <!-- OPÇÃO 3: COMPLETO -->
+        <div class="radio-card">
+            <input type="radio" name="acoLine" id="aco-full" value="full">
+            <label for="aco-full" style="padding:22px; flex-direction:column; align-items:flex-start; text-align:left;">
+                <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px;">
+                    <span class="radio-dot" style="margin:0;"></span>
+                    <strong style="font-size:16px;">Acomp. Completo</strong>
+                </div>
+                <span class="text-muted" style="font-size:12px;">Gestão de orçamentos + visitas programadas + suporte por mensagens</span>
+            </label>
+        </div>
 
-      <div class="forn-section-title">Médio <span class="forn-badge">R$ 150</span></div>
-      <div class="forn-grid">
-        <div class="forn-check"><input type="checkbox" id="f-automacao" data-val="150"><label for="f-automacao">Automação</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-eletro" data-val="150"><label for="f-eletro">Eletrodomésticos</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-metais" data-val="150"><label for="f-metais">Metais</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-coifas" data-val="150"><label for="f-coifas">Coifas</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-papel" data-val="150"><label for="f-papel">Papel de Parede</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-estofados" data-val="150"><label for="f-estofados">Estofados</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-puxadores" data-val="150"><label for="f-puxadores">Puxadores</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-paisagismo" data-val="150"><label for="f-paisagismo">Paisagismo</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-mobiliario" data-val="150"><label for="f-mobiliario">Mobiliário Solto</label></div>
-      </div>
-
-      <div class="forn-section-title">Fácil <span class="forn-badge">R$ 100</span></div>
-      <div class="forn-grid">
-        <div class="forn-check"><input type="checkbox" id="f-churras" data-val="100"><label for="f-churras">Churrasqueiras</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-pinturas" data-val="100"><label for="f-pinturas">Pinturas Artísticas</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-cortinas" data-val="100"><label for="f-cortinas">Cortinas</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-decoracao" data-val="100"><label for="f-decoracao">Decoração</label></div>
-        <div class="forn-check"><input type="checkbox" id="f-tapetes" data-val="100"><label for="f-tapetes">Tapetes</label></div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-title">Detalhes do Acompanhamento</div>
-
-      <div class="inline-field">
-        <label for="aco-visitas">Número de visitas <span class="text-muted">(R$ 500/visita)</span></label>
-        <input type="number" id="aco-visitas" min="0" value="0">
-      </div>
-
-      <div class="inline-field">
-        <label for="aco-horas">Horas dúvidas / alterações <span class="text-muted">(R$ 150/h)</span></label>
-        <input type="number" id="aco-horas" min="0" value="0" step="0.5">
-      </div>
-
-      <div class="check-card" style="display:inline-block;margin-top:8px;">
-        <input type="checkbox" id="aco-orcamentos">
-        <label for="aco-orcamentos"><span class="check-box"></span> Apenas orçamentos (sem acompanhamento presencial)</label>
       </div>
     </div>
 
-    <div class="summary-bar" style="margin-top:0;">
-      <div></div>
-      <button class="btn-primary" id="btnCalcularAco">Calcular Acompanhamento</button>
+    <div id="aco-box" class="hidden">
+        <div class="section-card">
+            <div class="section-title">Fornecedores para Orçamento</div>
+            <div class="forn-grid" id="fornList">
+                <div class="forn-check"><input type="checkbox" id="f-emp" data-val="400"><label for="f-emp">Empreiteiras</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-pis" data-val="400"><label for="f-pis">Pisos</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-par" data-val="400"><label for="f-par">Paredes</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-lum" data-val="400"><label for="f-lum">Luminárias</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-mar" data-val="400"><label for="f-mar">Marcenaria</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-marm" data-val="400"><label for="f-marm">Marmoraria</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-esq" data-val="250"><label for="f-esq">Esquadrias</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-cob" data-val="250"><label for="f-cob">Coberturas</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-auto" data-val="150"><label for="f-auto">Automação</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-ele" data-val="150"><label for="f-ele">Eletros</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-pais" data-val="150"><label for="f-pais">Paisagismo</label></div>
+                <div class="forn-check"><input type="checkbox" id="f-mob" data-val="150"><label for="f-mob">Mobiliário</label></div>
+            </div>
+        </div>
+        <div id="aco-visitas-card" class="section-card">
+            <div class="section-title">Visitas e Reuniões</div>
+            <div class="field-row">
+                <div>
+                    <label>Qtd. de Visitas Presenciais (R$ 500)</label>
+                    <div class="text-muted" style="font-size:11px;">Visitas semanais na obra</div>
+                </div>
+                <div class="field-input"><input type="number" id="v-pres" value="0" min="0"></div>
+            </div>
+            <div class="field-row">
+                <div>
+                    <label>Horas Dúvidas / Reuniões (R$ 150/h)</label>
+                    <div class="text-muted" style="font-size:11px;">Tempo respondendo dúvidas e alterando projeto</div>
+                </div>
+                <div class="field-input"><input type="number" id="v-hrs" value="0" min="0"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="results-card hidden" id="acoResultsCard">
-      <div class="results-title">Resultado — Acompanhamento de Obra</div>
-      <div class="aco-results" id="acoResultsBody"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:24px;">
+      <button class="btn-ghost" onclick="goToStep(2)">← Voltar</button>
+      <button class="btn-primary" onclick="finalCalculate(); goToStep(4);">Ver Orçamento Final →</button>
     </div>
+  </div>
 
-  </div><!-- /tab-acompanhamento -->
+  <!-- PASSO 4: RESULTADO -->
+  <div id="step-4" class="tab-panel">
+    <div class="results-card">
+        <div class="results-title">Orçamento Consolidado</div>
+        <div class="results-hero">
+            <div class="lbl">Total do Investimento (Hon. AMO)</div>
+            <div class="amount" id="res-total">R$ 0</div>
+            <div class="prazo" id="res-prazo">0 dias úteis de projeto</div>
+        </div>
+        
+        <table class="breakdown-table">
+            <tr id="row-projeto"><td>Projeto Arquitetônico</td><td id="val-projeto">R$ 0</td></tr>
+            <tr id="row-aco" class="hidden"><td>Acompanhamento de Obra</td><td id="val-aco">R$ 0</td></tr>
+            <tr class="tr-rec"><td><strong>Total Recomendado</strong></td><td id="val-total">R$ 0</td></tr>
+        </table>
 
-
-  <!-- ══════════════════════════════════════════════════════════
-       TAB 3 — CONFIGURAÇÕES
-  ══════════════════════════════════════════════════════════ -->
-  <div id="tab-config" class="tab-panel">
-
-    <div class="section-card">
-      <div class="config-section">
-        <div class="config-section-title">Precificação de Projeto</div>
-
-        <div class="field-row">
-          <div>
-            <div class="field-label">Custo-hora Residencial</div>
-          </div>
-          <div class="field-input">
-            <span class="unit">R$</span>
-            <input type="number" id="cfg-res-h" value="50" min="0" step="1">
-            <span class="unit">/h</span>
-          </div>
+        <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:8px; margin-top:20px; font-size:12px; color:var(--color-muted); line-height:1.6;">
+            <strong>Nota Técnica:</strong> Este valor contempla <span id="res-h-proj">0</span>h de projeto e <span id="res-tipo-esc">residencial completo</span>. O prazo de entrega estimado é de <span id="res-dias">0</span> dias úteis após o briefing.
         </div>
 
-        <div class="field-row">
-          <div>
-            <div class="field-label">Custo-hora Comercial</div>
-          </div>
-          <div class="field-input">
-            <span class="unit">R$</span>
-            <input type="number" id="cfg-com-h" value="47" min="0" step="1">
-            <span class="unit">/h</span>
-          </div>
+        <div class="results-actions" style="margin-top:24px;">
+            <button class="btn-primary" onclick="showSaveCRM()">💾 Salvar no CRM</button>
+            <button class="btn-secondary" onclick="copyOrc()">📋 Copiar Resumo</button>
+            <button class="btn-ghost" onclick="window.print()">🖨️ Imprimir</button>
         </div>
-
-        <div class="field-row">
-          <div>
-            <div class="field-label">Horas produtivas por dia</div>
-          </div>
-          <div class="field-input">
-            <input type="number" id="cfg-hpd" value="5" min="1" max="24" step="0.5">
-            <span class="unit">h</span>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div>
-            <div class="field-label">Overhead Residencial</div>
-          </div>
-          <div class="field-input">
-            <input type="number" id="cfg-ovr" value="115" min="0" step="1">
-            <span class="unit">h</span>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div>
-            <div class="field-label">Overhead Comercial</div>
-          </div>
-          <div class="field-input">
-            <input type="number" id="cfg-ovc" value="55" min="0" step="1">
-            <span class="unit">h</span>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div>
-            <div class="field-label">Multiplicador Layout apenas</div>
-            <div class="field-sub">Aplicado quando escopo = Apenas Layout</div>
-          </div>
-          <div class="field-input">
-            <input type="number" id="cfg-mult-layout" value="40" min="1" max="100" step="1">
-            <span class="unit">%</span>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div>
-            <div class="field-label">Multiplicador faixa Mínima</div>
-          </div>
-          <div class="field-input">
-            <input type="number" id="cfg-mult-min" value="85" min="1" max="100" step="1">
-            <span class="unit">%</span>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div>
-            <div class="field-label">Multiplicador faixa Premium</div>
-          </div>
-          <div class="field-input">
-            <input type="number" id="cfg-mult-prem" value="125" min="100" max="300" step="1">
-            <span class="unit">%</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="config-section">
-        <div class="config-section-title">Acompanhamento de Obra</div>
-
-        <div class="field-row">
-          <div class="field-label">Valor por visita</div>
-          <div class="field-input">
-            <span class="unit">R$</span>
-            <input type="number" id="cfg-visita" value="500" min="0" step="10">
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div class="field-label">Valor hora dúvidas / alterações</div>
-          <div class="field-input">
-            <span class="unit">R$</span>
-            <input type="number" id="cfg-hduvida" value="150" min="0" step="5">
-            <span class="unit">/h</span>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div>
-            <div class="field-label">Desconto pacote</div>
-            <div class="field-sub">Aplicado quando número de visitas > mínimo</div>
-          </div>
-          <div class="field-input">
-            <input type="number" id="cfg-desc" value="6" min="0" max="50" step="1">
-            <span class="unit">%</span>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div class="field-label">Mínimo de visitas para desconto</div>
-          <div class="field-input">
-            <input type="number" id="cfg-minvis" value="3" min="1" step="1">
-            <span class="unit">vis.</span>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-        <button class="btn-primary" id="btnSalvar">Salvar Configurações</button>
-        <button class="btn-ghost" id="btnReset">Restaurar Padrões</button>
-        <span class="save-feedback" id="saveFeedback">Configurações salvas ✓</span>
-      </div>
     </div>
+  </div>
 
-  </div><!-- /tab-config -->
+  <!-- MODAL SALVAR CRM (New lead info) -->
+  <div id="save-crm-panel" class="hidden" style="position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,0.9); padding:40px; display:flex; align-items:center; justify-content:center;">
+     <div class="section-card" style="max-width:400px; width:100%;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <h2 style="font-family:'Outfit'; font-size:20px;">Criar Lead no CRM</h2>
+            <button onclick="hideSaveCRM()" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;">×</button>
+        </div>
+        <div style="margin-bottom:15px;">
+            <label class="text-muted" style="font-size:11px; text-transform:uppercase;">Nome do Cliente</label>
+            <input type="text" id="crm-lead-name" placeholder="Ex: João Silva" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:6px; color:#fff; padding:12px; margin-top:5px;">
+        </div>
+        <div style="margin-bottom:20px;">
+            <label class="text-muted" style="font-size:11px; text-transform:uppercase;">WhatsApp / Telefone</label>
+            <input type="text" id="crm-lead-phone" placeholder="Ex: 48 99999-9999" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:6px; color:#fff; padding:12px; margin-top:5px;">
+        </div>
+        <button class="btn-primary" id="btnConfirmCRM" onclick="confirmSaveCRM()" style="width:100%;">Confirmar e Salvar</button>
+     </div>
+  </div>
 
-</div><!-- /app-wrapper -->
+  <!-- CONFIG MODAL (Simple overlay) -->
+  <div id="settings-panel" class="hidden" style="position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.9); padding:40px; overflow-y:auto;">
+     <div style="max-width:500px; margin:0 auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
+            <h2>Configurações</h2>
+            <button onclick="toggleSettings()" style="background:none;border:none;color:#fff;font-size:30px;cursor:pointer;">×</button>
+        </div>
+        <div class="section-card">
+            <div class="field-row"><label>Custo/h Res.</label><div class="field-input"><input type="number" id="c-res" value="50"></div></div>
+            <div class="field-row"><label>Custo/h Com.</label><div class="field-input"><input type="number" id="c-com" value="47"></div></div>
+            <div class="field-row"><label>Overhead Res.</label><div class="field-input"><input type="number" id="c-ovr" value="115"></div></div>
+            <div class="field-row"><label>Overhead Com.</label><div class="field-input"><input type="number" id="c-ovc" value="55"></div></div>
+            <div class="field-row"><label>Visita Obra</label><div class="field-input"><input type="number" id="c-vis" value="500"></div></div>
+        </div>
+        <button class="btn-primary" onclick="saveSettings(); toggleSettings();" style="width:100%;">Salvar e Fechar</button>
+     </div>
+  </div>
+
+</div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   CONFIG
-═══════════════════════════════════════════════════════════════ */
-const DEFAULTS = {
-  custoHoraRes:   50,
-  custoHoraCom:   47,
-  horasDia:        5,
-  overheadRes:   115,
-  overheadCom:    55,
-  multLayout:   0.40,
-  multMin:      0.85,
-  multPremium:  1.25,
-  valorVisita:   500,
-  valorHDuvida:  150,
-  descontoPct:     6,
-  minVisitas:      3
-};
+const AMB_RES = { qsimples:28, qinfantil:38, suite:38, closet:38, lavabo:20, bsimples:22, brev:38, bhidro:50, sala:28, cozsimp:32, cozgour:65, lavvar:15, areaext:42 };
+const AMB_COM = { deposito:12, bcom:22, recepcao:38, salao:38, cozcom:38, cozind:72 };
+let state = { step:1, tipo:'residencial', escopo:'completo', values:{}, settings:{ cRes:50, cCom:47, oRes:115, oCom:55, vVis:500 } };
 
-function loadConfig() {
-  try {
-    const raw = localStorage.getItem('amo_calc_config');
-    if (raw) return Object.assign({}, DEFAULTS, JSON.parse(raw));
-  } catch(e) {}
-  return Object.assign({}, DEFAULTS);
-}
-
-function saveConfig(cfg) {
-  localStorage.setItem('amo_calc_config', JSON.stringify(cfg));
-}
-
-let cfg = loadConfig();
-
-/* ═══════════════════════════════════════════════════════════════
-   AMBIENTE DATA
-═══════════════════════════════════════════════════════════════ */
-const AMB_RES = {
-  qsimples:  28,
-  qinfantil: 38,
-  suite:     38,
-  closet:    38,
-  lavabo:    20,
-  bsimples:  22,
-  brev:      38,
-  bhidro:    50,
-  sala:      28,
-  cozsimp:   32,
-  cozgour:   65,
-  lavvar:    15,
-  areaext:   42
-};
-
-const AMB_COM = {
-  deposito:  12,
-  bcom:      22,
-  recepcao:  38,
-  salao:     38,
-  cozcom:    38,
-  cozind:    72
-};
-
-const counters = {};
-
-/* ═══════════════════════════════════════════════════════════════
-   TABS
-═══════════════════════════════════════════════════════════════ */
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+function goToStep(s) {
+    state.step = s;
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.tab).classList.add('active');
-  });
-});
-
-/* ═══════════════════════════════════════════════════════════════
-   STATS BAR
-═══════════════════════════════════════════════════════════════ */
-function updateStatsBar() {
-  document.getElementById('st-res').textContent  = 'R$ ' + cfg.custoHoraRes + '/h';
-  document.getElementById('st-com').textContent  = 'R$ ' + cfg.custoHoraCom + '/h';
-  document.getElementById('st-hpd').textContent  = cfg.horasDia;
-  document.getElementById('st-ovr').textContent  = cfg.overheadRes + 'h';
-  document.getElementById('st-ovc').textContent  = cfg.overheadCom + 'h';
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   TIPO TOGGLE
-═══════════════════════════════════════════════════════════════ */
-function getTipo() {
-  return document.querySelector('input[name="tipo"]:checked').value;
-}
-
-function updateTipoVisibility() {
-  const res = getTipo() === 'residencial';
-  document.getElementById('ambResidencial').classList.toggle('hidden', !res);
-  document.getElementById('ambComercial').classList.toggle('hidden', res);
-  updateLiveSummary();
-}
-
-document.querySelectorAll('input[name="tipo"]').forEach(r => {
-  r.addEventListener('change', updateTipoVisibility);
-});
-
-/* ═══════════════════════════════════════════════════════════════
-   COUNTER LOGIC
-═══════════════════════════════════════════════════════════════ */
-const allKeys = [...Object.keys(AMB_RES), ...Object.keys(AMB_COM)];
-allKeys.forEach(k => { counters[k] = 0; });
-
-document.querySelectorAll('.counter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const key = btn.dataset.key;
-    const act = btn.dataset.action;
-    if (act === 'inc') {
-      counters[key]++;
-    } else if (act === 'dec' && counters[key] > 0) {
-      counters[key]--;
-    }
-    const el = document.getElementById('cv-' + key);
-    if (el) el.textContent = counters[key];
-    // highlight item
-    const item = document.getElementById('ai-' + key);
-    if (item) item.classList.toggle('has-value', counters[key] > 0);
-    updateLiveSummary();
-  });
-});
-
-/* ═══════════════════════════════════════════════════════════════
-   LIVE SUMMARY
-═══════════════════════════════════════════════════════════════ */
-function getLiveHours() {
-  const tipo = getTipo();
-  const ambMap = tipo === 'residencial' ? AMB_RES : AMB_COM;
-  let totalAmb = 0, totalHrs = 0;
-  for (const [k, h] of Object.entries(ambMap)) {
-    totalAmb += counters[k];
-    totalHrs += counters[k] * h;
-  }
-
-  const fachada = parseInt(document.querySelector('input[name="fachada"]:checked').value) || 0;
-  const paisa   = document.getElementById('chk-paisa').checked ? 20 : 0;
-  const reforma = document.getElementById('chk-reforma').checked ? 25 : 0;
-  const extras  = fachada + paisa + reforma;
-
-  const escopo  = document.querySelector('input[name="escopo"]:checked').value;
-  const overhead = escopo === 'completo'
-    ? (tipo === 'residencial' ? cfg.overheadRes : cfg.overheadCom)
-    : 0;
-  const mult = escopo === 'completo' ? 1 : cfg.multLayout;
-
-  const horasBase = Math.round((totalHrs + extras + overhead) * mult);
-
-  return { totalAmb, totalHrs, extras, overhead, horasBase };
-}
-
-function updateLiveSummary() {
-  const { totalAmb, horasBase } = getLiveHours();
-  document.getElementById('sum-ambientes').textContent = totalAmb;
-  document.getElementById('sum-horas').textContent     = horasBase;
-}
-
-// wire all projeto inputs for live update
-['input[name="tipo"]', 'input[name="escopo"]', 'input[name="fachada"]',
- '#chk-paisa', '#chk-reforma'].forEach(sel => {
-  document.querySelectorAll(sel).forEach(el => {
-    el.addEventListener('change', updateLiveSummary);
-  });
-});
-
-/* ═══════════════════════════════════════════════════════════════
-   CALCULATE PROJETO
-═══════════════════════════════════════════════════════════════ */
-function fmt(n) {
-  return 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
-
-document.getElementById('btnCalcular').addEventListener('click', () => {
-  const tipo   = getTipo();
-  const escopo = document.querySelector('input[name="escopo"]:checked').value;
-
-  const ambMap = tipo === 'residencial' ? AMB_RES : AMB_COM;
-  let horasAmb = 0;
-  for (const [k, h] of Object.entries(ambMap)) {
-    horasAmb += counters[k] * h;
-  }
-
-  const fachada = parseInt(document.querySelector('input[name="fachada"]:checked').value) || 0;
-  const paisa   = document.getElementById('chk-paisa').checked ? 20 : 0;
-  const reforma = document.getElementById('chk-reforma').checked ? 25 : 0;
-  const extras  = fachada + paisa + reforma;
-
-  const overhead = escopo === 'completo'
-    ? (tipo === 'residencial' ? cfg.overheadRes : cfg.overheadCom)
-    : 0;
-  const mult = escopo === 'completo' ? 1 : cfg.multLayout;
-
-  const horasBase   = Math.round((horasAmb + extras + overhead) * mult);
-  const custoHora   = tipo === 'residencial' ? cfg.custoHoraRes : cfg.custoHoraCom;
-  const valorRec    = horasBase * custoHora;
-  const valorMin    = Math.round(valorRec * cfg.multMin);
-  const valorPremium = Math.round(valorRec * cfg.multPremium);
-  const prazo       = Math.ceil(horasBase / cfg.horasDia);
-
-  // populate
-  document.getElementById('res-rec').textContent       = fmt(valorRec);
-  document.getElementById('res-prazo').textContent     = prazo + ' dias úteis';
-  document.getElementById('res-h-amb').textContent     = horasAmb + 'h';
-  document.getElementById('res-h-ext').textContent     = extras + 'h';
-  document.getElementById('res-h-over').textContent    = overhead + 'h';
-  document.getElementById('res-h-total').textContent   = horasBase + 'h';
-  document.getElementById('res-ch').textContent        = 'R$ ' + custoHora + '/h';
-  document.getElementById('res-min').textContent       = fmt(valorMin);
-  document.getElementById('res-rec-table').textContent = fmt(valorRec);
-  document.getElementById('res-prem').textContent      = fmt(valorPremium);
-
-  // also update min/premium labels dynamically
-  document.querySelector('.tr-min td.td-label').textContent =
-    'Valor mínimo (' + Math.round(cfg.multMin * 100) + '%)';
-  document.querySelector('.tr-premium td.td-label').textContent =
-    'Valor premium (' + Math.round(cfg.multPremium * 100) + '%)';
-
-  // show
-  document.getElementById('resultsCard').classList.remove('hidden');
-  document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  // stash for export
-  window._lastCalc = { tipo, escopo, horasAmb, extras, overhead, horasBase,
-    custoHora, valorRec, valorMin, valorPremium, prazo };
-});
-
-/* ─── Export ─── */
-document.getElementById('btnExport').addEventListener('click', () => {
-  const c = window._lastCalc;
-  if (!c) return;
-  const lines = [
-    'AMO Arquitetura e Interiores — Calculadora de Honorários',
-    '─'.repeat(50),
-    'Tipo: ' + (c.tipo === 'residencial' ? 'Residencial' : 'Comercial'),
-    'Horas de ambientes: ' + c.horasAmb + 'h',
-    'Horas extras: ' + c.extras + 'h',
-    'Overhead: ' + c.overhead + 'h',
-    'Total de horas: ' + c.horasBase + 'h',
-    'Prazo: ' + c.prazo + ' dias úteis',
-    '─'.repeat(50),
-    'Custo-hora: R$ ' + c.custoHora + '/h',
-    'Valor mínimo: ' + fmt(c.valorMin),
-    'Valor recomendado: ' + fmt(c.valorRec),
-    'Valor premium: ' + fmt(c.valorPremium),
-  ];
-  navigator.clipboard.writeText(lines.join('\n')).then(() => {
-    const btn = document.getElementById('btnExport');
-    btn.textContent = 'Copiado!';
-    setTimeout(() => { btn.textContent = 'Copiar resumo'; }, 2000);
-  }).catch(() => {
-    alert('Erro ao copiar. Verifique permissões do navegador.');
-  });
-});
-
-document.getElementById('btnPrint').addEventListener('click', () => { window.print(); });
-
-/* ═══════════════════════════════════════════════════════════════
-   ACOMPANHAMENTO
-═══════════════════════════════════════════════════════════════ */
-document.getElementById('btnCalcularAco').addEventListener('click', () => {
-  let fornTotal = 0;
-  const fornLines = [];
-
-  document.querySelectorAll('.forn-check input[type="checkbox"]:checked').forEach(cb => {
-    const val = parseInt(cb.dataset.val);
-    fornTotal += val;
-    const lbl = cb.nextElementSibling.textContent.trim();
-    fornLines.push({ lbl, val });
-  });
-
-  const visitas     = parseFloat(document.getElementById('aco-visitas').value) || 0;
-  const horas       = parseFloat(document.getElementById('aco-horas').value)   || 0;
-  const apenasOrc   = document.getElementById('aco-orcamentos').checked;
-  const valorVisita = cfg.valorVisita;
-  const valorHDuvida = cfg.valorHDuvida;
-
-  const vlVisitas = visitas * valorVisita;
-  const vlHoras   = horas * valorHDuvida;
-  const subtotal  = fornTotal + vlVisitas + vlHoras;
-
-  const desc = (!apenasOrc && visitas > cfg.minVisitas) ? cfg.descontoPct : 0;
-  const descVal = Math.round(subtotal * (desc / 100));
-  const total   = subtotal - descVal;
-
-  // Build result HTML
-  let html = '';
-
-  if (fornLines.length > 0) {
-    fornLines.forEach(f => {
-      html += `<div class="aco-line">
-        <span class="aco-lbl">${f.lbl}</span>
-        <span class="aco-val">${fmt(f.val)}</span>
-      </div>`;
+    document.getElementById('step-' + s).classList.add('active');
+    document.querySelectorAll('.step-item').forEach((item, idx) => {
+        item.classList.toggle('active', idx + 1 === s);
+        item.classList.toggle('completed', idx + 1 < s);
     });
-    html += `<div class="aco-line" style="border-top:1px solid var(--border);margin-top:4px;">
-      <span class="aco-lbl">Subtotal fornecedores</span>
-      <span class="aco-val">${fmt(fornTotal)}</span>
-    </div>`;
-  }
-
-  if (visitas > 0) {
-    html += `<div class="aco-line">
-      <span class="aco-lbl">${visitas} visita${visitas !== 1 ? 's' : ''} × R$ ${valorVisita}</span>
-      <span class="aco-val">${fmt(vlVisitas)}</span>
-    </div>`;
-  }
-
-  if (horas > 0) {
-    html += `<div class="aco-line">
-      <span class="aco-lbl">${horas}h dúvidas/alterações × R$ ${valorHDuvida}/h</span>
-      <span class="aco-val">${fmt(vlHoras)}</span>
-    </div>`;
-  }
-
-  if (apenasOrc) {
-    html += `<div class="aco-line">
-      <span class="aco-lbl" style="color:#aaa;font-style:italic;">Modo: apenas orçamentos</span>
-      <span class="aco-val"></span>
-    </div>`;
-  }
-
-  if (desc > 0) {
-    html += `<div class="aco-line aco-discount">
-      <span class="aco-lbl">Desconto pacote ${desc}% (${visitas} visitas)</span>
-      <span class="aco-val">− ${fmt(descVal)}</span>
-    </div>`;
-  }
-
-  html += `<div class="aco-line aco-total">
-    <span class="aco-lbl">Total Acompanhamento</span>
-    <span class="aco-val">${fmt(total)}</span>
-  </div>`;
-
-  document.getElementById('acoResultsBody').innerHTML = html;
-  document.getElementById('acoResultsCard').classList.remove('hidden');
-  document.getElementById('acoResultsCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-});
-
-/* ═══════════════════════════════════════════════════════════════
-   CONFIGURAÇÕES
-═══════════════════════════════════════════════════════════════ */
-function loadConfigToForm() {
-  document.getElementById('cfg-res-h').value       = cfg.custoHoraRes;
-  document.getElementById('cfg-com-h').value       = cfg.custoHoraCom;
-  document.getElementById('cfg-hpd').value         = cfg.horasDia;
-  document.getElementById('cfg-ovr').value         = cfg.overheadRes;
-  document.getElementById('cfg-ovc').value         = cfg.overheadCom;
-  document.getElementById('cfg-mult-layout').value = Math.round(cfg.multLayout * 100);
-  document.getElementById('cfg-mult-min').value    = Math.round(cfg.multMin * 100);
-  document.getElementById('cfg-mult-prem').value   = Math.round(cfg.multPremium * 100);
-  document.getElementById('cfg-visita').value      = cfg.valorVisita;
-  document.getElementById('cfg-hduvida').value     = cfg.valorHDuvida;
-  document.getElementById('cfg-desc').value        = cfg.descontoPct;
-  document.getElementById('cfg-minvis').value      = cfg.minVisitas;
+    window.scrollTo({top:0, behavior:'smooth'});
+    updateVis();
 }
 
-document.getElementById('btnSalvar').addEventListener('click', () => {
-  cfg.custoHoraRes  = parseFloat(document.getElementById('cfg-res-h').value)       || DEFAULTS.custoHoraRes;
-  cfg.custoHoraCom  = parseFloat(document.getElementById('cfg-com-h').value)       || DEFAULTS.custoHoraCom;
-  cfg.horasDia      = parseFloat(document.getElementById('cfg-hpd').value)         || DEFAULTS.horasDia;
-  cfg.overheadRes   = parseFloat(document.getElementById('cfg-ovr').value)         || DEFAULTS.overheadRes;
-  cfg.overheadCom   = parseFloat(document.getElementById('cfg-ovc').value)         || DEFAULTS.overheadCom;
-  cfg.multLayout    = (parseFloat(document.getElementById('cfg-mult-layout').value) || 40) / 100;
-  cfg.multMin       = (parseFloat(document.getElementById('cfg-mult-min').value)   || 85) / 100;
-  cfg.multPremium   = (parseFloat(document.getElementById('cfg-mult-prem').value)  || 125) / 100;
-  cfg.valorVisita   = parseFloat(document.getElementById('cfg-visita').value)      || DEFAULTS.valorVisita;
-  cfg.valorHDuvida  = parseFloat(document.getElementById('cfg-hduvida').value)     || DEFAULTS.valorHDuvida;
-  cfg.descontoPct   = parseFloat(document.getElementById('cfg-desc').value)        || DEFAULTS.descontoPct;
-  cfg.minVisitas    = parseInt(document.getElementById('cfg-minvis').value)        || DEFAULTS.minVisitas;
+function updateVis() {
+    state.tipo = document.querySelector('input[name="tipo"]:checked').value;
+    document.getElementById('amb-res-wrapper').classList.toggle('hidden', state.tipo !== 'residencial');
+    document.getElementById('amb-com-wrapper').classList.toggle('hidden', state.tipo === 'residencial');
+    
+    // Nível de Acompanhamento
+    const level = document.querySelector('input[name="acoLine"]:checked').value;
+    document.getElementById('aco-box').classList.toggle('hidden', level === 'none');
+    document.getElementById('aco-visitas-card').classList.toggle('hidden', level !== 'full');
+}
 
-  saveConfig(cfg);
-  updateStatsBar();
-  updateLiveSummary();
-
-  const fb = document.getElementById('saveFeedback');
-  fb.classList.add('visible');
-  setTimeout(() => fb.classList.remove('visible'), 2500);
+document.querySelectorAll('.count-btn').forEach(btn => {
+    btn.onclick = () => {
+        const key = btn.closest('.amb-item').dataset.key;
+        const dir = btn.dataset.dir;
+        state.values[key] = (state.values[key] || 0) + (dir === 'inc' ? 1 : -1);
+        if(state.values[key] < 0) state.values[key] = 0;
+        btn.parentElement.querySelector('.c-val').innerText = state.values[key];
+        btn.closest('.amb-item').classList.toggle('has-value', state.values[key] > 0);
+        updateLive();
+    };
 });
 
-document.getElementById('btnReset').addEventListener('click', () => {
-  if (!confirm('Restaurar todos os padrões?')) return;
-  cfg = Object.assign({}, DEFAULTS);
-  saveConfig(cfg);
-  loadConfigToForm();
-  updateStatsBar();
-  updateLiveSummary();
+function updateLive() {
+    let hrs = 0, count = 0;
+    const map = state.tipo === 'residencial' ? AMB_RES : AMB_COM;
+    Object.entries(state.values).forEach(([k, v]) => { if(map[k]) { hrs += v * map[k]; count += v; } });
+    document.getElementById('sum-amb').innerText = count;
+    document.getElementById('sum-hrs').innerText = hrs + 'h';
+}
 
-  const fb = document.getElementById('saveFeedback');
-  fb.textContent = 'Padrões restaurados ✓';
-  fb.classList.add('visible');
-  setTimeout(() => {
-    fb.classList.remove('visible');
-    fb.textContent = 'Configurações salvas ✓';
-  }, 2500);
-});
+function finalCalculate() {
+    const tipo = document.querySelector('input[name="tipo"]:checked').value;
+    const escopo = document.querySelector('input[name="escopo"]:checked').value;
+    const facade = parseInt(document.querySelector('input[name="fachada"]:checked').value);
+    const paisa = document.getElementById('c-paisa').checked ? 20 : 0;
+    const reforma = document.getElementById('c-reforma').checked ? 25 : 0;
+    const acoLevel = document.querySelector('input[name="acoLine"]:checked').value;
 
-/* ═══════════════════════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════════════════════ */
-loadConfigToForm();
-updateStatsBar();
-updateTipoVisibility();
-updateLiveSummary();
+    let hAmb = 0;
+    const map = tipo === 'residencial' ? AMB_RES : AMB_COM;
+    Object.entries(state.values).forEach(([k, v]) => { if(map[k]) hAmb += v * map[k]; });
+    
+    let overhead = escopo === 'completo' ? (tipo === 'residencial' ? state.settings.oRes : state.settings.oCom) : 0;
+    let totalH = Math.round((hAmb + facade + paisa + reforma + overhead) * (escopo === 'completo' ? 1 : 0.4));
+    let valProj = totalH * (tipo === 'residencial' ? state.settings.cRes : state.settings.cCom);
+
+    let valAco = 0;
+    const hasAco = acoLevel !== 'none';
+    if(hasAco) {
+        document.querySelectorAll('#fornList input:checked').forEach(i => valAco += parseInt(i.dataset.val));
+        
+        if(acoLevel === 'full') {
+            valAco += (parseInt(document.getElementById('v-pres').value) || 0) * state.settings.vVis;
+            valAco += (parseInt(document.getElementById('v-hrs').value) || 0) * 150;
+        }
+    }
+
+    document.getElementById('val-projeto').innerText = 'R$ ' + valProj.toLocaleString();
+    document.getElementById('val-aco').innerText = 'R$ ' + valAco.toLocaleString();
+    document.getElementById('row-aco').classList.toggle('hidden', !hasAco);
+    
+    // Label for Acompanhamento Row
+    let labelAco = 'Acompanhamento';
+    if(acoLevel === 'budget') labelAco = 'Gestão de Orçamentos';
+    if(acoLevel === 'full')   labelAco = 'Acompanhamento Completo';
+    document.querySelector('#row-aco td:first-child').innerText = labelAco;
+    document.getElementById('res-total').innerText = 'R$ ' + (valProj + valAco).toLocaleString();
+    document.getElementById('val-total').innerText = 'R$ ' + (valProj + valAco).toLocaleString();
+    document.getElementById('res-prazo').innerText = Math.ceil(totalH / 5) + ' dias úteis de projeto';
+    document.getElementById('res-h-proj').innerText = totalH;
+    document.getElementById('res-tipo-esc').innerText = tipo + ' (' + escopo + ')';
+    document.getElementById('res-dias').innerText = Math.ceil(totalH / 5);
+}
+
+function toggleSettings() { document.getElementById('settings-panel').classList.toggle('hidden'); }
+function saveSettings() {
+    state.settings = {
+        cRes: parseInt(document.getElementById('c-res').value),
+        cCom: parseInt(document.getElementById('c-com').value),
+        oRes: parseInt(document.getElementById('c-ovr').value),
+        oCom: parseInt(document.getElementById('c-ovc').value),
+        vVis: parseInt(document.getElementById('c-vis').value)
+    };
+    document.getElementById('st-res').innerText = state.settings.cRes;
+    document.getElementById('st-com').innerText = state.settings.cCom;
+    document.getElementById('st-ov').innerText = (state.tipo === 'residencial' ? state.settings.oRes : state.settings.oCom) + 'h';
+}
+
+function copyOrc() {
+    const text = `Orçamento AMO Arquitetura\n\nTotal: ${document.getElementById('res-total').innerText}\nProjeto: ${document.getElementById('val-projeto').innerText}\nAcompanhamento: ${document.getElementById('val-aco').innerText}\nPrazo: ${document.getElementById('res-prazo').innerText}`;
+    navigator.clipboard.writeText(text);
+    alert('Resumo copiado!');
+}
+
+function showSaveCRM() { document.getElementById('save-crm-panel').classList.remove('hidden'); }
+function hideSaveCRM() { document.getElementById('save-crm-panel').classList.add('hidden'); }
+
+async function confirmSaveCRM() {
+    const name = document.getElementById('crm-lead-name').value;
+    const phone = document.getElementById('crm-lead-phone').value;
+    if(!name || !phone) return alert('Por favor, preencha Nome e Telefone.');
+
+    const btn = document.getElementById('btnConfirmCRM');
+    btn.disabled = true; btn.innerText = 'Salvando...';
+
+    // Capturar dados do orçamento
+    const acoLevel = document.querySelector('input[name="acoLine"]:checked').value;
+    const tipo = document.querySelector('input[name="tipo"]:checked').value;
+    const escopo = document.querySelector('input[name="escopo"]:checked').value;
+    
+    // Preparar Note formatada (JSON ou Texto)
+    const noteData = {
+        tipo: tipo,
+        escopo: escopo,
+        ambientes: state.values,
+        aco: acoLevel,
+        est_rec: document.getElementById('res-total').innerText,
+        created_by: 'Calculadora Admin'
+    };
+
+    const leadObj = {
+        name: name,
+        phone: phone,
+        origin: 'Calculadora Admin',
+        status: 'orcamento', // Já entra na coluna de orçamento
+        est_rec: document.getElementById('res-total').innerText.replace(/\D/g, ''),
+        note: JSON.stringify(noteData),
+        created_at: new Date().toISOString()
+    };
+
+    try {
+        const response = await fetch('/api/leads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(leadObj)
+        });
+        
+        if(!response.ok) throw new Error();
+        
+        alert('Lead salvo com sucesso no CRM!');
+        hideSaveCRM();
+        
+        // Se estiver num iframe, avisa o pai para atualizar
+        if(window.parent && window.parent.loadLeads) {
+            window.parent.loadLeads();
+            window.parent.document.getElementById('modal-calculator').classList.remove('active');
+        }
+    } catch {
+        // Fallback Local Storage
+        const local = JSON.parse(localStorage.getItem('amo_leads') || '[]');
+        local.push({ id: Date.now().toString(), ...leadObj });
+        localStorage.setItem('amo_leads', JSON.stringify(local));
+        
+        alert('Salvo localmente (API indisponível).');
+        hideSaveCRM();
+        if(window.parent && window.parent.loadLeads) {
+            window.parent.loadLeads();
+            window.parent.document.getElementById('modal-calculator').classList.remove('active');
+        }
+    }
+}
+
+document.querySelectorAll('input').forEach(i => i.onchange = updateVis);
+saveSettings();
 </script>
 </body>
 </html>

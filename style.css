@@ -229,7 +229,8 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(26,26,26,0.85) 0%, rgba(26,26,26,0.6) 50%, rgba(26,26,26,0.2) 100%);
+    /* Gradiente que escurece um pouco mais a parte de cima e de baixo para legibilidade */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.5) 100%);
     z-index: -1;
 }
 
@@ -243,24 +244,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-card {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 70px 50px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Alinhado ao topo */
+    min-height: 540px; /* Altura mínima para alinhamento */
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     cursor: pointer;
+    flex: 1;
 }
 
 .hero-card:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(197, 168, 128, 0.8);
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(197, 168, 128, 1);
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
 }
 
 .simulator-promo {
@@ -269,7 +272,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .contact-promo {
-    background: linear-gradient(135deg, rgba(26,26,26,0.5) 0%, rgba(26,26,26,0.8) 100%);
+    background: linear-gradient(135deg, rgba(26,26,26,0.3) 0%, rgba(26,26,26,0.6) 100%);
     border: 1px solid rgba(197, 168, 128, 0.2);
 }
 
@@ -279,24 +282,27 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 20px;
     line-height: 1.1;
     font-family: var(--font-heading);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.35); /* Sombra para legibilidade */
 }
 
 .hero-path-desc {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.9); /* Aumentada a opacidade do descritivo */
     margin-bottom: 32px;
     line-height: 1.6;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.3); /* Sombra para legibilidade */
 }
 
 .path-features {
     display: flex;
     gap: 20px;
-    margin-top: 30px;
-    font-size: 11px;
+    margin-top: 35px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: var(--color-primary);
-    opacity: 0.8;
+    color: var(--color-white); /* Mudado para branco */
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,1); /* Sombra preta total para tirar o embassado */
 }
 
 /* Form Compacto na Hero */
@@ -328,6 +334,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 16px;
     font-size: 14px;
     font-weight: 600;
+    font-family: var(--font-heading); /* Fonte corrigida */
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
@@ -456,17 +463,13 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 
-.about-image-placeholder {
+.about-image {
     width: 100%;
+    height: auto;
     aspect-ratio: 4/5;
-    background: #DDDDDD;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #888;
-    text-align: center;
-    padding: 20px;
-    font-family: var(--font-heading);
+    object-fit: cover;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid #DDD;
 }
 
 .experience-badge {
@@ -593,7 +596,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ================== Simulator Section ================== */
 .orc-section {
     background-color: var(--color-dark);
-    padding: 100px 0;
+    padding: 60px 0;
 }
 
 .orc-titulo-branco {
@@ -604,9 +607,17 @@ h1, h2, h3, h4, h5, h6 {
     color: rgba(255, 255, 255, 0.6) !important;
 }
 
+.orc-section .section-header {
+    margin-bottom: 30px;
+}
+
+.orc-passos-expli {
+    margin-bottom: 30px !important;
+}
+
 .orc-progress-wrapper {
     max-width: 600px;
-    margin: 0 auto 50px;
+    margin: 0 auto 30px;
 }
 
 .orc-progress {
@@ -614,7 +625,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .orc-line {
@@ -629,8 +640,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .orc-dot {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: var(--color-dark-alt);
     border: 2px solid rgba(255, 255, 255, 0.1);
@@ -670,8 +681,8 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
     background: var(--color-dark-alt);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 60px 40px;
-    min-height: 520px;
+    padding: 40px 30px;
+    min-height: 400px;
     position: relative;
     overflow: hidden;
 }
@@ -697,9 +708,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .orc-step-sub {
-    font-size: 15px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.8) !important;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
 }
 
 /* Step 1: Tipo */
@@ -712,7 +723,7 @@ h1, h2, h3, h4, h5, h6 {
 .orc-tipo-card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 48px 24px;
+    padding: 30px 20px;
     cursor: pointer;
     transition: var(--transition-smooth);
     text-align: center;
@@ -726,8 +737,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .orc-tipo-icone {
-    font-size: 48px;
-    margin-bottom: 24px;
+    font-size: 36px;
+    margin-bottom: 12px;
 }
 
 .orc-tipo-nome {
@@ -753,7 +764,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 12px 16px;
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 4px;
@@ -801,9 +812,9 @@ h1, h2, h3, h4, h5, h6 {
 /* Step 3: Details */
 .orc-card-det {
     background: rgba(0, 0, 0, 0.2);
-    padding: 24px;
+    padding: 16px 20px;
     border-radius: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
@@ -860,22 +871,22 @@ h1, h2, h3, h4, h5, h6 {
 /* Step 4: Result */
 .orc-res-card {
     background: var(--color-white);
-    padding: 48px 32px;
+    padding: 30px 24px;
     border-radius: 4px;
     text-align: center;
     color: var(--color-dark);
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 .orc-res-rotulo { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
-.orc-res-faixa { font-size: 42px; font-weight: 700; color: var(--color-primary); margin: 12px 0; }
-.orc-res-rec { font-size: 14px; font-weight: 500; color: #666; margin-bottom: 32px; }
+.orc-res-faixa { font-size: 32px; font-weight: 700; color: var(--color-primary); margin: 8px 0; }
+.orc-res-rec { font-size: 13px; font-weight: 500; color: #666; margin-bottom: 20px; }
 
 .orc-res-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 24px;
-    padding-top: 32px;
+    gap: 16px;
+    padding-top: 20px;
     border-top: 1px solid #EEE;
 }
 
@@ -921,7 +932,7 @@ h1, h2, h3, h4, h5, h6 {
 .orc-form-sub {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .orc-form-label {
@@ -953,9 +964,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .orc-btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2); }
 
-.orc-btn-nav { display: flex; gap: 16px; margin-top: 40px; }
-.orc-btn-pri { background: var(--color-primary); color: #fff; border: none; padding: 14px 32px; border-radius: 4px; font-weight: 600; cursor: pointer; }
-.orc-btn-sec { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; padding: 14px 32px; border-radius: 4px; cursor: pointer; }
+.orc-btn-nav { display: flex; gap: 16px; margin-top: 25px; }
+.orc-btn-pri { background: var(--color-primary); color: #fff; border: none; padding: 12px 28px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.orc-btn-sec { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; padding: 12px 28px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
 
 /* Sucesso */
 .orc-sucesso { text-align: center; padding: 60px 20px; }
@@ -1150,9 +1161,113 @@ h1, h2, h3, h4, h5, h6 {
     background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
 }
 
+/* ================== Mobile Refinements — Global ================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .header-content {
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .nav {
+        display: none; /* Poderíamos adicionar um modal burger depois, por enquanto simplifica */
+    }
+
+    .section-padding {
+        padding: 60px 0;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    /* Simulator Mobile UX */
+    .orc-steps-container {
+        padding: 30px 16px;
+        min-height: auto;
+    }
+
+    .orc-tipo-card {
+        padding: 25px 15px;
+    }
+
+    .orc-tipo-icone {
+        font-size: 32px;
+    }
+
+    .orc-amb-item {
+        padding: 14px 12px;
+    }
+
+    .orc-btn-ctrl {
+        width: 40px; /* Alvo de toque maior */
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .orc-num {
+        font-size: 16px;
+        min-width: 25px;
+    }
+
+    .orc-radio {
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .orc-btn-nav {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .orc-btn-nav button {
+        width: 100%;
+    }
+
+    /* Ajuste para o resultado final ficar legível sem rolar muito */
+    .orc-res-faixa {
+        font-size: 24px;
+    }
+
+    .orc-res-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding-top: 15px;
+    }
+
+    .orc-form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* Footer Mobile */
+    .contato-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contato-item {
+        font-size: 13px;
+    }
+}
+
 /* Floating Animation — aplicado apenas onde necessário */
 @keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-6px); }
     100% { transform: translateY(0px); }
+}
+
+.hero-card .badge {
+    color: var(--color-white);
+    border-color: var(--color-primary);
+    background: rgba(0, 0, 0, 0.5); /* Fundo bem contrastado */
+    text-shadow: none;
+    margin-bottom: 20px;
+    padding: 8px 14px;
+    font-weight: 600;
+    display: table; /* Para não ocupar 100% */
 }

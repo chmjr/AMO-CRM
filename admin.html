@@ -22,7 +22,7 @@
         <div class="header-actions">
             <button id="btn-settings" class="btn-icon" title="Configurações">⚙️</button>
             <button id="btn-add-lead" class="btn-primary-small">+ Novo Lead</button>
-            <a href="calculadora-completa-final.html" class="btn-voltar" target="_blank">🧮 Fazer Orçamento</a>
+            <button id="btn-open-calculator" class="btn-voltar">🧮 Fazer Orçamento</button>
             <a href="index.html" class="btn-voltar">← Site</a>
             <button id="btn-clear" class="btn-danger">Limpar</button>
         </div>
@@ -156,6 +156,17 @@
                 <input type="text"  id="config-whatsapp" placeholder="5548999999999">
                 <button type="submit" class="btn-submit-modal">Salvar</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal: Calculadora embutida -->
+    <div id="modal-calculator" class="modal-overlay">
+        <div class="modal-content" style="max-width:1100px; width:95%; height:90vh; padding:0; overflow:hidden; border:none; display:flex; flex-direction:column;">
+            <div class="modal-header" style="padding:15px 25px; border-bottom:1px solid rgba(255,255,255,0.08);">
+                <h2 style="font-family:'Outfit'; font-size:18px;">Calculadora de Honorários</h2>
+                <button id="btn-close-calculator" class="btn-close">&times;</button>
+            </div>
+            <iframe src="calculadora-completa-final.html" style="width:100%; flex:1; border:none; background:#111;"></iframe>
         </div>
     </div>
 
