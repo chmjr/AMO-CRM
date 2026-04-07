@@ -60,15 +60,41 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     document.getElementById('form-add-lead').addEventListener('submit', async (e) => {
         e.preventDefault();
-        await apiPost({
-            name:   document.getElementById('manual-name').value.trim(),
-            phone:  document.getElementById('manual-phone').value.trim(),
-            email:  document.getElementById('manual-email').value.trim(),
-            origin: document.getElementById('manual-origin').value,
-        });
-        document.getElementById('form-add-lead').reset();
-        modalAdd.classList.remove('active');
-        await loadLeads();
+        const btn = e.target.querySelector('button[type="submit"]');
+        const originalText = btn.innerText;
+        
+        try {
+            btn.innerText = 'Adicionando...';
+            btn.disabled = true;
+
+            const res = await apiPost({
+                name:   document.getElementById('manual-name').value.trim(),
+                phone:  document.getElementById('manual-phone').value.trim(),
+                email:  document.getElementById('manual-email').value.trim(),
+                origin: document.getElementById('manual-origin').value,
+            });
+
+            if (res && res.status === 201) {
+                showToast('✅ Lead adicionado com sucesso!');
+                document.getElementById('form-add-lead').reset();
+                modalAdd.classList.remove('active');
+                await loadLeads();
+            } else if (!window.navigator.onLine) {
+                // Modo offline (localStorage)
+                showToast('✅ Lead salvo localmente (offline)!');
+                document.getElementById('form-add-lead').reset();
+                modalAdd.classList.remove('active');
+                await loadLeads();
+            } else {
+                throw new Error('Falha ao salvar');
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('❌ Erro ao adicionar lead. Tente novamente.', 'error');
+        } finally {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
     });
 
     // Modal Detalhes
@@ -84,6 +110,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto-refresh 30s
     setInterval(loadLeads, 30000);
 });
+
+// ===== TOAST (NOTIFICAÇÃO) =====
+function showToast(message, type = 'success') {
+    let toast = document.getElementById('crm-toast');
+    if(!toast) {
+        toast = document.createElement('div');
+        toast.id = 'crm-toast';
+        document.body.appendChild(toast);
+    }
+    toast.innerText = message;
+    toast.className = `crm-toast active ${type}`;
+    
+    setTimeout(() => {
+        toast.classList.remove('active');
+    }, 4000);
+}
 
 // ===== CONFIG =====
 function loadConfig() {

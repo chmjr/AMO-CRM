@@ -565,6 +565,37 @@ body {
     }
 }
 
+/* ── TOAST NOTIFICATION ──────────────────────────────────── */
+.crm-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1a1a1a;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 9999;
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.crm-toast.active {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.crm-toast.success { border-left: 4px solid #4ADE80; }
+.crm-toast.error   { border-left: 4px solid #F87171; }
+
 /* Scrollbar invisível mas funcional para kpi-bar e header-actions no mobile */
 .kpi-bar::-webkit-scrollbar, .header-actions::-webkit-scrollbar {
     height: 0;
