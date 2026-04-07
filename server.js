@@ -3,6 +3,25 @@ const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 const path = require('path');
+const multer = require('multer');
+const fs = require('fs');
+
+// Verifica e cria a pasta de uploads se não existir
+if (!fs.existsSync(path.join(__dirname, 'uploads'))) {
+    fs.mkdirSync(path.join(__dirname, 'uploads'));
+}
+
+// Configuração do Multer para armazenamento local
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname)); // Mantém a extensão do arquivo (.pdf, .pptx)
+    }
+});
+const upload = multer({ storage: storage });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,6 +32,8 @@ app.use(express.json());
 
 // Serve arquivos estáticos (Landing Page + CRM)
 app.use(express.static(path.join(__dirname)));
+// Permite acesso público à pasta de uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rotas amigáveis: /admin e /crm → admin.html
 app.get(['/admin', '/crm'], (req, res) => {
@@ -114,6 +135,27 @@ app.put('/api/leads/:id', async (req, res) => {
         res.json(result.rows[0]);
     } catch (err) {
         res.status(500).json({ error: 'Erro ao atualizar lead.' });
+    }
+});
+
+// POST /api/leads/:id/upload — Upload de arquivo (PDF, PPT, etc.) para o card
+app.post('/api/leads/:id/upload', upload.single('file'), async (req, res) => {
+    const { id } = req.params;
+    if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado.' });
+
+    // O arquivo agora estará disponível em /uploads/nome-do-arquivo.extensao
+    const fileUrl = `/uploads/${req.file.filename}`;
+    
+    try {
+        const result = await pool.query(
+            `UPDATE leads SET link = $1 WHERE id = $2 RETURNING *`,
+            [fileUrl, id]
+        );
+        if (result.rows.length === 0) return res.status(404).json({ error: 'Lead não encontrado.' });
+        res.json({ success: true, link: fileUrl });
+    } catch (err) {
+        console.error('Erro no upload para o lead:', err);
+        res.status(500).json({ error: 'Erro ao salvar o arquivo no banco de dados.' });
     }
 });
 

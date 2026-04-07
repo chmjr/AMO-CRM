@@ -253,7 +253,21 @@ function renderBoard() {
             </div>
             ${lead.email ? `<div class="card-info">✉️ <a href="mailto:${escHtml(lead.email)}">${escHtml(lead.email)}</a></div>` : ''}
             ${estBadge}
-            <input type="url" class="card-input-field" placeholder="Link do Drive / Orçamento…" value="${escHtml(lead.link || '')}" onblur="updateField('${lead.id}', 'link', this.value)">
+            
+            <div class="card-upload-area" style="margin-top: 8px;">
+                ${lead.link ? 
+                    `<div style="display:flex; gap:5px; align-items:center; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 4px; font-size:11px;">
+                        <a href="${escHtml(lead.link)}" target="_blank" style="flex:1; color: var(--color-primary); text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📄 ${lead.link.includes('/uploads/') ? 'Arquivo Anexado' : 'Acessar Link'}</a>
+                        <button onclick="updateField('${lead.id}', 'link', '')" style="background:none; border:none; color:rgba(255,255,255,0.4); cursor:pointer;">&times;</button>
+                    </div>` 
+                    : 
+                    `<input type="file" id="file-${lead.id}" style="display:none" accept=".pdf,.ppt,.pptx,.doc,.docx" onchange="uploadFile('${lead.id}', this.files[0], this)">
+                     <label for="file-${lead.id}" class="card-btn" style="display:block; text-align:center; padding: 6px; margin-bottom:4px; font-weight:normal; border-style:dashed;">📎 Anexar Arquivo</label>
+                     <input type="url" class="card-input-field" style="margin-top:0;" placeholder="Ou cole um link…" onblur="if(this.value) updateField('${lead.id}', 'link', this.value)">
+                    `
+                }
+            </div>
+            
             <textarea class="card-input-field card-note" placeholder="Anotação rápida…" onblur="updateField('${lead.id}', 'annotation', this.value)">${escHtml(lead.annotation || '')}</textarea>
             <div class="card-actions">
                 <button class="card-btn card-btn-wa" onclick="window.open('${waLink}','_blank')">💬 WhatsApp</button>
@@ -324,6 +338,41 @@ window.updateField = async function(id, field, value) {
     await apiPut(id, { [field]: value });
     const lead = leadsCache.find(l => String(l.id) === String(id));
     if(lead) lead[field] = value;
+    if(field === 'link') renderBoard(); // Re-renderizar para atualizar visualização do anexo
+};
+
+window.uploadFile = async function(id, file, inputElement) {
+    if(!file) return;
+    
+    // Atualizar visual (feedback)
+    const label = inputElement.nextElementSibling;
+    const oldText = label ? label.innerText : '';
+    if(label) label.innerText = '⏳ Enviando...';
+
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    try {
+        const res = await fetch(`/api/leads/${id}/upload`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if(!res.ok) throw new Error('Falha no upload');
+        
+        const data = await res.json();
+        const lead = leadsCache.find(l => String(l.id) === String(id));
+        if(lead && data.link) {
+            lead.link = data.link; // Associa a URL do arquivo no objeto
+            renderBoard(); // Atualiza a tela
+            showToast('✅ Arquivo anexado com sucesso!');
+        }
+    } catch(e) {
+        console.error(e);
+        if(label) label.innerText = '❌ Erro. Tente novamente.';
+        setTimeout(() => { if(label) label.innerText = oldText; }, 3000);
+        showToast('❌ Erro no upload.', 'error');
+    }
 };
 
 window.showLeadDetails = function(id) {
