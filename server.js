@@ -20,9 +20,16 @@ app.get(['/admin', '/crm'], (req, res) => {
 });
 
 // Conexão com o banco de dados PostgreSQL
+const databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl) {
+    console.error('❌ ERRO: A variável DATABASE_URL não foi definida no arquivo .env');
+}
+
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+    connectionString: databaseUrl,
+    ssl: { 
+        rejectUnauthorized: false // Permite conexões com bancos online no ambiente local
+    }
 });
 
 // Cria a tabela de leads caso não exista
