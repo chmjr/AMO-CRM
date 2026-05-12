@@ -13,13 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderBoard();
     });
 
-    // Limpar leads
-    document.getElementById('btn-clear').addEventListener('click', () => {
-        if(confirm('Apagar TODOS os leads? Esta ação não pode ser desfeita.')) {
-            Promise.all(leadsCache.map(l => apiDelete(l.id))).then(loadLeads);
-        }
-    });
-
     // Modal Configurações
     const modalSettings = document.getElementById('modal-settings');
     document.getElementById('btn-settings').addEventListener('click', () => {
@@ -302,7 +295,8 @@ function renderBoard() {
             <textarea class="card-input-field card-note" placeholder="Anotação rápida…" onblur="updateField('${lead.id}', 'annotation', this.value)">${escHtml(lead.annotation || '')}</textarea>
             <div class="card-actions">
                 <button class="card-btn card-btn-wa" onclick="window.open('${waLink}','_blank')">💬 WhatsApp</button>
-                ${isQuestionario ? `<button class="card-btn btn-show-orc" onclick="showLeadDetails('${lead.id}')">📋 Briefing</button>` : isCalc || sim ? `<button class="card-btn btn-show-orc" onclick="showLeadDetails('${lead.id}')">📋 Orçamento</button>` : `<button class="card-btn" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>`}
+                ${isQuestionario || isCalc || sim ? `<button class="card-btn btn-show-orc" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>` : `<button class="card-btn" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>`}
+                ${!isQuestionario && !isCalc ? `<button class="card-btn" onclick="sendQuestionario('${lead.id}')" title="Enviar questionário para este lead">📝 Questionário</button>` : ''}
             </div>
             <div class="card-footer">
                 <span>📅 ${dateStr}</span>

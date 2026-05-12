@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Briefing do Projeto — AMO Arquitetura e Interiores</title>
+    <title>Questionário de Orçamento — AMO Arquitetura e Interiores</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -454,9 +454,9 @@
     <!-- Header -->
     <header class="q-header">
         <div class="q-logo">AMO<span class="q-logo-sub">ARQUITETURA E INTERIORES</span></div>
-        <h1>Briefing do Seu Projeto</h1>
-        <p>Para que possamos montar seu projeto com mais precisão, preencha as informações abaixo.</p>
-        <div class="q-badge">Questionário de Briefing</div>
+        <h1>Briefing do Seu Orçamento</h1>
+        <p>Para que possamos montar seu orçamento com mais precisão, preencha as informações abaixo.</p>
+        <div class="q-badge">Questionário de Orçamento AMO</div>
     </header>
 
     <div class="q-wrapper">
@@ -764,7 +764,8 @@
             <h3 class="q-submit-title">Tudo pronto?</h3>
             <p class="q-submit-desc">Suas respostas e fotos serão salvas no sistema e enviadas via WhatsApp</p>
             <div id="q-erro" class="q-erro">Preencha pelo menos seu nome e WhatsApp para enviar.</div>
-            <div id="q-status" style="display:none; color:var(--color-primary); font-size:14px; margin-bottom:12px;"></div>
+            <div id="q-status" style="display:none; color:var(--color-primary); font-size:14px; margin-bottom:12px;">
+            </div>
 
             <button class="q-btn-whatsapp" id="q-btn-enviar" onclick="enviarQuestionario()">
                 <svg viewBox="0 0 24 24">
@@ -868,7 +869,7 @@
 
         function montarMensagemWhatsApp(d) {
             return [
-                `Olá! Sou *${d.nome}* e acabei de responder o questionário de briefing da AMO Arquitetura.`,
+                `Olá! Sou *${d.nome}* e acabei de responder o questionário de orçamento da AMO Arquitetura.`,
                 ``,
                 `Aguardo o contato de vocês para darmos sequência ao projeto!`,
             ].join('\n');
@@ -923,7 +924,7 @@
             window.open(`https://wa.me/${NUMERO_AMO}?text=${encodeURIComponent(msg)}`, '_blank');
 
             btn.innerHTML = 'Enviado!';
-            status.textContent = 'Briefing enviado com sucesso!';
+            status.textContent = 'Questionário do Orçamento enviado com sucesso!';
             status.style.color = '#25D366';
 
             setTimeout(() => {
@@ -933,8 +934,8 @@
         }
 
         // Máscara de telefone
-        document.getElementById('q-whatsapp')?.addEventListener('input', function(e) {
-            var x = e.target.value.replace(/\D/g,'').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        document.getElementById('q-whatsapp')?.addEventListener('input', function (e) {
+            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         });
     </script>
