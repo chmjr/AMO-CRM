@@ -70,7 +70,7 @@ body {
 .btn-voltar {
     color: var(--color-text); text-decoration: none; font-size: 13px;
     padding: 7px 14px; border: 1px solid var(--border-subtle); border-radius: 4px; transition: 0.2s;
-    white-space: nowrap;
+    white-space: nowrap; background: transparent; cursor: pointer; font-family: inherit;
 }
 .btn-voltar:hover { background: rgba(255,255,255,0.07); }
 
