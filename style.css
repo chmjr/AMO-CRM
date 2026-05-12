@@ -260,10 +260,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-card:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.45);
     border-color: rgba(197, 168, 128, 1);
     transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
 }
 
 .simulator-promo {
