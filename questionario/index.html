@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Briefing do Projeto — AMO Arquitetura e Interiores</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --color-bg: #EAE6DF;
@@ -19,11 +22,18 @@
             --font-heading: 'Outfit', sans-serif;
             --font-body: 'Inter', sans-serif;
             --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --shadow-premium: 0 20px 40px rgba(0,0,0,0.08);
+            --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: var(--font-body);
@@ -39,6 +49,7 @@
             padding: 50px 24px 40px;
             text-align: center;
         }
+
         .q-logo {
             font-family: var(--font-heading);
             font-size: 28px;
@@ -46,14 +57,16 @@
             letter-spacing: 3px;
             color: var(--color-white);
         }
+
         .q-logo-sub {
             font-family: var(--font-body);
             font-size: 10px;
             letter-spacing: 4px;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
             display: block;
             margin-top: 4px;
         }
+
         .q-header h1 {
             font-family: var(--font-heading);
             font-size: clamp(24px, 5vw, 36px);
@@ -62,18 +75,20 @@
             margin-top: 28px;
             line-height: 1.2;
         }
+
         .q-header p {
-            color: rgba(255,255,255,0.6);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 15px;
             margin-top: 12px;
             max-width: 520px;
             margin-left: auto;
             margin-right: auto;
         }
+
         .q-badge {
             display: inline-block;
-            background: rgba(197,168,128,0.15);
-            border: 1px solid rgba(197,168,128,0.3);
+            background: rgba(197, 168, 128, 0.15);
+            border: 1px solid rgba(197, 168, 128, 0.3);
             color: var(--color-primary);
             font-size: 11px;
             font-weight: 600;
@@ -98,10 +113,12 @@
             margin-bottom: 24px;
             transition: var(--transition-smooth);
         }
+
         .q-section:hover {
             box-shadow: var(--shadow-premium);
             border-color: var(--color-primary);
         }
+
         .q-section-number {
             display: inline-flex;
             align-items: center;
@@ -116,6 +133,7 @@
             border-radius: 50%;
             margin-bottom: 16px;
         }
+
         .q-section-title {
             font-family: var(--font-heading);
             font-size: 22px;
@@ -123,6 +141,7 @@
             color: var(--color-dark);
             margin-bottom: 6px;
         }
+
         .q-section-desc {
             font-size: 14px;
             color: #888;
@@ -133,6 +152,7 @@
         .q-field {
             margin-bottom: 20px;
         }
+
         .q-label {
             display: block;
             font-size: 13px;
@@ -142,7 +162,9 @@
             color: var(--color-dark-alt);
             margin-bottom: 8px;
         }
-        .q-input, .q-textarea {
+
+        .q-input,
+        .q-textarea {
             width: 100%;
             padding: 14px 16px;
             border: 1px solid #DDD;
@@ -153,18 +175,24 @@
             transition: var(--transition-smooth);
             outline: none;
         }
-        .q-input:focus, .q-textarea:focus {
+
+        .q-input:focus,
+        .q-textarea:focus {
             border-color: var(--color-primary);
             background: var(--color-white);
-            box-shadow: 0 0 0 3px rgba(197,168,128,0.12);
+            box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.12);
         }
-        .q-input::placeholder, .q-textarea::placeholder {
+
+        .q-input::placeholder,
+        .q-textarea::placeholder {
             color: #BBB;
         }
+
         .q-textarea {
             resize: vertical;
             min-height: 80px;
         }
+
         .q-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -177,11 +205,13 @@
             flex-direction: column;
             gap: 10px;
         }
+
         .q-options.horizontal {
             flex-direction: row;
             flex-wrap: wrap;
             gap: 12px;
         }
+
         .q-option {
             display: flex;
             align-items: center;
@@ -195,10 +225,12 @@
             color: var(--color-dark-alt);
             user-select: none;
         }
+
         .q-option:hover {
             border-color: var(--color-primary);
-            background: rgba(197,168,128,0.04);
+            background: rgba(197, 168, 128, 0.04);
         }
+
         .q-option input[type="checkbox"],
         .q-option input[type="radio"] {
             width: 18px;
@@ -207,6 +239,7 @@
             cursor: pointer;
             flex-shrink: 0;
         }
+
         .q-option.wide {
             flex: 1;
             min-width: 180px;
@@ -220,6 +253,7 @@
             padding-top: 16px;
             border-top: 1px solid #EEE;
         }
+
         .q-subgroup-title {
             font-size: 13px;
             font-weight: 600;
@@ -252,19 +286,23 @@
             transition: var(--transition-smooth);
             cursor: pointer;
         }
+
         .q-upload:hover {
             border-color: var(--color-primary);
-            background: rgba(197,168,128,0.04);
+            background: rgba(197, 168, 128, 0.04);
         }
+
         .q-upload-icon {
             font-size: 32px;
             margin-bottom: 8px;
             opacity: 0.5;
         }
+
         .q-upload-text {
             font-size: 14px;
             color: #999;
         }
+
         .q-upload-hint {
             font-size: 12px;
             color: #BBB;
@@ -277,6 +315,7 @@
             grid-template-columns: 1fr 1fr 1fr;
             gap: 14px;
         }
+
         .q-nivel-card {
             border: 1px solid #E0DCD6;
             background: var(--color-surface);
@@ -285,21 +324,28 @@
             cursor: pointer;
             transition: var(--transition-smooth);
         }
+
         .q-nivel-card:hover {
             border-color: var(--color-primary);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
         }
-        .q-nivel-card input { display: none; }
+
+        .q-nivel-card input {
+            display: none;
+        }
+
         .q-nivel-card.selecionado {
             border-color: var(--color-primary);
-            background: rgba(197,168,128,0.08);
-            box-shadow: 0 8px 20px rgba(197,168,128,0.15);
+            background: rgba(197, 168, 128, 0.08);
+            box-shadow: 0 8px 20px rgba(197, 168, 128, 0.15);
         }
+
         .q-nivel-icon {
             font-size: 28px;
             margin-bottom: 10px;
         }
+
         .q-nivel-nome {
             font-family: var(--font-heading);
             font-size: 16px;
@@ -307,6 +353,7 @@
             color: var(--color-dark);
             margin-bottom: 6px;
         }
+
         .q-nivel-desc {
             font-size: 12px;
             color: #999;
@@ -320,17 +367,20 @@
             text-align: center;
             margin-top: 12px;
         }
+
         .q-submit-title {
             font-family: var(--font-heading);
             font-size: 22px;
             color: var(--color-white);
             margin-bottom: 8px;
         }
+
         .q-submit-desc {
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 14px;
             margin-bottom: 24px;
         }
+
         .q-btn-whatsapp {
             display: inline-flex;
             align-items: center;
@@ -347,10 +397,12 @@
             cursor: pointer;
             transition: var(--transition-smooth);
         }
+
         .q-btn-whatsapp:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(37,211,102,0.3);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
         }
+
         .q-btn-whatsapp svg {
             width: 20px;
             height: 20px;
@@ -363,7 +415,10 @@
             margin-top: 12px;
             display: none;
         }
-        .q-erro.visivel { display: block; }
+
+        .q-erro.visivel {
+            display: block;
+        }
 
         /* FOOTER */
         .q-footer {
@@ -376,15 +431,24 @@
 
         /* RESPONSIVE */
         @media (max-width: 640px) {
-            .q-section { padding: 28px 20px; }
+            .q-section {
+                padding: 28px 20px;
+            }
+
             .q-row,
             .q-grid-2,
             .q-grid-3,
-            .q-nivel-cards { grid-template-columns: 1fr; }
-            .q-options.horizontal { flex-direction: column; }
+            .q-nivel-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .q-options.horizontal {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Header -->
@@ -676,19 +740,22 @@
                     <div class="q-upload-icon">&#128247;</div>
                     <div class="q-upload-text">Toque para selecionar fotos ou vídeos</div>
                     <div class="q-upload-hint">Pode ser pelo celular mesmo — JPG, PNG ou MP4</div>
-                    <input type="file" id="q-fotos" multiple accept="image/*,video/*" style="display:none" onchange="mostrarArquivos(this)">
+                    <input type="file" id="q-fotos" multiple accept="image/*,video/*" style="display:none"
+                        onchange="mostrarArquivos(this)">
                 </div>
                 <div id="q-fotos-lista" style="margin-top:8px; font-size:13px; color:var(--color-primary);"></div>
             </div>
 
             <div class="q-field">
                 <label class="q-label">Tem alguma urgência com o projeto?</label>
-                <input type="text" class="q-input" id="q-prazo" placeholder="Ex: Gostaria de começar em agosto, sem urgência, etc.">
+                <input type="text" class="q-input" id="q-prazo"
+                    placeholder="Ex: Gostaria de começar em agosto, sem urgência, etc.">
             </div>
 
             <div class="q-field">
                 <label class="q-label">Observações adicionais</label>
-                <textarea class="q-textarea" id="q-obs" placeholder="Conte mais detalhes sobre o que imagina para o projeto, referências, estilos que gosta..."></textarea>
+                <textarea class="q-textarea" id="q-obs"
+                    placeholder="Conte mais detalhes sobre o que imagina para o projeto, referências, estilos que gosta..."></textarea>
             </div>
         </div>
 
@@ -699,7 +766,10 @@
             <div id="q-erro" class="q-erro">Preencha pelo menos seu nome e WhatsApp para enviar.</div>
 
             <button class="q-btn-whatsapp" onclick="enviarQuestionario()">
-                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
                 Enviar via WhatsApp
             </button>
         </div>
@@ -817,10 +887,11 @@
                 `Enviado pelo questionário online AMO Arquitetura`
             ].filter(l => l !== null).join('\n');
 
-            const NUMERO_AMO = '5548999999999';
+            const NUMERO_AMO = '5548999276660';
             window.open(`https://wa.me/${NUMERO_AMO}?text=${encodeURIComponent(linhas)}`, '_blank');
         }
     </script>
 
 </body>
+
 </html>
