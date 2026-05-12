@@ -300,7 +300,7 @@ function renderBoard() {
             </div>
             <div class="card-footer">
                 <span>📅 ${dateStr}</span>
-                <span class="${isCalc || isQuestionario ? 'tag-calc' : 'tag-origem'}">${isCalc ? '🧮 Calculadora' : isQuestionario ? '📋 Briefing' : escHtml(lead.origin || 'Site')}</span>
+                <span class="tag-origem tag-editable" onclick="editOrigin(event, '${lead.id}')">${isQuestionario ? '＋ Origem' : escHtml(lead.origin || '＋ Origem')}</span>
             </div>
         `;
 
@@ -499,6 +499,28 @@ window.showLeadDetails = function(id) {
     }
 
     modal.classList.add('active');
+};
+
+window.editOrigin = function(event, id) {
+    event.stopPropagation();
+    const span = event.currentTarget;
+    const options = ['WhatsApp','Instagram','Indicação','Site/Busca','Calculadora LP','Pinterest','Outros'];
+    const sel = document.createElement('select');
+    sel.className = 'origin-select-inline';
+    sel.innerHTML = '<option value="" disabled selected>Selecione…</option>' + options.map(o => `<option value="${o}">${o}</option>`).join('');
+    sel.style.cssText = 'font-size:11px;background:#2a2a2a;color:#fff;border:1px solid var(--color-primary);border-radius:4px;padding:2px 4px;cursor:pointer;';
+    span.replaceWith(sel);
+    sel.focus();
+    const finish = async (val) => {
+        if(val) {
+            await apiPut(id, { origin: val });
+            const lead = leadsCache.find(l => String(l.id) === String(id));
+            if(lead) lead.origin = val;
+        }
+        renderBoard();
+    };
+    sel.addEventListener('change', () => finish(sel.value));
+    sel.addEventListener('blur', () => finish(null));
 };
 
 // ===== DRAG & DROP =====

@@ -357,6 +357,14 @@ body {
     font-size: 10px;
 }
 
+.tag-editable {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.tag-editable:hover {
+    background: rgba(197,168,128,0.25);
+}
+
 /* ── MODAL ───────────────────────────────────────────────── */
 .btn-primary-small {
     background: var(--color-primary); color: #111;

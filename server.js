@@ -113,15 +113,17 @@ app.post('/api/leads', async (req, res) => {
 // PUT /api/leads/:id — Atualiza status, nota ou link de um lead (ação do CRM)
 app.put('/api/leads/:id', async (req, res) => {
     const { id } = req.params;
-    const { status, note, link } = req.body;
+    const { status, note, link, origin, annotation } = req.body;
 
     try {
         const fields = [];
         const values = [];
         let idx = 1;
-        if (status !== undefined) { fields.push(`status = $${idx++}`); values.push(status); }
-        if (note   !== undefined) { fields.push(`note = $${idx++}`);   values.push(note); }
-        if (link   !== undefined) { fields.push(`link = $${idx++}`);   values.push(link); }
+        if (status     !== undefined) { fields.push(`status = $${idx++}`);     values.push(status); }
+        if (note       !== undefined) { fields.push(`note = $${idx++}`);       values.push(note); }
+        if (link       !== undefined) { fields.push(`link = $${idx++}`);       values.push(link); }
+        if (origin     !== undefined) { fields.push(`origin = $${idx++}`);     values.push(origin); }
+        if (annotation !== undefined) { fields.push(`annotation = $${idx++}`); values.push(annotation); }
 
         if (fields.length === 0) return res.status(400).json({ error: 'Nenhum campo para atualizar.' });
 
