@@ -107,6 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
         m.addEventListener('click', (e) => { if(e.target === m) m.classList.remove('active'); });
     });
 
+    // Compartilhar Questionário
+    document.getElementById('btn-share-questionario')?.addEventListener('click', () => {
+        const url = window.location.origin + '/questionario';
+        navigator.clipboard.writeText(url).then(() => {
+            showToast('📋 Link copiado: ' + url);
+        }).catch(() => {
+            prompt('Copie o link do questionário:', url);
+        });
+    });
+
     // Auto-refresh 30s
     setInterval(loadLeads, 30000);
 });
@@ -187,14 +197,24 @@ async function loadLeads() {
     renderBoard();
 }
 
-// ===== PARSE DA NOTE DO SIMULADOR =====
+// ===== PARSE DA NOTE DO SIMULADOR / QUESTIONÁRIO =====
 function parseNote(note) {
     if(!note) return null;
     try {
         const obj = JSON.parse(note);
         if(obj.tipo && obj.ambientes) return obj;
+        if(obj.tipo_briefing === 'questionario') return obj;
     } catch {}
     return null;
+}
+
+function parseAttachments(link) {
+    if(!link) return [];
+    try {
+        const arr = JSON.parse(link);
+        if(Array.isArray(arr)) return arr;
+    } catch {}
+    return link ? [link] : [];
 }
 
 // ===== RENDER BOARD =====
@@ -225,6 +245,7 @@ function renderBoard() {
 
         const sim = parseNote(lead.note);
         const isCalc = lead.origin === 'Calculadora LP';
+        const isQuestionario = lead.origin === 'Questionário Briefing';
         const cleanPhone = (lead.phone || '').replace(/\D/g, '');
         const waLink = `https://wa.me/55${cleanPhone}`;
         const dateStr = lead.created_at
@@ -255,27 +276,37 @@ function renderBoard() {
             ${estBadge}
             
             <div class="card-upload-area" style="margin-top: 8px;">
-                ${lead.link ? 
-                    `<div style="display:flex; gap:5px; align-items:center; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 4px; font-size:11px;">
-                        <a href="${escHtml(lead.link)}" target="_blank" style="flex:1; color: var(--color-primary); text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📄 ${lead.link.includes('/uploads/') ? 'Arquivo Anexado' : 'Acessar Link'}</a>
-                        <button onclick="updateField('${lead.id}', 'link', '')" style="background:none; border:none; color:rgba(255,255,255,0.4); cursor:pointer;">&times;</button>
-                    </div>` 
-                    : 
-                    `<input type="file" id="file-${lead.id}" style="display:none" accept=".pdf,.ppt,.pptx,.doc,.docx" onchange="uploadFile('${lead.id}', this.files[0], this)">
-                     <label for="file-${lead.id}" class="card-btn" style="display:block; text-align:center; padding: 6px; margin-bottom:4px; font-weight:normal; border-style:dashed;">📎 Anexar Arquivo</label>
-                     <input type="url" class="card-input-field" style="margin-top:0;" placeholder="Ou cole um link…" onblur="if(this.value) updateField('${lead.id}', 'link', this.value)">
-                    `
-                }
+                ${(() => {
+                    const attachments = parseAttachments(lead.link);
+                    if(attachments.length > 1) {
+                        const imgs = attachments.filter(a => /\.(jpg|jpeg|png|gif|webp)$/i.test(a));
+                        const outros = attachments.filter(a => !/\.(jpg|jpeg|png|gif|webp)$/i.test(a));
+                        return `<div style="font-size:11px; color:var(--color-primary); margin-bottom:4px;">📎 ${attachments.length} arquivo(s) anexado(s)</div>` +
+                            (imgs.length > 0 ? `<div style="display:flex; gap:4px; flex-wrap:wrap; margin-bottom:4px;">${imgs.slice(0,4).map(img => `<a href="${escHtml(img)}" target="_blank"><img src="${escHtml(img)}" style="width:48px;height:48px;object-fit:cover;border-radius:3px;border:1px solid rgba(255,255,255,0.1);"></a>`).join('')}${imgs.length > 4 ? `<span style="font-size:10px;color:rgba(255,255,255,0.4);align-self:center;">+${imgs.length-4}</span>` : ''}</div>` : '') +
+                            outros.map(f => `<a href="${escHtml(f)}" target="_blank" style="display:block;font-size:11px;color:var(--color-primary);text-decoration:none;margin-bottom:2px;">📄 ${f.split('/').pop()}</a>`).join('') +
+                            `<button onclick="updateField('${lead.id}', 'link', '')" style="background:none; border:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:10px; margin-top:2px;">Remover anexos</button>`;
+                    } else if(attachments.length === 1) {
+                        const isImg = /\.(jpg|jpeg|png|gif|webp)$/i.test(attachments[0]);
+                        return `<div style="display:flex; gap:5px; align-items:center; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 4px; font-size:11px;">` +
+                            (isImg ? `<a href="${escHtml(attachments[0])}" target="_blank"><img src="${escHtml(attachments[0])}" style="width:40px;height:40px;object-fit:cover;border-radius:3px;"></a>` : '') +
+                            `<a href="${escHtml(attachments[0])}" target="_blank" style="flex:1; color: var(--color-primary); text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📄 ${attachments[0].includes('/uploads/') ? 'Arquivo Anexado' : 'Acessar Link'}</a>` +
+                            `<button onclick="updateField('${lead.id}', 'link', '')" style="background:none; border:none; color:rgba(255,255,255,0.4); cursor:pointer;">&times;</button></div>`;
+                    } else {
+                        return `<input type="file" id="file-${lead.id}" style="display:none" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png" onchange="uploadFile('${lead.id}', this.files[0], this)">` +
+                            `<label for="file-${lead.id}" class="card-btn" style="display:block; text-align:center; padding: 6px; margin-bottom:4px; font-weight:normal; border-style:dashed;">📎 Anexar Arquivo</label>` +
+                            `<input type="url" class="card-input-field" style="margin-top:0;" placeholder="Ou cole um link…" onblur="if(this.value) updateField('${lead.id}', 'link', this.value)">`;
+                    }
+                })()}
             </div>
             
             <textarea class="card-input-field card-note" placeholder="Anotação rápida…" onblur="updateField('${lead.id}', 'annotation', this.value)">${escHtml(lead.annotation || '')}</textarea>
             <div class="card-actions">
                 <button class="card-btn card-btn-wa" onclick="window.open('${waLink}','_blank')">💬 WhatsApp</button>
-                ${isCalc || sim ? `<button class="card-btn btn-show-orc" onclick="showLeadDetails('${lead.id}')">📋 Orçamento</button>` : `<button class="card-btn" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>`}
+                ${isQuestionario ? `<button class="card-btn btn-show-orc" onclick="showLeadDetails('${lead.id}')">📋 Briefing</button>` : isCalc || sim ? `<button class="card-btn btn-show-orc" onclick="showLeadDetails('${lead.id}')">📋 Orçamento</button>` : `<button class="card-btn" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>`}
             </div>
             <div class="card-footer">
                 <span>📅 ${dateStr}</span>
-                <span class="${isCalc ? 'tag-calc' : 'tag-origem'}">${isCalc ? '🧮 Calculadora' : escHtml(lead.origin || 'Site')}</span>
+                <span class="${isCalc || isQuestionario ? 'tag-calc' : 'tag-origem'}">${isCalc ? '🧮 Calculadora' : isQuestionario ? '📋 Briefing' : escHtml(lead.origin || 'Site')}</span>
             </div>
         `;
 
@@ -394,7 +425,46 @@ window.showLeadDetails = function(id) {
     const sim = parseNote(lead.note);
     const fmt = v => 'R$ ' + Number(v).toLocaleString('pt-BR');
 
-    if(sim) {
+    const attachments = parseAttachments(lead.link);
+
+    if(sim && sim.tipo_briefing === 'questionario') {
+        // Lead veio do questionário de briefing
+        const fotosHtml = attachments.length > 0
+            ? `<div style="margin-top:12px;"><strong style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Fotos do Cliente (${attachments.length})</strong><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">${attachments.map(a => {
+                const isImg = /\.(jpg|jpeg|png|gif|webp)$/i.test(a);
+                return isImg
+                    ? `<a href="${escHtml(a)}" target="_blank"><img src="${escHtml(a)}" style="width:80px;height:80px;object-fit:cover;border-radius:4px;border:1px solid rgba(255,255,255,0.15);"></a>`
+                    : `<a href="${escHtml(a)}" target="_blank" style="color:var(--color-primary);font-size:12px;">📄 ${a.split('/').pop()}</a>`;
+            }).join('')}</div></div>` : '';
+
+        body.innerHTML = `
+            <table class="details-tabela">
+                <tr><td>Localização</td><td>${escHtml(sim.localizacao || '—')}</td></tr>
+                <tr><td>Metragem</td><td>${escHtml(sim.metragem || '—')}</td></tr>
+                <tr><td>Tipo do Projeto</td><td>${escHtml(sim.tipo_projeto || '—')}</td></tr>
+                <tr><td>Escopo</td><td>${escHtml(sim.escopo || '—')}</td></tr>
+                <tr><td>Serviço</td><td>${escHtml(sim.servico || '—')}</td></tr>
+                <tr><td>Tipo da Casa</td><td>${escHtml(sim.tipo_casa || '—')}</td></tr>
+                <tr><td>Ambientes Sociais</td><td>${escHtml(sim.ambientes_sociais || '—')}</td></tr>
+                <tr><td>Cozinha</td><td>${escHtml(sim.cozinha || '—')}</td></tr>
+                <tr><td>Espaço Gourmet</td><td>${escHtml(sim.gourmet || '—')}</td></tr>
+                <tr><td>Quartos</td><td>${escHtml(sim.quartos || '—')}</td></tr>
+                <tr><td>Suítes</td><td>${escHtml(sim.suites || '—')}</td></tr>
+                <tr><td>Área Externa</td><td>${escHtml(sim.area_externa || '—')}</td></tr>
+                <tr><td>Garagem</td><td>${escHtml(sim.garagem || '—')}</td></tr>
+                <tr><td>Outros Ambientes</td><td>${escHtml(sim.outros || '—')}</td></tr>
+                <tr><td>Nível de Investimento</td><td>${escHtml(sim.nivel || '—')}</td></tr>
+                <tr><td>Prazo/Urgência</td><td>${escHtml(sim.prazo || '—')}</td></tr>
+                <tr><td>Telefone</td><td>${escHtml(lead.phone || '—')}</td></tr>
+                <tr><td>E-mail</td><td>${escHtml(lead.email || '—')}</td></tr>
+                <tr><td>Origem</td><td>${escHtml(lead.origin || '—')}</td></tr>
+                <tr><td>Data</td><td>${lead.created_at ? new Date(lead.created_at).toLocaleString('pt-BR') : '—'}</td></tr>
+            </table>
+            ${sim.obs ? `<div class="details-obs"><strong style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Observação do Cliente</strong>\n${escHtml(sim.obs)}</div>` : ''}
+            ${fotosHtml}
+            ${lead.annotation ? `<div class="details-obs" style="margin-top:8px;"><strong style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Anotação Interna</strong>\n${escHtml(lead.annotation)}</div>` : ''}
+        `;
+    } else if(sim) {
         // Lead veio do simulador — renderiza tabela estruturada
         body.innerHTML = `
             <table class="details-tabela">

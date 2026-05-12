@@ -159,6 +159,34 @@ app.post('/api/leads/:id/upload', upload.single('file'), async (req, res) => {
     }
 });
 
+// POST /api/leads/questionario — Cria lead via questionário de briefing (com fotos)
+app.post('/api/leads/questionario', upload.array('fotos', 10), async (req, res) => {
+    const { name, phone, email, note } = req.body;
+    if (!name || !phone) return res.status(400).json({ error: 'Nome e telefone são obrigatórios.' });
+
+    const fotos = (req.files || []).map(f => `/uploads/${f.filename}`);
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO leads (name, phone, email, origin, note, status, link)
+             VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+            [
+                name,
+                phone,
+                email || '',
+                'Questionário Briefing',
+                note || '',
+                'contato',
+                fotos.length > 0 ? JSON.stringify(fotos) : ''
+            ]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error('Erro POST /api/leads/questionario:', err);
+        res.status(500).json({ error: 'Erro ao criar lead do questionário.' });
+    }
+});
+
 // DELETE /api/leads/:id — Remove um lead definitivamente
 app.delete('/api/leads/:id', async (req, res) => {
     const { id } = req.params;

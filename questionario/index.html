@@ -739,9 +739,9 @@
                 <div class="q-upload" onclick="document.getElementById('q-fotos').click()">
                     <div class="q-upload-icon">&#128247;</div>
                     <div class="q-upload-text">Toque para selecionar fotos ou vídeos</div>
-                    <div class="q-upload-hint">Pode ser pelo celular mesmo — JPG, PNG ou MP4</div>
+                    <div class="q-upload-hint">Pode ser pelo celular mesmo — JPG, PNG ou MP4 (máx. 10 arquivos)</div>
                     <input type="file" id="q-fotos" multiple accept="image/*,video/*" style="display:none"
-                        onchange="mostrarArquivos(this)">
+                        onchange="limitarFotos(this)">
                 </div>
                 <div id="q-fotos-lista" style="margin-top:8px; font-size:13px; color:var(--color-primary);"></div>
             </div>
@@ -762,10 +762,11 @@
         <!-- ENVIAR -->
         <div class="q-submit-section">
             <h3 class="q-submit-title">Tudo pronto?</h3>
-            <p class="q-submit-desc">Envie suas respostas diretamente para nossa equipe via WhatsApp</p>
+            <p class="q-submit-desc">Suas respostas e fotos serão salvas no sistema e enviadas via WhatsApp</p>
             <div id="q-erro" class="q-erro">Preencha pelo menos seu nome e WhatsApp para enviar.</div>
+            <div id="q-status" style="display:none; color:var(--color-primary); font-size:14px; margin-bottom:12px;"></div>
 
-            <button class="q-btn-whatsapp" onclick="enviarQuestionario()">
+            <button class="q-btn-whatsapp" id="q-btn-enviar" onclick="enviarQuestionario()">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
@@ -781,16 +782,24 @@
     </footer>
 
     <script>
+        const NUMERO_AMO = '5548999276660';
+
         function selecionarNivel(el) {
             document.querySelectorAll('.q-nivel-card').forEach(c => c.classList.remove('selecionado'));
             el.classList.add('selecionado');
             el.querySelector('input').checked = true;
         }
 
-        function mostrarArquivos(input) {
+        function limitarFotos(input) {
             const lista = document.getElementById('q-fotos-lista');
+            if (input.files.length > 10) {
+                lista.innerHTML = '<div style="color:#D9534F;">Limite de 10 arquivos. Selecione novamente.</div>';
+                input.value = '';
+                return;
+            }
             if (input.files.length > 0) {
-                lista.textContent = input.files.length + ' arquivo(s) selecionado(s)';
+                const nomes = Array.from(input.files).map(f => f.name);
+                lista.innerHTML = nomes.map(n => `<div style="padding:2px 0;">&#128206; ${n}</div>`).join('');
             }
         }
 
@@ -803,93 +812,131 @@
             return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(e => e.value);
         }
 
-        function enviarQuestionario() {
-            const nome = document.getElementById('q-nome').value.trim();
-            const whatsapp = document.getElementById('q-whatsapp').value.trim();
-            const email = document.getElementById('q-email').value.trim();
-            const erro = document.getElementById('q-erro');
+        function coletarDados() {
+            return {
+                nome: document.getElementById('q-nome').value.trim(),
+                whatsapp: document.getElementById('q-whatsapp').value.trim(),
+                email: document.getElementById('q-email').value.trim(),
+                cidade: document.getElementById('q-cidade').value.trim(),
+                bairro: document.getElementById('q-bairro').value.trim(),
+                metragem: document.getElementById('q-metragem').value.trim(),
+                tipoProjeto: getRadioVal('q-tipo-projeto'),
+                escopo: getRadioVal('q-escopo'),
+                servico: getRadioVal('q-servico'),
+                tipoCasa: getRadioVal('q-tipo-casa'),
+                sociais: getCheckboxVals('q-social'),
+                cozinha: getRadioVal('q-cozinha'),
+                gourmet: getRadioVal('q-gourmet'),
+                quartos: getRadioVal('q-quartos'),
+                suites: getRadioVal('q-suites'),
+                externas: getCheckboxVals('q-externa'),
+                garagem: getRadioVal('q-garagem'),
+                outros: getCheckboxVals('q-outros'),
+                nivel: getRadioVal('q-nivel'),
+                prazo: document.getElementById('q-prazo').value.trim(),
+                obs: document.getElementById('q-obs').value.trim(),
+            };
+        }
 
-            if (!nome || !whatsapp) {
+        function montarNoteJSON(d) {
+            const nivelTexto = {
+                'essencial': 'O Essencial',
+                'intermediario': 'Intermediário',
+                'alto-padrao': 'Alto Padrão'
+            };
+            return JSON.stringify({
+                tipo_briefing: 'questionario',
+                localizacao: [d.cidade, d.bairro].filter(Boolean).join(' — ') || '',
+                metragem: d.metragem || '',
+                tipo_projeto: d.tipoProjeto || '',
+                escopo: d.escopo || '',
+                servico: d.servico || '',
+                tipo_casa: d.tipoCasa || '',
+                ambientes_sociais: d.sociais.join(', ') || '',
+                cozinha: d.cozinha || '',
+                gourmet: d.gourmet || '',
+                quartos: d.quartos || '',
+                suites: d.suites || '',
+                area_externa: d.externas.join(', ') || '',
+                garagem: d.garagem || '',
+                outros: d.outros.join(', ') || '',
+                nivel: nivelTexto[d.nivel] || d.nivel || '',
+                prazo: d.prazo || '',
+                obs: d.obs || '',
+            });
+        }
+
+        function montarMensagemWhatsApp(d) {
+            return [
+                `Olá! Sou *${d.nome}* e acabei de responder o questionário de briefing da AMO Arquitetura.`,
+                ``,
+                `Aguardo o contato de vocês para darmos sequência ao projeto!`,
+            ].join('\n');
+        }
+
+        async function enviarQuestionario() {
+            const d = coletarDados();
+            const erro = document.getElementById('q-erro');
+            const status = document.getElementById('q-status');
+            const btn = document.getElementById('q-btn-enviar');
+
+            if (!d.nome || !d.whatsapp) {
                 erro.classList.add('visivel');
+                status.style.display = 'none';
                 return;
             }
             erro.classList.remove('visivel');
 
-            const cidade = document.getElementById('q-cidade').value.trim();
-            const bairro = document.getElementById('q-bairro').value.trim();
-            const metragem = document.getElementById('q-metragem').value.trim();
-            const tipoProjeto = getRadioVal('q-tipo-projeto');
-            const escopo = getRadioVal('q-escopo');
-            const servico = getRadioVal('q-servico');
-            const tipoCasa = getRadioVal('q-tipo-casa');
-            const sociais = getCheckboxVals('q-social');
-            const cozinha = getRadioVal('q-cozinha');
-            const gourmet = getRadioVal('q-gourmet');
-            const quartos = getRadioVal('q-quartos');
-            const suites = getRadioVal('q-suites');
-            const externas = getCheckboxVals('q-externa');
-            const garagem = getRadioVal('q-garagem');
-            const outros = getCheckboxVals('q-outros');
-            const nivel = getRadioVal('q-nivel');
-            const prazo = document.getElementById('q-prazo').value.trim();
-            const obs = document.getElementById('q-obs').value.trim();
+            btn.disabled = true;
+            btn.innerHTML = 'Enviando ao CRM...';
+            status.style.display = 'block';
+            status.textContent = 'Salvando dados e fotos no sistema...';
 
-            const nivelTexto = {
-                'essencial': 'O Essencial (básico bem feito)',
-                'intermediario': 'Intermediário (equilibrar gastos)',
-                'alto-padrao': 'Alto Padrão (acabamentos premium)'
-            };
+            const noteJSON = montarNoteJSON(d);
+            const fotos = document.getElementById('q-fotos').files;
 
-            const linhas = [
-                `*BRIEFING DE PROJETO - AMO ARQUITETURA*`,
-                ``,
-                `*Dados do Cliente:*`,
-                `Nome: ${nome}`,
-                `WhatsApp: ${whatsapp}`,
-                email ? `E-mail: ${email}` : null,
-                ``,
-                `*1. Localização:*`,
-                cidade ? `Cidade: ${cidade}` : null,
-                bairro ? `Bairro: ${bairro}` : null,
-                metragem ? `Metragem: ${metragem}` : null,
-                tipoProjeto ? `Tipo: ${tipoProjeto === 'reforma' ? 'Reforma' : 'Projeto novo'}` : null,
-                ``,
-                `*2. Escopo:*`,
-                escopo ? `Inclui: ${escopo === 'tudo' ? 'Tudo (gesso, iluminação, revestimentos, marcenaria)' : 'Focado em mobiliário e decoração'}` : null,
-                servico ? `Serviço: ${servico === 'arquitetonico' ? 'Projeto arquitetônico' : 'Arquitetônico + interiores'}` : null,
-                ``,
-                `*3. Tipo da Casa:*`,
-                tipoCasa ? `${tipoCasa === 'terrea' ? 'Térrea' : 'Dois pavimentos'}` : 'Não informado',
-                ``,
-                `*4. Ambientes Sociais:*`,
-                sociais.length ? sociais.map(s => `- ${s.replace(/-/g, ' ')}`).join('\n') : 'Nenhum selecionado',
-                cozinha ? `Cozinha: ${cozinha}` : null,
-                gourmet ? `Espaço gourmet: ${gourmet}` : null,
-                ``,
-                `*5. Quartos e Suítes:*`,
-                quartos ? `Quartos: ${quartos}` : 'Não informado',
-                suites ? `Suítes: ${suites}` : 'Não informado',
-                ``,
-                `*6. Area Externa:*`,
-                externas.length ? externas.map(e => `- ${e.replace(/-/g, ' ')}`).join('\n') : 'Nenhum selecionado',
-                garagem ? `Garagem: ${garagem} carro(s)` : null,
-                ``,
-                `*7. Outros Ambientes:*`,
-                outros.length ? outros.map(o => `- ${o}`).join('\n') : 'Nenhum',
-                ``,
-                `*8. Nivel de Investimento:*`,
-                nivel ? nivelTexto[nivel] : 'Não informado',
-                ``,
-                prazo ? `*Prazo/Urgência:* ${prazo}` : null,
-                obs ? `*Observações:* ${obs}` : null,
-                ``,
-                `---`,
-                `Enviado pelo questionário online AMO Arquitetura`
-            ].filter(l => l !== null).join('\n');
+            const formData = new FormData();
+            formData.append('name', d.nome);
+            formData.append('phone', d.whatsapp);
+            formData.append('email', d.email);
+            formData.append('note', noteJSON);
+            for (let i = 0; i < fotos.length; i++) {
+                formData.append('fotos', fotos[i]);
+            }
 
-            const NUMERO_AMO = '5548999276660';
-            window.open(`https://wa.me/${NUMERO_AMO}?text=${encodeURIComponent(linhas)}`, '_blank');
+            try {
+                const res = await fetch('/api/leads/questionario', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (res.ok) {
+                    status.textContent = 'Salvo no CRM! Abrindo WhatsApp...';
+                } else {
+                    status.textContent = 'Erro ao salvar no CRM, mas abrindo WhatsApp...';
+                }
+            } catch (err) {
+                status.textContent = 'Servidor offline, abrindo WhatsApp...';
+            }
+
+            const msg = montarMensagemWhatsApp(d);
+            window.open(`https://wa.me/${NUMERO_AMO}?text=${encodeURIComponent(msg)}`, '_blank');
+
+            btn.innerHTML = 'Enviado!';
+            status.textContent = 'Briefing enviado com sucesso!';
+            status.style.color = '#25D366';
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Enviar via WhatsApp`;
+            }, 4000);
         }
+
+        // Máscara de telefone
+        document.getElementById('q-whatsapp')?.addEventListener('input', function(e) {
+            var x = e.target.value.replace(/\D/g,'').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
     </script>
 
 </body>
