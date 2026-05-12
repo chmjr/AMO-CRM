@@ -202,6 +202,20 @@ app.delete('/api/leads/:id', async (req, res) => {
     }
 });
 
+// GET /api/debug/uploads — Lista arquivos salvos na pasta uploads (diagnóstico)
+app.get('/api/debug/uploads', (req, res) => {
+    try {
+        const files = fs.readdirSync(uploadsDir);
+        res.json({
+            path: uploadsDir,
+            total: files.length,
+            files: files.slice(0, 50)
+        });
+    } catch (err) {
+        res.json({ error: err.message, path: uploadsDir });
+    }
+});
+
 // Inicializa o banco e sobe o servidor
 initDB().then(() => {
     app.listen(PORT, () => {
