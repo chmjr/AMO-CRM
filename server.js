@@ -6,15 +6,16 @@ const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
 
-// Verifica e cria a pasta de uploads se não existir
-if (!fs.existsSync(path.join(__dirname, 'uploads'))) {
-    fs.mkdirSync(path.join(__dirname, 'uploads'));
+// Caminho absoluto para a pasta de uploads (compatível com Railway Volume)
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
 // Configuração do Multer para armazenamento local
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/')
+        cb(null, uploadsDir)
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -167,6 +168,7 @@ app.post('/api/leads/questionario', upload.array('fotos', 10), async (req, res) 
     if (!name || !phone) return res.status(400).json({ error: 'Nome e telefone são obrigatórios.' });
 
     const fotos = (req.files || []).map(f => `/uploads/${f.filename}`);
+    console.log(`📸 Questionário: ${fotos.length} foto(s) salvas em ${uploadsDir}`, fotos);
 
     try {
         const result = await pool.query(

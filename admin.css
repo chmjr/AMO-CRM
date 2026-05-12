@@ -490,87 +490,219 @@ body {
     border-radius: 4px;
 }
 
-/* ── RESPONSIVIDADE (MOBILE) ─────────────────────────────── */
+/* ── RESPONSIVIDADE (MOBILE / iPHONE) ───────────────────── */
 @media (max-width: 768px) {
     body {
-        height: auto;
-        min-height: 100vh;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
     }
 
+    /* HEADER MOBILE */
     .crm-header {
-        padding: 12px 16px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-
-    .header-center {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .header-actions {
-        width: 100%;
-        justify-content: space-between;
-        overflow-x: auto;
-        padding-bottom: 5px;
-    }
-
-    .kpi-bar {
-        padding: 5px 0;
-    }
-
-    .kpi-item {
-        min-width: 110px;
-        padding: 10px;
-    }
-
-    .kpi-valor {
-        font-size: 18px;
-    }
-
-    .kanban-board {
-        padding: 12px 16px;
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        gap: 12px;
-        height: calc(100vh - 180px); /* Ajuste para mobile */
-    }
-
-    .kanban-column {
-        flex: 0 0 85vw; /* Quase largura total no mobile */
-        scroll-snap-align: center;
-        max-height: 100%;
-    }
-
-    .card-actions {
-        flex-direction: column;
+        padding: 10px 14px;
+        padding-top: max(10px, env(safe-area-inset-top));
+        flex-wrap: wrap;
         gap: 8px;
     }
 
-    .card-btn {
-        padding: 10px; /* Maior área de toque */
-    }
+    .logo-text { font-size: 17px; }
+    .logo-subtext { font-size: 7px; letter-spacing: 2px; }
 
-    .modal-content {
-        padding: 20px;
-        width: 95%;
-        margin: 10px;
-    }
-
-    .modal-wide {
+    .header-center {
+        order: 10;
         max-width: 100%;
+        width: 100%;
     }
+    .crm-busca { padding: 10px 12px; font-size: 14px; border-radius: 8px; }
 
-    .details-tabela td:first-child {
-        width: 40%;
-        font-size: 10px;
+    .header-actions {
+        margin-left: auto;
+        gap: 6px;
+        flex-wrap: wrap;
     }
-
-    .card-title {
+    .header-actions .btn-voltar,
+    .header-actions .btn-icon,
+    .header-actions .btn-primary-small {
+        font-size: 12px;
+        padding: 7px 10px;
+    }
+    /* Esconder textos longos dos botões no mobile, manter só ícone */
+    .header-actions .btn-voltar {
+        font-size: 0;
+        padding: 8px 10px;
+    }
+    .header-actions .btn-voltar::first-letter {
         font-size: 14px;
     }
+    /* Botões do header mobile: mostrar apenas emoji/ícone */
+    #btn-open-calculator { font-size: 0; padding: 8px 10px; }
+    #btn-open-calculator::before { content: '🧮'; font-size: 16px; }
+    #btn-share-questionario { font-size: 0; padding: 8px 10px; }
+    #btn-share-questionario::before { content: '📋'; font-size: 16px; }
+    #btn-add-lead { font-size: 12px; padding: 8px 12px; }
+    .header-actions a.btn-voltar { font-size: 0; }
+    .header-actions a.btn-voltar::before { content: '←'; font-size: 16px; }
+
+    /* KPI BAR MOBILE */
+    .kpi-bar {
+        padding: 0;
+        -webkit-overflow-scrolling: touch;
+    }
+    .kpi-item {
+        min-width: 90px;
+        padding: 10px 12px;
+    }
+    .kpi-valor { font-size: 17px; }
+    .kpi-label { font-size: 8px; letter-spacing: 0.5px; }
+
+    /* KANBAN MOBILE - scroll horizontal com snap */
+    .kanban-board {
+        padding: 10px 0 0 0;
+        gap: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        flex: 1;
+        padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    .kanban-column {
+        flex: 0 0 88vw;
+        scroll-snap-align: center;
+        max-height: 100%;
+        margin: 0 6px;
+        border-radius: 10px;
+    }
+    .kanban-column:first-child { margin-left: 14px; }
+    .kanban-column:last-child { margin-right: 14px; }
+
+    .column-header {
+        padding: 10px 14px;
+        border-radius: 10px 10px 0 0;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+    .column-header h3 { font-size: 13px; }
+
+    .kanban-cards {
+        padding: 10px;
+        gap: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* CARDS MOBILE */
+    .kanban-card {
+        padding: 14px;
+        border-radius: 8px;
+        cursor: default;
+    }
+    .kanban-card:active { transform: none; }
+
+    .card-title { font-size: 14px; }
+    .card-info { font-size: 13px; margin-bottom: 6px; }
+    .card-info a { font-size: 13px !important; }
+
+    .card-input-field {
+        font-size: 13px;
+        padding: 10px;
+        border-radius: 6px;
+    }
+    .card-note { min-height: 44px; }
+
+    .card-actions {
+        gap: 8px;
+        margin-top: 10px;
+    }
+    .card-btn {
+        padding: 11px 10px;
+        font-size: 13px;
+        border-radius: 6px;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .card-footer {
+        margin-top: 10px;
+        padding-top: 8px;
+        font-size: 11px;
+    }
+    .tag-origem, .tag-calc { font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+
+    .card-upload-area { margin-top: 10px !important; }
+
+    /* delete button bigger for touch */
+    .btn-delete-card { font-size: 22px; padding: 4px 6px; }
+
+    /* MODAIS MOBILE - fullscreen */
+    .modal-overlay { padding: 0; align-items: flex-end; }
+
+    .modal-content {
+        padding: 20px 16px;
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        width: 100%;
+        max-width: 100%;
+        border-radius: 16px 16px 0 0;
+        max-height: 92vh;
+        max-height: 92dvh;
+    }
+    .modal-wide { max-width: 100%; }
+
+    .modal-header { margin-bottom: 18px; }
+    .modal-header h2 { font-size: 16px; }
+    .btn-close { font-size: 30px; padding: 4px 8px; }
+
+    .modal-form input, .modal-form select.modal-select {
+        padding: 14px;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+    .btn-submit-modal {
+        padding: 15px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+
+    .details-tabela { font-size: 13px; }
+    .details-tabela td { padding: 10px; }
+    .details-tabela td:first-child { width: 38%; font-size: 10px; }
+
+    .details-est-card { padding: 14px 16px; }
+    .details-est-faixa { font-size: 19px; }
+
+    .details-obs { font-size: 13px; padding: 10px; }
+
+    /* Calculator modal mobile */
+    #modal-calculator .modal-content {
+        height: 95vh !important;
+        height: 95dvh !important;
+        max-height: 95vh;
+        border-radius: 12px 12px 0 0;
+    }
+
+    /* Toast mobile */
+    .crm-toast {
+        bottom: max(16px, env(safe-area-inset-bottom));
+        left: 16px;
+        right: 16px;
+        transform: translateY(100px);
+        width: auto;
+        font-size: 13px;
+        border-radius: 10px;
+        padding: 12px 16px;
+    }
+    .crm-toast.active {
+        transform: translateY(0);
+    }
+}
+
+/* iPhone SE / small screens */
+@media (max-width: 375px) {
+    .kanban-column { flex: 0 0 92vw; }
+    .kpi-item { min-width: 80px; padding: 8px 10px; }
+    .kpi-valor { font-size: 15px; }
+    #btn-add-lead { font-size: 11px; padding: 7px 10px; }
 }
 
 /* ── TOAST NOTIFICATION ──────────────────────────────────── */
