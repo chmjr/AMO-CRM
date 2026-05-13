@@ -195,9 +195,22 @@ app.post('/api/leads/questionario', upload.array('fotos', 10), async (req, res) 
 app.delete('/api/leads/:id', async (req, res) => {
     const { id } = req.params;
     try {
+        const lead = await pool.query('SELECT link FROM leads WHERE id = $1', [id]);
+        if (lead.rows.length > 0 && lead.rows[0].link) {
+            let files = [];
+            try { files = JSON.parse(lead.rows[0].link); } catch { files = [lead.rows[0].link]; }
+            if (!Array.isArray(files)) files = [files];
+            files.forEach(f => {
+                if (f && f.startsWith('/uploads/')) {
+                    const filePath = path.join(__dirname, f);
+                    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+                }
+            });
+        }
         await pool.query('DELETE FROM leads WHERE id = $1', [id]);
         res.json({ success: true });
     } catch (err) {
+        console.error('Erro DELETE /api/leads/:id:', err);
         res.status(500).json({ error: 'Erro ao deletar lead.' });
     }
 });

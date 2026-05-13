@@ -490,7 +490,10 @@ body {
     border-radius: 4px;
 }
 
-/* ── RESPONSIVIDADE (MOBILE / iPHONE) ───────────────────── */
+/* ══════════════════════════════════════════════════════════
+   MOBILE / iPHONE — Compact, touch-friendly, space-efficient
+   Touch targets ≥ 44px · Safe areas · dvh units
+   ══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
     body {
         height: 100vh;
@@ -498,67 +501,68 @@ body {
         overflow: hidden;
     }
 
-    /* HEADER MOBILE */
+    /* ── HEADER ─ compact single row ───────────────────────── */
     .crm-header {
-        padding: 10px 14px;
-        padding-top: max(10px, env(safe-area-inset-top));
-        flex-wrap: wrap;
+        padding: 8px 12px;
+        padding-top: max(8px, env(safe-area-inset-top));
         gap: 8px;
+        flex-wrap: nowrap;
     }
 
-    .logo-text { font-size: 17px; }
-    .logo-subtext { font-size: 7px; letter-spacing: 2px; }
+    .logo { flex-shrink: 0; }
+    .logo-text { font-size: 16px; }
+    .logo-subtext { display: none; }
 
-    .header-center {
-        order: 10;
-        max-width: 100%;
-        width: 100%;
-    }
-    .crm-busca { padding: 10px 12px; font-size: 14px; border-radius: 8px; }
+    /* Hide search from header row — show via toggle if needed */
+    .header-center { display: none; }
 
     .header-actions {
         margin-left: auto;
-        gap: 6px;
-        flex-wrap: wrap;
+        gap: 4px;
+        flex-wrap: nowrap;
     }
+
+    /* All header buttons: icon-only, compact 36px squares */
     .header-actions .btn-voltar,
     .header-actions .btn-icon,
-    .header-actions .btn-primary-small {
-        font-size: 12px;
-        padding: 7px 10px;
+    .header-actions .btn-primary-small,
+    #btn-open-calculator,
+    #btn-share-questionario {
+        font-size: 0 !important;
+        width: 36px;
+        height: 36px;
+        padding: 0 !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        flex-shrink: 0;
     }
-    /* Esconder textos longos dos botões no mobile, manter só ícone */
-    .header-actions .btn-voltar {
-        font-size: 0;
-        padding: 8px 10px;
-    }
-    .header-actions .btn-voltar::first-letter {
-        font-size: 14px;
-    }
-    /* Botões do header mobile: mostrar apenas emoji/ícone */
-    #btn-open-calculator { font-size: 0; padding: 8px 10px; }
-    #btn-open-calculator::before { content: '🧮'; font-size: 16px; }
-    #btn-share-questionario { font-size: 0; padding: 8px 10px; }
-    #btn-share-questionario::before { content: '📋'; font-size: 16px; }
-    #btn-add-lead { font-size: 12px; padding: 8px 12px; }
-    .header-actions a.btn-voltar { font-size: 0; }
-    .header-actions a.btn-voltar::before { content: '←'; font-size: 16px; }
+    #btn-settings { font-size: 15px; }
+    #btn-add-lead { font-size: 0 !important; }
+    #btn-add-lead::before { content: '+'; font-size: 18px; font-weight: 700; }
+    #btn-open-calculator::before { content: '🧮'; font-size: 15px; }
+    #btn-share-questionario::before { content: '📋'; font-size: 15px; }
+    .header-actions a.btn-voltar { font-size: 0 !important; }
+    .header-actions a.btn-voltar::before { content: '←'; font-size: 15px; }
 
-    /* KPI BAR MOBILE */
+    /* ── KPI BAR ─ ultra-compact horizontal scroll ─────────── */
     .kpi-bar {
         padding: 0;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
     }
+    .kpi-bar::-webkit-scrollbar { height: 0; }
     .kpi-item {
-        min-width: 90px;
-        padding: 10px 12px;
+        min-width: 72px;
+        padding: 6px 10px;
     }
-    .kpi-valor { font-size: 17px; }
-    .kpi-label { font-size: 8px; letter-spacing: 0.5px; }
+    .kpi-valor { font-size: 14px; margin-bottom: 1px; }
+    .kpi-label { font-size: 7px; letter-spacing: 0.3px; }
 
-    /* KANBAN MOBILE - scroll horizontal com snap */
+    /* ── KANBAN ─ horizontal snap columns ──────────────────── */
     .kanban-board {
-        padding: 10px 0 0 0;
+        padding: 8px 0 0 0;
         gap: 0;
         overflow-x: auto;
         overflow-y: hidden;
@@ -566,143 +570,197 @@ body {
         -webkit-overflow-scrolling: touch;
         flex: 1;
         padding-bottom: env(safe-area-inset-bottom, 0);
+        scrollbar-width: none;
     }
+    .kanban-board::-webkit-scrollbar { height: 0; }
 
     .kanban-column {
-        flex: 0 0 88vw;
+        flex: 0 0 86vw;
         scroll-snap-align: center;
         max-height: 100%;
-        margin: 0 6px;
-        border-radius: 10px;
+        margin: 0 4px;
+        border-radius: 8px;
     }
-    .kanban-column:first-child { margin-left: 14px; }
-    .kanban-column:last-child { margin-right: 14px; }
+    .kanban-column:first-child { margin-left: 7vw; }
+    .kanban-column:last-child  { margin-right: 7vw; }
 
     .column-header {
-        padding: 10px 14px;
-        border-radius: 10px 10px 0 0;
+        padding: 8px 12px;
+        border-radius: 8px 8px 0 0;
         position: sticky;
         top: 0;
         z-index: 2;
     }
-    .column-header h3 { font-size: 13px; }
+    .column-header h3 { font-size: 12px; gap: 6px; }
+    .col-dot { width: 6px; height: 6px; }
+    .count { font-size: 10px; padding: 1px 6px; }
 
     .kanban-cards {
-        padding: 10px;
-        gap: 10px;
+        padding: 8px;
+        gap: 8px;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
     }
+    .kanban-cards::-webkit-scrollbar { width: 0; }
 
-    /* CARDS MOBILE */
+    /* ── CARDS ─ compact but readable ─────────────────────── */
     .kanban-card {
-        padding: 14px;
-        border-radius: 8px;
+        padding: 10px;
+        border-radius: 6px;
         cursor: default;
     }
     .kanban-card:active { transform: none; }
+    .kanban-card:hover { box-shadow: none; }
 
-    .card-title { font-size: 14px; }
-    .card-info { font-size: 13px; margin-bottom: 6px; }
-    .card-info a { font-size: 13px !important; }
+    .card-header-row { margin-bottom: 4px; }
+    .card-title { font-size: 13px; }
+    .card-info { font-size: 11px; margin-bottom: 3px; }
+    .card-info a { font-size: 11px !important; }
+
+    .card-est-badge { font-size: 10px; padding: 2px 6px; margin: 3px 0; }
+
+    /* Upload area compact */
+    .card-upload-area { margin-top: 6px !important; }
 
     .card-input-field {
-        font-size: 13px;
-        padding: 10px;
-        border-radius: 6px;
+        font-size: 12px;
+        padding: 7px 8px;
+        margin-top: 5px;
+        border-radius: 5px;
     }
-    .card-note { min-height: 44px; }
+    .card-note { min-height: 32px; }
 
+    /* Action buttons: horizontal, 44px touch target */
     .card-actions {
-        gap: 8px;
-        margin-top: 10px;
+        gap: 6px;
+        margin-top: 6px;
     }
     .card-btn {
-        padding: 11px 10px;
-        font-size: 13px;
-        border-radius: 6px;
+        padding: 8px 6px;
+        font-size: 11px;
+        border-radius: 5px;
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         -webkit-tap-highlight-color: transparent;
     }
 
     .card-footer {
-        margin-top: 10px;
-        padding-top: 8px;
-        font-size: 11px;
+        margin-top: 6px;
+        padding-top: 5px;
+        font-size: 9px;
     }
-    .tag-origem, .tag-calc { font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+    .tag-origem, .tag-calc { font-size: 9px; padding: 2px 5px; }
 
-    .card-upload-area { margin-top: 10px !important; }
+    .btn-delete-card {
+        font-size: 18px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+    }
 
-    /* delete button bigger for touch */
-    .btn-delete-card { font-size: 22px; padding: 4px 6px; }
+    /* ── EMPTY STATE ──────────────────────────────────────── */
+    .empty-col { padding: 24px 12px; font-size: 11px; }
+    .empty-col-icon { font-size: 22px; margin-bottom: 4px; }
 
-    /* MODAIS MOBILE - fullscreen */
-    .modal-overlay { padding: 0; align-items: flex-end; }
+    /* ── MODALS ─ bottom sheet pattern ────────────────────── */
+    .modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
 
     .modal-content {
-        padding: 20px 16px;
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        padding: 16px 14px;
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
         width: 100%;
         max-width: 100%;
-        border-radius: 16px 16px 0 0;
-        max-height: 92vh;
-        max-height: 92dvh;
+        border-radius: 14px 14px 0 0;
+        max-height: 88vh;
+        max-height: 88dvh;
     }
     .modal-wide { max-width: 100%; }
 
-    .modal-header { margin-bottom: 18px; }
-    .modal-header h2 { font-size: 16px; }
-    .btn-close { font-size: 30px; padding: 4px 8px; }
+    .modal-header { margin-bottom: 14px; }
+    .modal-header h2 { font-size: 15px; }
+    .btn-close {
+        font-size: 24px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
+    /* Form inputs — 16px font prevents iOS zoom */
+    .modal-form { gap: 10px; }
+    .modal-form label { font-size: 10px; margin-bottom: -6px; }
     .modal-form input, .modal-form select.modal-select {
-        padding: 14px;
+        padding: 11px 12px;
         font-size: 16px;
-        border-radius: 8px;
+        border-radius: 6px;
     }
     .btn-submit-modal {
-        padding: 15px;
-        font-size: 15px;
-        border-radius: 8px;
+        padding: 13px;
+        font-size: 14px;
+        border-radius: 6px;
+        min-height: 44px;
+    }
+    .btn-wa-modal {
+        padding: 10px 14px;
+        font-size: 12px;
+        min-height: 44px;
     }
 
-    .details-tabela { font-size: 13px; }
-    .details-tabela td { padding: 10px; }
-    .details-tabela td:first-child { width: 38%; font-size: 10px; }
+    /* Details modal */
+    .details-tabela { font-size: 12px; }
+    .details-tabela td { padding: 7px 8px; }
+    .details-tabela td:first-child { width: 35%; font-size: 9px; }
 
-    .details-est-card { padding: 14px 16px; }
-    .details-est-faixa { font-size: 19px; }
+    .details-est-card { padding: 10px 12px; margin-top: 8px; }
+    .details-est-faixa { font-size: 17px; }
+    .details-est-rec { font-size: 11px; }
 
-    .details-obs { font-size: 13px; padding: 10px; }
+    .details-obs { font-size: 12px; padding: 8px; margin-top: 8px; }
 
-    /* Calculator modal mobile */
+    /* Calculator modal */
     #modal-calculator .modal-content {
-        height: 95vh !important;
-        height: 95dvh !important;
-        max-height: 95vh;
-        border-radius: 12px 12px 0 0;
+        height: 92vh !important;
+        height: 92dvh !important;
+        max-height: 92vh;
+        border-radius: 14px 14px 0 0;
+        padding: 0;
     }
 
-    /* Toast mobile */
+    /* ── TOAST ────────────────────────────────────────────── */
     .crm-toast {
-        bottom: max(16px, env(safe-area-inset-bottom));
-        left: 16px;
-        right: 16px;
-        transform: translateY(100px);
+        bottom: max(12px, env(safe-area-inset-bottom));
+        left: 12px;
+        right: 12px;
+        transform: translateY(80px);
         width: auto;
-        font-size: 13px;
-        border-radius: 10px;
-        padding: 12px 16px;
+        font-size: 12px;
+        border-radius: 8px;
+        padding: 10px 14px;
     }
     .crm-toast.active {
         transform: translateY(0);
     }
 }
 
-/* iPhone SE / small screens */
+/* ── iPHONE SE / SMALL (≤375px) ────────────────────────── */
 @media (max-width: 375px) {
-    .kanban-column { flex: 0 0 92vw; }
-    .kpi-item { min-width: 80px; padding: 8px 10px; }
-    .kpi-valor { font-size: 15px; }
-    #btn-add-lead { font-size: 11px; padding: 7px 10px; }
+    .kanban-column { flex: 0 0 90vw; }
+    .kanban-column:first-child { margin-left: 5vw; }
+    .kanban-column:last-child  { margin-right: 5vw; }
+    .kpi-item { min-width: 64px; padding: 5px 8px; }
+    .kpi-valor { font-size: 13px; }
+    .kpi-label { font-size: 6.5px; }
+    .card-title { font-size: 12px; }
+    .card-btn { font-size: 10px; padding: 7px 4px; }
 }
 
 /* ── TOAST NOTIFICATION ──────────────────────────────────── */
