@@ -196,7 +196,7 @@ function parseNote(note) {
     try {
         const obj = JSON.parse(note);
         if(obj.tipo && obj.ambientes) return obj;
-        if(obj.tipo_briefing === 'questionario') return obj;
+        if(['questionario', 'residencial', 'comercial'].includes(obj.tipo_briefing)) return obj;
     } catch {}
     return null;
 }
@@ -300,7 +300,7 @@ function renderBoard() {
             </div>
             <div class="card-footer">
                 <span>📅 ${dateStr}</span>
-                <span class="tag-origem tag-editable" onclick="editOrigin(event, '${lead.id}')">${isQuestionario ? '＋ Origem' : escHtml(lead.origin || '＋ Origem')}</span>
+                <span class="tag-origem tag-editable" onclick="editOrigin(event, '${lead.id}')">${escHtml(lead.origin || '＋ Origem')}</span>
             </div>
         `;
 
