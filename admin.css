@@ -296,6 +296,14 @@ body {
 
 .card-note { resize: none; min-height: 38px; }
 
+.card-upload-area {
+    margin-top: 6px;
+}
+
+.card-upload-area.empty {
+    display: none;
+}
+
 .card-actions {
     display: flex;
     gap: 6px;
@@ -318,6 +326,15 @@ body {
 .card-btn:hover { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
 .card-btn-wa { color: #25D366; border-color: rgba(37,211,102,0.2); }
 .card-btn-wa:hover { background: rgba(37,211,102,0.1); border-color: #25D366; color: #25D366; }
+.card-actions > .card-btn-wa { display: none; }
+.card-btn-attach {
+    border-style: dashed;
+    color: rgba(255,255,255,0.68);
+}
+.card-btn-attach:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
 
 .card-btn.btn-show-orc {
     background: rgba(197, 168, 128, 0.15);

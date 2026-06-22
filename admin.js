@@ -239,6 +239,7 @@ function renderBoard() {
         const sim = parseNote(lead.note);
         const isCalc = lead.origin === 'Calculadora LP';
         const isQuestionario = lead.origin === 'Questionário Briefing' || lead.origin === 'Briefing Residencial' || lead.origin === 'Briefing Comercial';
+        const attachments = parseAttachments(lead.link);
         const cleanPhone = (lead.phone || '').replace(/\D/g, '');
         const waLink = `https://wa.me/55${cleanPhone}`;
         const dateStr = lead.created_at
@@ -268,9 +269,9 @@ function renderBoard() {
             ${lead.email ? `<div class="card-info">✉️ <a href="mailto:${escHtml(lead.email)}">${escHtml(lead.email)}</a></div>` : ''}
             ${estBadge}
             
-            <div class="card-upload-area" style="margin-top: 8px;">
+            <div class="card-upload-area${attachments.length === 0 ? ' empty' : ''}">
+                <input type="file" id="file-${lead.id}" style="display:none" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png" onchange="uploadFile('${lead.id}', this.files[0], this)">
                 ${(() => {
-                    const attachments = parseAttachments(lead.link);
                     if(attachments.length > 1) {
                         const imgs = attachments.filter(a => /\.(jpg|jpeg|png|gif|webp)$/i.test(a));
                         const outros = attachments.filter(a => !/\.(jpg|jpeg|png|gif|webp)$/i.test(a));
@@ -285,15 +286,14 @@ function renderBoard() {
                             `<a href="${escHtml(attachments[0])}" target="_blank" style="flex:1; color: var(--color-primary); text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📄 ${attachments[0].includes('/uploads/') ? 'Arquivo Anexado' : 'Acessar Link'}</a>` +
                             `<button onclick="updateField('${lead.id}', 'link', '')" style="background:none; border:none; color:rgba(255,255,255,0.4); cursor:pointer;">&times;</button></div>`;
                     } else {
-                        return `<input type="file" id="file-${lead.id}" style="display:none" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png" onchange="uploadFile('${lead.id}', this.files[0], this)">` +
-                            `<label for="file-${lead.id}" class="card-btn" style="display:block; text-align:center; padding: 6px; margin-bottom:4px; font-weight:normal; border-style:dashed;">📎 Anexar Arquivo</label>` +
-                            `<input type="url" class="card-input-field" style="margin-top:0;" placeholder="Ou cole um link…" onblur="if(this.value) updateField('${lead.id}', 'link', this.value)">`;
+                        return '';
                     }
                 })()}
             </div>
             
             <textarea class="card-input-field card-note" placeholder="Anotação rápida…" onblur="updateField('${lead.id}', 'annotation', this.value)">${escHtml(lead.annotation || '')}</textarea>
             <div class="card-actions">
+                <label for="file-${lead.id}" class="card-btn card-btn-attach" title="Anexar arquivo">📎 Anexar</label>
                 <button class="card-btn card-btn-wa" onclick="window.open('${waLink}','_blank')">💬 WhatsApp</button>
                 ${isQuestionario || isCalc || sim ? `<button class="card-btn btn-show-orc" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>` : `<button class="card-btn" onclick="showLeadDetails('${lead.id}')">📋 Ver</button>`}
                 ${!isQuestionario && !isCalc ? `<button class="card-btn" onclick="sendQuestionario('${lead.id}')" title="Enviar questionário para este lead">📝 Questionário</button>` : ''}
