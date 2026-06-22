@@ -238,7 +238,7 @@ function renderBoard() {
 
         const sim = parseNote(lead.note);
         const isCalc = lead.origin === 'Calculadora LP';
-        const isQuestionario = lead.origin === 'Questionário Briefing';
+        const isQuestionario = lead.origin === 'Questionário Briefing' || lead.origin === 'Briefing Residencial' || lead.origin === 'Briefing Comercial';
         const cleanPhone = (lead.phone || '').replace(/\D/g, '');
         const waLink = `https://wa.me/55${cleanPhone}`;
         const dateStr = lead.created_at
@@ -421,8 +421,7 @@ window.showLeadDetails = function(id) {
 
     const attachments = parseAttachments(lead.link);
 
-    if(sim && sim.tipo_briefing === 'questionario') {
-        // Lead veio do questionário de briefing
+    if(sim && (sim.tipo_briefing === 'residencial' || sim.tipo_briefing === 'comercial' || sim.tipo_briefing === 'questionario')) {
         const fotosHtml = attachments.length > 0
             ? `<div style="margin-top:12px;"><strong style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Fotos do Cliente (${attachments.length})</strong><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">${attachments.map(a => {
                 const isImg = /\.(jpg|jpeg|png|gif|webp)$/i.test(a);
@@ -431,8 +430,42 @@ window.showLeadDetails = function(id) {
                     : `<a href="${escHtml(a)}" target="_blank" style="color:var(--color-primary);font-size:12px;">📄 ${a.split('/').pop()}</a>`;
             }).join('')}</div></div>` : '';
 
-        body.innerHTML = `
-            <table class="details-tabela">
+        let rows = '';
+        if (sim.tipo_briefing === 'residencial') {
+            rows = `
+                <tr><td>Tipo</td><td style="color:var(--color-primary);font-weight:600;">Briefing Residencial</td></tr>
+                <tr><td>Cidade / Bairro</td><td>${escHtml([sim.cidade, sim.bairro].filter(Boolean).join(' — ') || '—')}</td></tr>
+                ${sim.condominio ? `<tr><td>Condomínio</td><td>${escHtml(sim.condominio)}</td></tr>` : ''}
+                <tr><td>Tipo do Imóvel</td><td>${escHtml(sim.tipo_imovel || '—')}</td></tr>
+                <tr><td>Serviços</td><td>${escHtml(sim.servicos || '—')}</td></tr>
+                <tr><td>Área Aproximada</td><td>${escHtml(sim.area || '—')}</td></tr>
+                <tr><td>Ambientes Sociais</td><td>${escHtml(sim.sociais || '—')}</td></tr>
+                <tr><td>Cozinha</td><td>${escHtml(sim.cozinha || '—')}</td></tr>
+                <tr><td>Espaço Gourmet</td><td>${escHtml(sim.gourmet || '—')}${sim.gourmet_comp ? ' — ' + escHtml(sim.gourmet_comp) : ''}</td></tr>
+                <tr><td>Quartos</td><td>${escHtml(sim.quartos || '—')}</td></tr>
+                <tr><td>Suítes</td><td>${escHtml(sim.suites || '—')}</td></tr>
+                <tr><td>Área Externa</td><td>${escHtml(sim.area_externa || '—')}</td></tr>
+                <tr><td>Garagem</td><td>${escHtml(sim.garagem || '—')}${sim.garagem_comp ? ' — ' + escHtml(sim.garagem_comp) : ''}</td></tr>
+                <tr><td>Nível de Investimento</td><td>${escHtml(sim.nivel || '—')}</td></tr>
+                <tr><td>Prazo</td><td>${escHtml(sim.prazo || '—')}</td></tr>
+            `;
+        } else if (sim.tipo_briefing === 'comercial') {
+            rows = `
+                <tr><td>Tipo</td><td style="color:var(--color-primary);font-weight:600;">Briefing Comercial</td></tr>
+                ${sim.empresa ? `<tr><td>Empresa</td><td>${escHtml(sim.empresa)}</td></tr>` : ''}
+                <tr><td>Cidade</td><td>${escHtml(sim.cidade || '—')}</td></tr>
+                <tr><td>Tipo de Negócio</td><td>${escHtml(sim.tipo_negocio || '—')}</td></tr>
+                <tr><td>Serviços</td><td>${escHtml(sim.servicos || '—')}</td></tr>
+                <tr><td>Área Aproximada</td><td>${escHtml(sim.area || '—')}</td></tr>
+                <tr><td>Ambientes</td><td>${escHtml(sim.ambientes || '—')}</td></tr>
+                <tr><td>Funcionários</td><td>${escHtml(sim.funcionarios || '—')}</td></tr>
+                <tr><td>Atend. ao Público</td><td>${escHtml(sim.publico || '—')}</td></tr>
+                <tr><td>Objetivos</td><td>${escHtml(sim.objetivos || '—')}</td></tr>
+                <tr><td>Nível de Investimento</td><td>${escHtml(sim.nivel || '—')}</td></tr>
+                <tr><td>Prazo</td><td>${escHtml(sim.prazo || '—')}</td></tr>
+            `;
+        } else {
+            rows = `
                 <tr><td>Localização</td><td>${escHtml(sim.localizacao || '—')}</td></tr>
                 <tr><td>Metragem</td><td>${escHtml(sim.metragem || '—')}</td></tr>
                 <tr><td>Tipo do Projeto</td><td>${escHtml(sim.tipo_projeto || '—')}</td></tr>
@@ -449,6 +482,13 @@ window.showLeadDetails = function(id) {
                 <tr><td>Outros Ambientes</td><td>${escHtml(sim.outros || '—')}</td></tr>
                 <tr><td>Nível de Investimento</td><td>${escHtml(sim.nivel || '—')}</td></tr>
                 <tr><td>Prazo/Urgência</td><td>${escHtml(sim.prazo || '—')}</td></tr>
+            `;
+        }
+
+        body.innerHTML = `
+            <table class="details-tabela">
+                ${rows}
+                ${sim.link_ref ? `<tr><td>Referências</td><td><a href="${escHtml(sim.link_ref)}" target="_blank" style="color:var(--color-primary)">${escHtml(sim.link_ref)}</a></td></tr>` : ''}
                 <tr><td>Telefone</td><td>${escHtml(lead.phone || '—')}</td></tr>
                 <tr><td>E-mail</td><td>${escHtml(lead.email || '—')}</td></tr>
                 <tr><td>Origem</td><td>${escHtml(lead.origin || '—')}</td></tr>

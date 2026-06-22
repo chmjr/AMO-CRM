@@ -6,11 +6,14 @@ const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
 
-// Caminho absoluto para a pasta de uploads (compatível com Railway Volume)
-const uploadsDir = path.join(__dirname, 'uploads');
+// Caminho para uploads: usa /data/uploads no Railway (volume persistente) ou ./uploads local
+const uploadsDir = process.env.RAILWAY_ENVIRONMENT
+    ? '/data/uploads'
+    : path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
+console.log(`📁 Pasta de uploads: ${uploadsDir}`);
 
 // Configuração do Multer para armazenamento local
 const storage = multer.diskStorage({
@@ -33,8 +36,8 @@ app.use(express.json());
 
 // Serve arquivos estáticos (Landing Page + CRM)
 app.use(express.static(path.join(__dirname)));
-// Permite acesso público à pasta de uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Permite acesso público à pasta de uploads (local ou volume Railway)
+app.use('/uploads', express.static(uploadsDir));
 
 // Rotas amigáveis: /admin e /crm → admin.html
 app.get(['/admin', '/crm'], (req, res) => {
@@ -164,11 +167,18 @@ app.post('/api/leads/:id/upload', upload.single('file'), async (req, res) => {
 
 // POST /api/leads/questionario — Cria lead via questionário de briefing (com fotos)
 app.post('/api/leads/questionario', upload.array('fotos', 10), async (req, res) => {
-    const { name, phone, email, note } = req.body;
+    const { name, phone, email, note, origin } = req.body;
     if (!name || !phone) return res.status(400).json({ error: 'Nome e telefone são obrigatórios.' });
 
     const fotos = (req.files || []).map(f => `/uploads/${f.filename}`);
     console.log(`📸 Questionário: ${fotos.length} foto(s) salvas em ${uploadsDir}`, fotos);
+
+    let tipoBriefing = 'Questionário Briefing';
+    try {
+        const parsed = JSON.parse(note || '{}');
+        if (parsed.tipo_briefing === 'residencial') tipoBriefing = 'Briefing Residencial';
+        else if (parsed.tipo_briefing === 'comercial') tipoBriefing = 'Briefing Comercial';
+    } catch {}
 
     try {
         const result = await pool.query(
@@ -178,7 +188,7 @@ app.post('/api/leads/questionario', upload.array('fotos', 10), async (req, res) 
                 name,
                 phone,
                 email || '',
-                'Questionário Briefing',
+                tipoBriefing,
                 note || '',
                 'contato',
                 fotos.length > 0 ? JSON.stringify(fotos) : ''

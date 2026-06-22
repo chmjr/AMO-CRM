@@ -3,13 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionário de Orçamento — AMO Arquitetura e Interiores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Briefing do Projeto — AMO Arquitetura e Interiores</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --color-bg: #EAE6DF;
@@ -25,16 +23,8 @@
             --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: var(--font-body);
             background-color: var(--color-bg);
@@ -49,7 +39,6 @@
             padding: 50px 24px 40px;
             text-align: center;
         }
-
         .q-logo {
             font-family: var(--font-heading);
             font-size: 28px;
@@ -57,7 +46,6 @@
             letter-spacing: 3px;
             color: var(--color-white);
         }
-
         .q-logo-sub {
             font-family: var(--font-body);
             font-size: 10px;
@@ -66,7 +54,6 @@
             display: block;
             margin-top: 4px;
         }
-
         .q-header h1 {
             font-family: var(--font-heading);
             font-size: clamp(24px, 5vw, 36px);
@@ -75,7 +62,6 @@
             margin-top: 28px;
             line-height: 1.2;
         }
-
         .q-header p {
             color: rgba(255, 255, 255, 0.6);
             font-size: 15px;
@@ -84,7 +70,6 @@
             margin-left: auto;
             margin-right: auto;
         }
-
         .q-badge {
             display: inline-block;
             background: rgba(197, 168, 128, 0.15);
@@ -105,6 +90,41 @@
             padding: 40px 20px 60px;
         }
 
+        /* TIPO SELECTOR */
+        .q-tipo-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .q-tipo-card {
+            background: var(--color-white);
+            border: 2px solid #E0DCD6;
+            padding: 36px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .q-tipo-card:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-premium);
+        }
+        .q-tipo-card.ativo {
+            border-color: var(--color-primary);
+            background: rgba(197, 168, 128, 0.06);
+            box-shadow: 0 8px 24px rgba(197, 168, 128, 0.15);
+        }
+        .q-tipo-icon { font-size: 40px; margin-bottom: 12px; }
+        .q-tipo-nome {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-dark);
+            margin-bottom: 6px;
+        }
+        .q-tipo-desc { font-size: 13px; color: #999; }
+
         /* SECTION CARD */
         .q-section {
             background: var(--color-white);
@@ -113,12 +133,10 @@
             margin-bottom: 24px;
             transition: var(--transition-smooth);
         }
-
         .q-section:hover {
             box-shadow: var(--shadow-premium);
             border-color: var(--color-primary);
         }
-
         .q-section-number {
             display: inline-flex;
             align-items: center;
@@ -133,7 +151,6 @@
             border-radius: 50%;
             margin-bottom: 16px;
         }
-
         .q-section-title {
             font-family: var(--font-heading);
             font-size: 22px;
@@ -141,7 +158,6 @@
             color: var(--color-dark);
             margin-bottom: 6px;
         }
-
         .q-section-desc {
             font-size: 14px;
             color: #888;
@@ -149,10 +165,7 @@
         }
 
         /* FORM ELEMENTS */
-        .q-field {
-            margin-bottom: 20px;
-        }
-
+        .q-field { margin-bottom: 20px; }
         .q-label {
             display: block;
             font-size: 13px;
@@ -162,9 +175,7 @@
             color: var(--color-dark-alt);
             margin-bottom: 8px;
         }
-
-        .q-input,
-        .q-textarea {
+        .q-input, .q-textarea {
             width: 100%;
             padding: 14px 16px;
             border: 1px solid #DDD;
@@ -175,24 +186,13 @@
             transition: var(--transition-smooth);
             outline: none;
         }
-
-        .q-input:focus,
-        .q-textarea:focus {
+        .q-input:focus, .q-textarea:focus {
             border-color: var(--color-primary);
             background: var(--color-white);
             box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.12);
         }
-
-        .q-input::placeholder,
-        .q-textarea::placeholder {
-            color: #BBB;
-        }
-
-        .q-textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
+        .q-input::placeholder, .q-textarea::placeholder { color: #BBB; }
+        .q-textarea { resize: vertical; min-height: 80px; }
         .q-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -200,18 +200,8 @@
         }
 
         /* CHECKBOX / RADIO OPTIONS */
-        .q-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .q-options.horizontal {
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
+        .q-options { display: flex; flex-direction: column; gap: 10px; }
+        .q-options.horizontal { flex-direction: row; flex-wrap: wrap; gap: 12px; }
         .q-option {
             display: flex;
             align-items: center;
@@ -225,12 +215,10 @@
             color: var(--color-dark-alt);
             user-select: none;
         }
-
         .q-option:hover {
             border-color: var(--color-primary);
             background: rgba(197, 168, 128, 0.04);
         }
-
         .q-option input[type="checkbox"],
         .q-option input[type="radio"] {
             width: 18px;
@@ -239,10 +227,9 @@
             cursor: pointer;
             flex-shrink: 0;
         }
-
         .q-option.wide {
             flex: 1;
-            min-width: 180px;
+            min-width: 140px;
             justify-content: center;
             text-align: center;
         }
@@ -253,7 +240,6 @@
             padding-top: 16px;
             border-top: 1px solid #EEE;
         }
-
         .q-subgroup-title {
             font-size: 13px;
             font-weight: 600;
@@ -263,19 +249,9 @@
             margin-bottom: 10px;
         }
 
-        /* GRID 2 COLUMNS */
-        .q-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        /* GRID 3 COLUMNS */
-        .q-grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-        }
+        /* GRID */
+        .q-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .q-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
         /* UPLOAD AREA */
         .q-upload {
@@ -286,36 +262,13 @@
             transition: var(--transition-smooth);
             cursor: pointer;
         }
+        .q-upload:hover { border-color: var(--color-primary); background: rgba(197, 168, 128, 0.04); }
+        .q-upload-icon { font-size: 32px; margin-bottom: 8px; opacity: 0.5; }
+        .q-upload-text { font-size: 14px; color: #999; }
+        .q-upload-hint { font-size: 12px; color: #BBB; margin-top: 4px; }
 
-        .q-upload:hover {
-            border-color: var(--color-primary);
-            background: rgba(197, 168, 128, 0.04);
-        }
-
-        .q-upload-icon {
-            font-size: 32px;
-            margin-bottom: 8px;
-            opacity: 0.5;
-        }
-
-        .q-upload-text {
-            font-size: 14px;
-            color: #999;
-        }
-
-        .q-upload-hint {
-            font-size: 12px;
-            color: #BBB;
-            margin-top: 4px;
-        }
-
-        /* NIVEL INVESTIMENTO CARDS */
-        .q-nivel-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 14px;
-        }
-
+        /* NIVEL INVESTIMENTO */
+        .q-nivel-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
         .q-nivel-card {
             border: 1px solid #E0DCD6;
             background: var(--color-surface);
@@ -324,28 +277,18 @@
             cursor: pointer;
             transition: var(--transition-smooth);
         }
-
         .q-nivel-card:hover {
             border-color: var(--color-primary);
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
         }
-
-        .q-nivel-card input {
-            display: none;
-        }
-
+        .q-nivel-card input { display: none; }
         .q-nivel-card.selecionado {
             border-color: var(--color-primary);
             background: rgba(197, 168, 128, 0.08);
             box-shadow: 0 8px 20px rgba(197, 168, 128, 0.15);
         }
-
-        .q-nivel-icon {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
+        .q-nivel-icon { font-size: 28px; margin-bottom: 10px; }
         .q-nivel-nome {
             font-family: var(--font-heading);
             font-size: 16px;
@@ -353,12 +296,7 @@
             color: var(--color-dark);
             margin-bottom: 6px;
         }
-
-        .q-nivel-desc {
-            font-size: 12px;
-            color: #999;
-            line-height: 1.5;
-        }
+        .q-nivel-desc { font-size: 12px; color: #999; line-height: 1.5; }
 
         /* SUBMIT */
         .q-submit-section {
@@ -367,20 +305,17 @@
             text-align: center;
             margin-top: 12px;
         }
-
         .q-submit-title {
             font-family: var(--font-heading);
             font-size: 22px;
             color: var(--color-white);
             margin-bottom: 8px;
         }
-
         .q-submit-desc {
             color: rgba(255, 255, 255, 0.5);
             font-size: 14px;
             margin-bottom: 24px;
         }
-
         .q-btn-whatsapp {
             display: inline-flex;
             align-items: center;
@@ -397,28 +332,13 @@
             cursor: pointer;
             transition: var(--transition-smooth);
         }
-
         .q-btn-whatsapp:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
         }
-
-        .q-btn-whatsapp svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .q-erro {
-            color: #D9534F;
-            font-size: 13px;
-            margin-top: 12px;
-            display: none;
-        }
-
-        .q-erro.visivel {
-            display: block;
-        }
+        .q-btn-whatsapp svg { width: 20px; height: 20px; fill: currentColor; }
+        .q-erro { color: #D9534F; font-size: 13px; margin-top: 12px; display: none; }
+        .q-erro.visivel { display: block; }
 
         /* FOOTER */
         .q-footer {
@@ -429,351 +349,542 @@
             color: #555;
         }
 
+        /* HIDE/SHOW */
+        .hidden { display: none !important; }
+
         /* RESPONSIVE */
         @media (max-width: 640px) {
-            .q-section {
-                padding: 28px 20px;
-            }
-
-            .q-row,
-            .q-grid-2,
-            .q-grid-3,
-            .q-nivel-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .q-options.horizontal {
-                flex-direction: column;
-            }
+            .q-section { padding: 28px 20px; }
+            .q-row, .q-grid-2, .q-grid-3, .q-nivel-cards { grid-template-columns: 1fr; }
+            .q-options.horizontal { flex-direction: column; }
+            .q-tipo-selector { grid-template-columns: 1fr; gap: 14px; }
+            .q-tipo-card { padding: 28px 20px; }
+            .q-header { padding: 36px 20px 30px; }
+            .q-header h1 { margin-top: 20px; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Header -->
     <header class="q-header">
         <div class="q-logo">AMO<span class="q-logo-sub">ARQUITETURA E INTERIORES</span></div>
-        <h1>Briefing do Seu Orçamento</h1>
-        <p>Para que possamos montar seu orçamento com mais precisão, preencha as informações abaixo.</p>
+        <h1 id="q-header-title">Briefing do Seu Projeto</h1>
+        <p id="q-header-desc">Para que possamos montar seu orçamento com mais precisão, preencha as informações abaixo.</p>
         <div class="q-badge">Questionário de Orçamento AMO</div>
     </header>
 
     <div class="q-wrapper">
 
-        <!-- DADOS DO CLIENTE -->
-        <div class="q-section">
-            <div class="q-section-number">0</div>
-            <h2 class="q-section-title">Seus Dados</h2>
-            <p class="q-section-desc">Para que possamos entrar em contato</p>
-            <div class="q-row">
-                <div class="q-field">
-                    <label class="q-label">Nome completo *</label>
-                    <input type="text" class="q-input" id="q-nome" placeholder="Seu nome" autocomplete="name">
-                </div>
-                <div class="q-field">
-                    <label class="q-label">WhatsApp *</label>
-                    <input type="tel" class="q-input" id="q-whatsapp" placeholder="(48) 99999-9999" autocomplete="tel">
-                </div>
+        <!-- SELETOR DE TIPO -->
+        <div class="q-tipo-selector" id="tipo-selector">
+            <div class="q-tipo-card" onclick="selecionarTipo('residencial')">
+                <div class="q-tipo-icon">🏠</div>
+                <div class="q-tipo-nome">Residencial</div>
+                <div class="q-tipo-desc">Casas, apartamentos e studios</div>
             </div>
-            <div class="q-field">
-                <label class="q-label">E-mail</label>
-                <input type="email" class="q-input" id="q-email" placeholder="seu@email.com" autocomplete="email">
+            <div class="q-tipo-card" onclick="selecionarTipo('comercial')">
+                <div class="q-tipo-icon">🏢</div>
+                <div class="q-tipo-nome">Comercial</div>
+                <div class="q-tipo-desc">Lojas, restaurantes, escritórios e clínicas</div>
             </div>
         </div>
 
-        <!-- 1. LOCALIZACAO E TAMANHO -->
-        <div class="q-section">
-            <div class="q-section-number">1</div>
-            <h2 class="q-section-title">Localização e Espaço</h2>
-            <p class="q-section-desc">Informações básicas sobre o local do projeto</p>
-            <div class="q-row">
-                <div class="q-field">
-                    <label class="q-label">Cidade *</label>
-                    <input type="text" class="q-input" id="q-cidade" placeholder="Ex: Florianópolis">
+        <!-- ═══════════════════════════════════════════════════
+             FORMULÁRIO RESIDENCIAL
+             ═══════════════════════════════════════════════════ -->
+        <div id="form-residencial" class="hidden">
+
+            <!-- 0. Dados -->
+            <div class="q-section">
+                <div class="q-section-number">1</div>
+                <h2 class="q-section-title">Seus Dados</h2>
+                <p class="q-section-desc">Para que possamos entrar em contato</p>
+                <div class="q-row">
+                    <div class="q-field"><label class="q-label">Nome completo *</label>
+                        <input type="text" class="q-input" id="r-nome" placeholder="Seu nome" autocomplete="name"></div>
+                    <div class="q-field"><label class="q-label">WhatsApp *</label>
+                        <input type="tel" class="q-input q-phone-mask" id="r-whatsapp" placeholder="(48) 99999-9999" autocomplete="tel"></div>
                 </div>
-                <div class="q-field">
-                    <label class="q-label">Bairro</label>
-                    <input type="text" class="q-input" id="q-bairro" placeholder="Ex: Jurerê">
+                <div class="q-row">
+                    <div class="q-field"><label class="q-label">E-mail</label>
+                        <input type="email" class="q-input" id="r-email" placeholder="seu@email.com" autocomplete="email"></div>
+                    <div class="q-field"><label class="q-label">Cidade</label>
+                        <input type="text" class="q-input" id="r-cidade" placeholder="Ex: Florianópolis"></div>
+                </div>
+                <div class="q-row">
+                    <div class="q-field"><label class="q-label">Bairro</label>
+                        <input type="text" class="q-input" id="r-bairro" placeholder="Ex: Jurerê"></div>
+                    <div class="q-field"><label class="q-label">Condomínio (opcional)</label>
+                        <input type="text" class="q-input" id="r-condominio" placeholder="Nome do condomínio"></div>
                 </div>
             </div>
-            <div class="q-row">
-                <div class="q-field">
-                    <label class="q-label">Tamanho aproximado (m²)</label>
-                    <input type="text" class="q-input" id="q-metragem" placeholder="Ex: 120 m²">
+
+            <!-- 2. Como conheceu -->
+            <div class="q-section">
+                <div class="q-section-number">2</div>
+                <h2 class="q-section-title">Como Conheceu a AMO?</h2>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="radio" name="r-origem" value="Instagram"> Instagram</label>
+                    <label class="q-option"><input type="radio" name="r-origem" value="Indicação"> Indicação</label>
+                    <label class="q-option"><input type="radio" name="r-origem" value="Cliente anterior"> Cliente anterior</label>
+                    <label class="q-option"><input type="radio" name="r-origem" value="Google"> Google</label>
+                    <label class="q-option"><input type="radio" name="r-origem" value="Placa de obra"> Placa de obra</label>
+                    <label class="q-option"><input type="radio" name="r-origem" value="Evento"> Evento</label>
+                    <label class="q-option"><input type="radio" name="r-origem" value="Outro"> Outro</label>
                 </div>
-                <div class="q-field">
-                    <label class="q-label">Reforma ou projeto novo? *</label>
-                    <div class="q-options horizontal">
-                        <label class="q-option wide">
-                            <input type="radio" name="q-tipo-projeto" value="reforma"> Reforma
-                        </label>
-                        <label class="q-option wide">
-                            <input type="radio" name="q-tipo-projeto" value="novo"> Projeto novo
-                        </label>
+            </div>
+
+            <!-- 3. Tipo do Imóvel -->
+            <div class="q-section">
+                <div class="q-section-number">3</div>
+                <h2 class="q-section-title">Tipo do Imóvel</h2>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="radio" name="r-tipo-imovel" value="Casa térrea"> Casa térrea</label>
+                    <label class="q-option"><input type="radio" name="r-tipo-imovel" value="Casa dois pavimentos"> Casa dois pavimentos</label>
+                    <label class="q-option"><input type="radio" name="r-tipo-imovel" value="Casa três pavimentos ou mais"> Casa três pavimentos ou mais</label>
+                    <label class="q-option"><input type="radio" name="r-tipo-imovel" value="Apartamento"> Apartamento</label>
+                    <label class="q-option"><input type="radio" name="r-tipo-imovel" value="Studio"> Studio</label>
+                    <label class="q-option"><input type="radio" name="r-tipo-imovel" value="Outro"> Outro</label>
+                </div>
+            </div>
+
+            <!-- 4. Serviços -->
+            <div class="q-section">
+                <div class="q-section-number">4</div>
+                <h2 class="q-section-title">Serviços Desejados</h2>
+                <p class="q-section-desc">Selecione todos que se aplicam</p>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="checkbox" name="r-servicos" value="Projeto arquitetônico"> Projeto arquitetônico</label>
+                    <label class="q-option"><input type="checkbox" name="r-servicos" value="Projeto de interiores"> Projeto de interiores</label>
+                    <label class="q-option"><input type="checkbox" name="r-servicos" value="Arquitetônico + interiores"> Arquitetônico + interiores</label>
+                    <label class="q-option"><input type="checkbox" name="r-servicos" value="Reforma"> Reforma</label>
+                    <label class="q-option"><input type="checkbox" name="r-servicos" value="Fachada residencial"> Fachada residencial</label>
+                    <label class="q-option"><input type="checkbox" name="r-servicos" value="Paisagismo"> Paisagismo</label>
+                    <label class="q-option"><input type="checkbox" name="r-servicos" value="Consultoria"> Consultoria</label>
+                    <label class="q-option"><input type="checkbox" name="r-servicos" value="Acompanhamento de obra"> Acompanhamento de obra</label>
+                </div>
+            </div>
+
+            <!-- 5. Área -->
+            <div class="q-section">
+                <div class="q-section-number">5</div>
+                <h2 class="q-section-title">Área Aproximada</h2>
+                <div class="q-options horizontal">
+                    <label class="q-option wide"><input type="radio" name="r-area" value="Até 50m²"> Até 50m²</label>
+                    <label class="q-option wide"><input type="radio" name="r-area" value="50 a 100m²"> 50 a 100m²</label>
+                    <label class="q-option wide"><input type="radio" name="r-area" value="100 a 200m²"> 100 a 200m²</label>
+                    <label class="q-option wide"><input type="radio" name="r-area" value="200 a 400m²"> 200 a 400m²</label>
+                    <label class="q-option wide"><input type="radio" name="r-area" value="Acima de 400m²"> Acima de 400m²</label>
+                </div>
+            </div>
+
+            <!-- 6. Ambientes Sociais -->
+            <div class="q-section">
+                <div class="q-section-number">6</div>
+                <h2 class="q-section-title">Ambientes Sociais</h2>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="checkbox" name="r-sociais" value="Sala de TV"> Sala de TV</label>
+                    <label class="q-option"><input type="checkbox" name="r-sociais" value="Sala de estar"> Sala de estar</label>
+                    <label class="q-option"><input type="checkbox" name="r-sociais" value="Sala de jantar"> Sala de jantar</label>
+                    <label class="q-option"><input type="checkbox" name="r-sociais" value="Lavabo"> Lavabo</label>
+                    <label class="q-option"><input type="checkbox" name="r-sociais" value="Home office"> Home office</label>
+                    <label class="q-option"><input type="checkbox" name="r-sociais" value="Brinquedoteca"> Brinquedoteca</label>
+                    <label class="q-option"><input type="checkbox" name="r-sociais" value="Adega"> Adega</label>
+                    <label class="q-option"><input type="checkbox" name="r-sociais" value="Sala de jogos"> Sala de jogos</label>
+                </div>
+            </div>
+
+            <!-- 7. Cozinha -->
+            <div class="q-section">
+                <div class="q-section-number">7</div>
+                <h2 class="q-section-title">Cozinha</h2>
+                <div class="q-options horizontal">
+                    <label class="q-option wide"><input type="radio" name="r-cozinha" value="Integrada"> Integrada</label>
+                    <label class="q-option wide"><input type="radio" name="r-cozinha" value="Semi-integrada"> Semi-integrada</label>
+                    <label class="q-option wide"><input type="radio" name="r-cozinha" value="Separada"> Separada</label>
+                </div>
+            </div>
+
+            <!-- 8. Espaço Gourmet -->
+            <div class="q-section">
+                <div class="q-section-number">8</div>
+                <h2 class="q-section-title">Espaço Gourmet</h2>
+                <div class="q-options horizontal">
+                    <label class="q-option wide"><input type="radio" name="r-gourmet" value="Não"> Não</label>
+                    <label class="q-option wide"><input type="radio" name="r-gourmet" value="Sim integrado"> Sim, integrado</label>
+                    <label class="q-option wide"><input type="radio" name="r-gourmet" value="Sim separado"> Sim, separado</label>
+                </div>
+                <div class="q-subgroup">
+                    <div class="q-subgroup-title">Complementos</div>
+                    <div class="q-grid-2">
+                        <label class="q-option"><input type="checkbox" name="r-gourmet-comp" value="Churrasqueira"> Churrasqueira</label>
+                        <label class="q-option"><input type="checkbox" name="r-gourmet-comp" value="Parrilla"> Parrilla</label>
+                        <label class="q-option"><input type="checkbox" name="r-gourmet-comp" value="Adega"> Adega</label>
+                        <label class="q-option"><input type="checkbox" name="r-gourmet-comp" value="Cervejeira"> Cervejeira</label>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 2. ESCOPO -->
-        <div class="q-section">
-            <div class="q-section-number">2</div>
-            <h2 class="q-section-title">Escopo do Projeto</h2>
-            <p class="q-section-desc">O que pretende incluir no projeto?</p>
-            <div class="q-options">
-                <label class="q-option">
-                    <input type="radio" name="q-escopo" value="tudo">
-                    Tudo — gesso, iluminação, revestimentos, marcenaria etc.
-                </label>
-                <label class="q-option">
-                    <input type="radio" name="q-escopo" value="mobiliario">
-                    Mais focado em mobiliário e decoração
-                </label>
-            </div>
-
-            <div class="q-subgroup">
-                <div class="q-subgroup-title">Serviços desejados</div>
+            <!-- 9. Quartos -->
+            <div class="q-section">
+                <div class="q-section-number">9</div>
+                <h2 class="q-section-title">Quartos</h2>
                 <div class="q-options horizontal">
-                    <label class="q-option wide">
-                        <input type="radio" name="q-servico" value="arquitetonico"> Projeto arquitetônico
-                    </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-servico" value="arq+interiores"> Arquitetônico + interiores
-                    </label>
+                    <label class="q-option wide"><input type="radio" name="r-quartos" value="1"> 1 quarto</label>
+                    <label class="q-option wide"><input type="radio" name="r-quartos" value="2"> 2 quartos</label>
+                    <label class="q-option wide"><input type="radio" name="r-quartos" value="3"> 3 quartos</label>
+                    <label class="q-option wide"><input type="radio" name="r-quartos" value="4+"> 4 ou mais</label>
                 </div>
             </div>
-        </div>
 
-        <!-- 3. TIPO DA CASA -->
-        <div class="q-section">
-            <div class="q-section-number">3</div>
-            <h2 class="q-section-title">Tipo da Casa</h2>
-            <p class="q-section-desc">Informações sobre a estrutura</p>
-            <div class="q-options horizontal">
-                <label class="q-option wide">
-                    <input type="radio" name="q-tipo-casa" value="terrea"> Térrea
-                </label>
-                <label class="q-option wide">
-                    <input type="radio" name="q-tipo-casa" value="dois-pavimentos"> Dois pavimentos
-                </label>
-            </div>
-        </div>
-
-        <!-- 4. AMBIENTES SOCIAIS -->
-        <div class="q-section">
-            <div class="q-section-number">4</div>
-            <h2 class="q-section-title">Ambientes Sociais</h2>
-            <p class="q-section-desc">Selecione os ambientes que farão parte do projeto</p>
-
-            <div class="q-grid-2">
-                <label class="q-option">
-                    <input type="checkbox" name="q-social" value="sala-tv"> Sala de TV
-                </label>
-                <label class="q-option">
-                    <input type="checkbox" name="q-social" value="sala-jantar"> Sala de Jantar
-                </label>
-                <label class="q-option">
-                    <input type="checkbox" name="q-social" value="lavabo"> Lavabo no térreo
-                </label>
-            </div>
-
-            <div class="q-subgroup">
-                <div class="q-subgroup-title">Cozinha</div>
+            <!-- 10. Suítes -->
+            <div class="q-section">
+                <div class="q-section-number">10</div>
+                <h2 class="q-section-title">Suítes</h2>
                 <div class="q-options horizontal">
-                    <label class="q-option wide">
-                        <input type="radio" name="q-cozinha" value="integrada"> Integrada
-                    </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-cozinha" value="separada"> Separada
-                    </label>
+                    <label class="q-option wide"><input type="radio" name="r-suites" value="Nenhuma"> Nenhuma</label>
+                    <label class="q-option wide"><input type="radio" name="r-suites" value="1"> 1 suíte</label>
+                    <label class="q-option wide"><input type="radio" name="r-suites" value="2"> 2 suítes</label>
+                    <label class="q-option wide"><input type="radio" name="r-suites" value="3+"> 3 ou mais</label>
                 </div>
             </div>
 
-            <div class="q-subgroup">
-                <div class="q-subgroup-title">Espaço Gourmet</div>
+            <!-- 11. Área Externa -->
+            <div class="q-section">
+                <div class="q-section-number">11</div>
+                <h2 class="q-section-title">Área Externa</h2>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Piscina"> Piscina</label>
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Jardim"> Jardim</label>
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Deck"> Deck</label>
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Pergolado"> Pergolado</label>
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Fire place"> Fire place</label>
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Horta"> Horta</label>
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Playground"> Playground</label>
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Pet place"> Pet place</label>
+                    <label class="q-option"><input type="checkbox" name="r-externa" value="Jacuzzi"> Jacuzzi</label>
+                </div>
+            </div>
+
+            <!-- 12. Garagem -->
+            <div class="q-section">
+                <div class="q-section-number">12</div>
+                <h2 class="q-section-title">Garagem</h2>
                 <div class="q-options horizontal">
-                    <label class="q-option wide">
-                        <input type="radio" name="q-gourmet" value="nao"> Não
+                    <label class="q-option wide"><input type="radio" name="r-garagem" value="1 carro"> 1 carro</label>
+                    <label class="q-option wide"><input type="radio" name="r-garagem" value="2 carros"> 2 carros</label>
+                    <label class="q-option wide"><input type="radio" name="r-garagem" value="3 carros"> 3 carros</label>
+                    <label class="q-option wide"><input type="radio" name="r-garagem" value="4+"> 4 ou mais</label>
+                </div>
+                <div class="q-subgroup">
+                    <div class="q-subgroup-title">Itens complementares</div>
+                    <div class="q-grid-3">
+                        <label class="q-option"><input type="checkbox" name="r-garagem-comp" value="Moto"> Moto</label>
+                        <label class="q-option"><input type="checkbox" name="r-garagem-comp" value="Bicicletas"> Bicicletas</label>
+                        <label class="q-option"><input type="checkbox" name="r-garagem-comp" value="Carregador EV"> Carregador EV</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. Nível de Investimento -->
+            <div class="q-section">
+                <div class="q-section-number">13</div>
+                <h2 class="q-section-title">Nível de Investimento</h2>
+                <p class="q-section-desc">Como imagina o nível de investimento do projeto?</p>
+                <div class="q-nivel-cards">
+                    <label class="q-nivel-card" onclick="selecionarNivel(this)">
+                        <input type="radio" name="r-nivel" value="Essencial">
+                        <div class="q-nivel-icon">◆</div>
+                        <div class="q-nivel-nome">Essencial</div>
+                        <div class="q-nivel-desc">Básico bem feito, com qualidade e bom gosto. Priorizando custo-benefício.</div>
                     </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-gourmet" value="integrado"> Sim, integrado
+                    <label class="q-nivel-card" onclick="selecionarNivel(this)">
+                        <input type="radio" name="r-nivel" value="Intermediário">
+                        <div class="q-nivel-icon">◆◆</div>
+                        <div class="q-nivel-nome">Intermediário</div>
+                        <div class="q-nivel-desc">Equilíbrio entre investimento e resultado. Mais nos ambientes prioritários.</div>
                     </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-gourmet" value="separado"> Sim, separado
+                    <label class="q-nivel-card" onclick="selecionarNivel(this)">
+                        <input type="radio" name="r-nivel" value="Alto Padrão">
+                        <div class="q-nivel-icon">◆◆◆</div>
+                        <div class="q-nivel-nome">Alto Padrão</div>
+                        <div class="q-nivel-desc">Acabamentos premium e fornecedores diferenciados. Maior personalização.</div>
                     </label>
+                </div>
+            </div>
+
+            <!-- 14. Referências -->
+            <div class="q-section">
+                <div class="q-section-number">14</div>
+                <h2 class="q-section-title">Referências e Fotos</h2>
+                <p class="q-section-desc">Nos ajude a entender seu estilo e o espaço</p>
+                <div class="q-field">
+                    <label class="q-label">Fotos do ambiente atual ou referências</label>
+                    <div class="q-upload" onclick="document.getElementById('r-fotos').click()">
+                        <div class="q-upload-icon">📷</div>
+                        <div class="q-upload-text">Toque para selecionar fotos</div>
+                        <div class="q-upload-hint">JPG, PNG ou MP4 — máx. 10 arquivos</div>
+                        <input type="file" id="r-fotos" multiple accept="image/*,video/*" style="display:none" onchange="limitarFotos(this, 'r-fotos-lista')">
+                    </div>
+                    <div id="r-fotos-lista" style="margin-top:8px; font-size:13px; color:var(--color-primary);"></div>
+                </div>
+                <div class="q-field">
+                    <label class="q-label">Link Pinterest, Instagram ou Google Drive</label>
+                    <input type="url" class="q-input" id="r-link-ref" placeholder="https://br.pinterest.com/...">
+                </div>
+            </div>
+
+            <!-- 15. Prazo -->
+            <div class="q-section">
+                <div class="q-section-number">15</div>
+                <h2 class="q-section-title">Prazo</h2>
+                <p class="q-section-desc">Quando pretende iniciar?</p>
+                <div class="q-options">
+                    <label class="q-option"><input type="radio" name="r-prazo" value="Imediatamente"> Imediatamente</label>
+                    <label class="q-option"><input type="radio" name="r-prazo" value="Em até 3 meses"> Em até 3 meses</label>
+                    <label class="q-option"><input type="radio" name="r-prazo" value="Em até 6 meses"> Em até 6 meses</label>
+                    <label class="q-option"><input type="radio" name="r-prazo" value="Apenas pesquisando"> Apenas pesquisando neste momento</label>
+                </div>
+            </div>
+
+            <!-- 16. Observações -->
+            <div class="q-section">
+                <div class="q-section-number">16</div>
+                <h2 class="q-section-title">Mais Alguma Coisa?</h2>
+                <div class="q-field">
+                    <label class="q-label">Gostaria de nos contar mais sobre seu projeto?</label>
+                    <textarea class="q-textarea" id="r-obs" placeholder="Conte mais detalhes, referências, estilos que gosta..."></textarea>
                 </div>
             </div>
         </div>
 
-        <!-- 5. QUARTOS -->
-        <div class="q-section">
-            <div class="q-section-number">5</div>
-            <h2 class="q-section-title">Quartos e Suítes</h2>
-            <p class="q-section-desc">Quantidade de quartos e suítes</p>
+        <!-- ═══════════════════════════════════════════════════
+             FORMULÁRIO COMERCIAL
+             ═══════════════════════════════════════════════════ -->
+        <div id="form-comercial" class="hidden">
 
-            <div class="q-subgroup-title">Quartos</div>
-            <div class="q-options horizontal">
-                <label class="q-option wide">
-                    <input type="radio" name="q-quartos" value="2"> 2 quartos
-                </label>
-                <label class="q-option wide">
-                    <input type="radio" name="q-quartos" value="3"> 3 quartos
-                </label>
-                <label class="q-option wide">
-                    <input type="radio" name="q-quartos" value="4+"> 4 ou mais
-                </label>
+            <!-- 1. Dados -->
+            <div class="q-section">
+                <div class="q-section-number">1</div>
+                <h2 class="q-section-title">Seus Dados</h2>
+                <p class="q-section-desc">Para que possamos entrar em contato</p>
+                <div class="q-row">
+                    <div class="q-field"><label class="q-label">Nome completo *</label>
+                        <input type="text" class="q-input" id="c-nome" placeholder="Seu nome" autocomplete="name"></div>
+                    <div class="q-field"><label class="q-label">WhatsApp *</label>
+                        <input type="tel" class="q-input q-phone-mask" id="c-whatsapp" placeholder="(48) 99999-9999" autocomplete="tel"></div>
+                </div>
+                <div class="q-row">
+                    <div class="q-field"><label class="q-label">E-mail</label>
+                        <input type="email" class="q-input" id="c-email" placeholder="seu@email.com" autocomplete="email"></div>
+                    <div class="q-field"><label class="q-label">Empresa</label>
+                        <input type="text" class="q-input" id="c-empresa" placeholder="Nome da empresa"></div>
+                </div>
+                <div class="q-field"><label class="q-label">Cidade</label>
+                    <input type="text" class="q-input" id="c-cidade" placeholder="Ex: Florianópolis"></div>
             </div>
 
-            <div class="q-subgroup">
-                <div class="q-subgroup-title">Suítes</div>
+            <!-- 2. Como conheceu -->
+            <div class="q-section">
+                <div class="q-section-number">2</div>
+                <h2 class="q-section-title">Como Conheceu a AMO?</h2>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="radio" name="c-origem" value="Instagram"> Instagram</label>
+                    <label class="q-option"><input type="radio" name="c-origem" value="Indicação"> Indicação</label>
+                    <label class="q-option"><input type="radio" name="c-origem" value="Cliente anterior"> Cliente anterior</label>
+                    <label class="q-option"><input type="radio" name="c-origem" value="Google"> Google</label>
+                    <label class="q-option"><input type="radio" name="c-origem" value="Placa de obra"> Placa de obra</label>
+                    <label class="q-option"><input type="radio" name="c-origem" value="Evento"> Evento</label>
+                    <label class="q-option"><input type="radio" name="c-origem" value="Outro"> Outro</label>
+                </div>
+            </div>
+
+            <!-- 3. Tipo de Negócio -->
+            <div class="q-section">
+                <div class="q-section-number">3</div>
+                <h2 class="q-section-title">Tipo de Negócio</h2>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Loja"> Loja</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Centro comercial"> Centro comercial</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Restaurante"> Restaurante</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Café"> Café</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Clínica"> Clínica</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Consultório"> Consultório</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Escritório"> Escritório</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Barbearia"> Barbearia</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Salão de beleza"> Salão de beleza</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Academia"> Academia</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Galpão"> Galpão</label>
+                    <label class="q-option"><input type="radio" name="c-tipo-negocio" value="Outro"> Outro</label>
+                </div>
+            </div>
+
+            <!-- 4. Serviços -->
+            <div class="q-section">
+                <div class="q-section-number">4</div>
+                <h2 class="q-section-title">Serviços Desejados</h2>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="checkbox" name="c-servicos" value="Fachada comercial"> Fachada comercial</label>
+                    <label class="q-option"><input type="checkbox" name="c-servicos" value="Projeto de interiores comercial"> Interiores comercial</label>
+                    <label class="q-option"><input type="checkbox" name="c-servicos" value="Projeto arquitetônico comercial"> Arquitetônico comercial</label>
+                    <label class="q-option"><input type="checkbox" name="c-servicos" value="Arquitetônico + interiores"> Arquitetônico + interiores</label>
+                    <label class="q-option"><input type="checkbox" name="c-servicos" value="Reforma comercial"> Reforma comercial</label>
+                    <label class="q-option"><input type="checkbox" name="c-servicos" value="Paisagismo"> Paisagismo</label>
+                    <label class="q-option"><input type="checkbox" name="c-servicos" value="Consultoria"> Consultoria</label>
+                    <label class="q-option"><input type="checkbox" name="c-servicos" value="Acompanhamento de obra"> Acompanhamento de obra</label>
+                </div>
+            </div>
+
+            <!-- 5. Área -->
+            <div class="q-section">
+                <div class="q-section-number">5</div>
+                <h2 class="q-section-title">Área Aproximada</h2>
                 <div class="q-options horizontal">
-                    <label class="q-option wide">
-                        <input type="radio" name="q-suites" value="0"> Nenhuma
-                    </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-suites" value="1"> 1 suíte
-                    </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-suites" value="2"> 2 suítes
-                    </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-suites" value="3+"> 3 ou mais
-                    </label>
+                    <label class="q-option wide"><input type="radio" name="c-area" value="Até 50m²"> Até 50m²</label>
+                    <label class="q-option wide"><input type="radio" name="c-area" value="50 a 100m²"> 50 a 100m²</label>
+                    <label class="q-option wide"><input type="radio" name="c-area" value="100 a 200m²"> 100 a 200m²</label>
+                    <label class="q-option wide"><input type="radio" name="c-area" value="200 a 500m²"> 200 a 500m²</label>
+                    <label class="q-option wide"><input type="radio" name="c-area" value="Acima de 500m²"> Acima de 500m²</label>
                 </div>
             </div>
-        </div>
 
-        <!-- 6. AREA EXTERNA -->
-        <div class="q-section">
-            <div class="q-section-number">6</div>
-            <h2 class="q-section-title">Área Externa</h2>
-            <p class="q-section-desc">Selecione os itens de área externa</p>
-            <div class="q-grid-2">
-                <label class="q-option">
-                    <input type="checkbox" name="q-externa" value="piscina"> Piscina
-                </label>
-                <label class="q-option">
-                    <input type="checkbox" name="q-externa" value="churrasqueira"> Churrasqueira
-                </label>
-                <label class="q-option">
-                    <input type="checkbox" name="q-externa" value="jardim-amplo"> Jardim amplo
-                </label>
-                <label class="q-option">
-                    <input type="checkbox" name="q-externa" value="jardim-compacto"> Jardim compacto
-                </label>
+            <!-- 6. Ambientes -->
+            <div class="q-section">
+                <div class="q-section-number">6</div>
+                <h2 class="q-section-title">Ambientes</h2>
+                <p class="q-section-desc">Selecione os que farão parte do projeto</p>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Recepção"> Recepção</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Sala de espera"> Sala de espera</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Área de atendimento"> Área de atendimento</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Sala de reunião"> Sala de reunião</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Escritório"> Escritório</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Copa"> Copa</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Cozinha"> Cozinha</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Estoque"> Estoque</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Depósito"> Depósito</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Vestiário"> Vestiário</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Banheiro funcionários"> Banheiro funcionários</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Banheiro clientes"> Banheiro clientes</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Área externa"> Área externa</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Fachada"> Fachada</label>
+                    <label class="q-option"><input type="checkbox" name="c-ambientes" value="Vitrine"> Vitrine</label>
+                </div>
             </div>
 
-            <div class="q-subgroup">
-                <div class="q-subgroup-title">Garagem</div>
+            <!-- 7. Funcionários -->
+            <div class="q-section">
+                <div class="q-section-number">7</div>
+                <h2 class="q-section-title">Quantidade de Funcionários</h2>
                 <div class="q-options horizontal">
-                    <label class="q-option wide">
-                        <input type="radio" name="q-garagem" value="1"> 1 carro
+                    <label class="q-option wide"><input type="radio" name="c-funcionarios" value="Até 5"> Até 5</label>
+                    <label class="q-option wide"><input type="radio" name="c-funcionarios" value="6 a 10"> 6 a 10</label>
+                    <label class="q-option wide"><input type="radio" name="c-funcionarios" value="11 a 20"> 11 a 20</label>
+                    <label class="q-option wide"><input type="radio" name="c-funcionarios" value="Mais de 20"> Mais de 20</label>
+                </div>
+            </div>
+
+            <!-- 8. Atendimento -->
+            <div class="q-section">
+                <div class="q-section-number">8</div>
+                <h2 class="q-section-title">Atendimento ao Público</h2>
+                <div class="q-options horizontal">
+                    <label class="q-option wide"><input type="radio" name="c-publico" value="Sim"> Sim</label>
+                    <label class="q-option wide"><input type="radio" name="c-publico" value="Não"> Não</label>
+                </div>
+            </div>
+
+            <!-- 9. Objetivo -->
+            <div class="q-section">
+                <div class="q-section-number">9</div>
+                <h2 class="q-section-title">Objetivo Principal do Projeto</h2>
+                <p class="q-section-desc">Selecione todos que se aplicam</p>
+                <div class="q-grid-2">
+                    <label class="q-option"><input type="checkbox" name="c-objetivos" value="Atrair mais clientes"> Atrair mais clientes</label>
+                    <label class="q-option"><input type="checkbox" name="c-objetivos" value="Modernizar a marca"> Modernizar a marca</label>
+                    <label class="q-option"><input type="checkbox" name="c-objetivos" value="Melhorar a funcionalidade"> Melhorar a funcionalidade</label>
+                    <label class="q-option"><input type="checkbox" name="c-objetivos" value="Aumentar capacidade"> Aumentar capacidade de atendimento</label>
+                    <label class="q-option"><input type="checkbox" name="c-objetivos" value="Padronizar unidade"> Padronizar unidade</label>
+                    <label class="q-option"><input type="checkbox" name="c-objetivos" value="Valorizar o imóvel"> Valorizar o imóvel</label>
+                    <label class="q-option"><input type="checkbox" name="c-objetivos" value="Melhorar experiência do cliente"> Melhorar experiência do cliente</label>
+                </div>
+            </div>
+
+            <!-- 10. Nível de Investimento -->
+            <div class="q-section">
+                <div class="q-section-number">10</div>
+                <h2 class="q-section-title">Nível de Investimento</h2>
+                <div class="q-nivel-cards">
+                    <label class="q-nivel-card" onclick="selecionarNivel(this)">
+                        <input type="radio" name="c-nivel" value="Essencial">
+                        <div class="q-nivel-icon">◆</div>
+                        <div class="q-nivel-nome">Essencial</div>
+                        <div class="q-nivel-desc">Funcional, organizado e alinhado à identidade da empresa.</div>
                     </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-garagem" value="2"> 2 carros
+                    <label class="q-nivel-card" onclick="selecionarNivel(this)">
+                        <input type="radio" name="c-nivel" value="Intermediário">
+                        <div class="q-nivel-icon">◆◆</div>
+                        <div class="q-nivel-nome">Intermediário</div>
+                        <div class="q-nivel-desc">Equilíbrio entre investimento, estética e experiência do cliente.</div>
                     </label>
-                    <label class="q-option wide">
-                        <input type="radio" name="q-garagem" value="3"> 3 carros
+                    <label class="q-nivel-card" onclick="selecionarNivel(this)">
+                        <input type="radio" name="c-nivel" value="Alto Padrão">
+                        <div class="q-nivel-icon">◆◆◆</div>
+                        <div class="q-nivel-nome">Alto Padrão</div>
+                        <div class="q-nivel-desc">Acabamentos diferenciados e foco em impacto visual e valorização da marca.</div>
                     </label>
+                </div>
+            </div>
+
+            <!-- 11. Referências -->
+            <div class="q-section">
+                <div class="q-section-number">11</div>
+                <h2 class="q-section-title">Referências e Fotos</h2>
+                <div class="q-field">
+                    <label class="q-label">Fotos do espaço atual ou referências</label>
+                    <div class="q-upload" onclick="document.getElementById('c-fotos').click()">
+                        <div class="q-upload-icon">📷</div>
+                        <div class="q-upload-text">Toque para selecionar fotos</div>
+                        <div class="q-upload-hint">JPG, PNG ou MP4 — máx. 10 arquivos</div>
+                        <input type="file" id="c-fotos" multiple accept="image/*,video/*" style="display:none" onchange="limitarFotos(this, 'c-fotos-lista')">
+                    </div>
+                    <div id="c-fotos-lista" style="margin-top:8px; font-size:13px; color:var(--color-primary);"></div>
+                </div>
+                <div class="q-field">
+                    <label class="q-label">Link Pinterest, Instagram ou Google Drive</label>
+                    <input type="url" class="q-input" id="c-link-ref" placeholder="https://br.pinterest.com/...">
+                </div>
+            </div>
+
+            <!-- 12. Prazo -->
+            <div class="q-section">
+                <div class="q-section-number">12</div>
+                <h2 class="q-section-title">Prazo</h2>
+                <p class="q-section-desc">Quando pretende iniciar?</p>
+                <div class="q-options">
+                    <label class="q-option"><input type="radio" name="c-prazo" value="Imediatamente"> Imediatamente</label>
+                    <label class="q-option"><input type="radio" name="c-prazo" value="Em até 3 meses"> Em até 3 meses</label>
+                    <label class="q-option"><input type="radio" name="c-prazo" value="Em até 6 meses"> Em até 6 meses</label>
+                    <label class="q-option"><input type="radio" name="c-prazo" value="Apenas pesquisando"> Apenas pesquisando neste momento</label>
                 </div>
             </div>
         </div>
 
-        <!-- 7. OUTROS AMBIENTES -->
-        <div class="q-section">
-            <div class="q-section-number">7</div>
-            <h2 class="q-section-title">Outros Ambientes</h2>
-            <p class="q-section-desc">Ambientes complementares</p>
-            <div class="q-grid-2">
-                <label class="q-option">
-                    <input type="checkbox" name="q-outros" value="escritorio"> Escritório
-                </label>
-                <label class="q-option">
-                    <input type="checkbox" name="q-outros" value="despensa"> Despensa
-                </label>
-                <label class="q-option">
-                    <input type="checkbox" name="q-outros" value="lavanderia"> Lavanderia
-                </label>
-                <label class="q-option">
-                    <input type="checkbox" name="q-outros" value="deposito"> Depósito externo
-                </label>
+        <!-- ═══════════════════════════════════════════════════
+             BOTÃO ENVIAR (ambos os formulários)
+             ═══════════════════════════════════════════════════ -->
+        <div id="submit-area" class="hidden">
+            <div class="q-submit-section">
+                <h3 class="q-submit-title">Tudo pronto?</h3>
+                <p class="q-submit-desc">Suas respostas e fotos serão salvas no sistema e enviadas via WhatsApp</p>
+                <div id="q-erro" class="q-erro">Preencha pelo menos seu nome e WhatsApp para enviar.</div>
+                <div id="q-status" style="display:none; color:var(--color-primary); font-size:14px; margin-bottom:12px;"></div>
+                <button class="q-btn-whatsapp" id="q-btn-enviar" onclick="enviarQuestionario()">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Enviar via WhatsApp
+                </button>
             </div>
-        </div>
-
-        <!-- 8. NIVEL DE INVESTIMENTO -->
-        <div class="q-section">
-            <div class="q-section-number">8</div>
-            <h2 class="q-section-title">Nível de Investimento</h2>
-            <p class="q-section-desc">Como imagina o nível de investimento do projeto?</p>
-            <div class="q-nivel-cards" id="q-nivel-cards">
-                <label class="q-nivel-card" onclick="selecionarNivel(this)">
-                    <input type="radio" name="q-nivel" value="essencial">
-                    <div class="q-nivel-icon">&#9670;</div>
-                    <div class="q-nivel-nome">O Essencial</div>
-                    <div class="q-nivel-desc">Básico bem feito com qualidade e bom gosto</div>
-                </label>
-                <label class="q-nivel-card" onclick="selecionarNivel(this)">
-                    <input type="radio" name="q-nivel" value="intermediario">
-                    <div class="q-nivel-icon">&#9670;&#9670;</div>
-                    <div class="q-nivel-nome">Intermediário</div>
-                    <div class="q-nivel-desc">Equilibrar gastos e investir mais nas prioridades</div>
-                </label>
-                <label class="q-nivel-card" onclick="selecionarNivel(this)">
-                    <input type="radio" name="q-nivel" value="alto-padrao">
-                    <div class="q-nivel-icon">&#9670;&#9670;&#9670;</div>
-                    <div class="q-nivel-nome">Alto Padrão</div>
-                    <div class="q-nivel-desc">Acabamentos premium e fornecedores excelentes</div>
-                </label>
-            </div>
-        </div>
-
-        <!-- 9. FOTOS E PRAZO -->
-        <div class="q-section">
-            <div class="q-section-number">9</div>
-            <h2 class="q-section-title">Fotos e Prazo</h2>
-            <p class="q-section-desc">Nos ajude a entender melhor o espaço atual</p>
-
-            <div class="q-field">
-                <label class="q-label">Fotos ou videos do ambiente atual</label>
-                <div class="q-upload" onclick="document.getElementById('q-fotos').click()">
-                    <div class="q-upload-icon">&#128247;</div>
-                    <div class="q-upload-text">Toque para selecionar fotos ou vídeos</div>
-                    <div class="q-upload-hint">Pode ser pelo celular mesmo — JPG, PNG ou MP4 (máx. 10 arquivos)</div>
-                    <input type="file" id="q-fotos" multiple accept="image/*,video/*" style="display:none"
-                        onchange="limitarFotos(this)">
-                </div>
-                <div id="q-fotos-lista" style="margin-top:8px; font-size:13px; color:var(--color-primary);"></div>
-            </div>
-
-            <div class="q-field">
-                <label class="q-label">Tem alguma urgência com o projeto?</label>
-                <input type="text" class="q-input" id="q-prazo"
-                    placeholder="Ex: Gostaria de começar em agosto, sem urgência, etc.">
-            </div>
-
-            <div class="q-field">
-                <label class="q-label">Observações adicionais</label>
-                <textarea class="q-textarea" id="q-obs"
-                    placeholder="Conte mais detalhes sobre o que imagina para o projeto, referências, estilos que gosta..."></textarea>
-            </div>
-        </div>
-
-        <!-- ENVIAR -->
-        <div class="q-submit-section">
-            <h3 class="q-submit-title">Tudo pronto?</h3>
-            <p class="q-submit-desc">Suas respostas e fotos serão salvas no sistema e enviadas via WhatsApp</p>
-            <div id="q-erro" class="q-erro">Preencha pelo menos seu nome e WhatsApp para enviar.</div>
-            <div id="q-status" style="display:none; color:var(--color-primary); font-size:14px; margin-bottom:12px;">
-            </div>
-
-            <button class="q-btn-whatsapp" id="q-btn-enviar" onclick="enviarQuestionario()">
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-                Enviar via WhatsApp
-            </button>
         </div>
 
     </div>
@@ -784,99 +895,120 @@
 
     <script>
         const NUMERO_AMO = '5548999276660';
+        let tipoSelecionado = null;
+
+        function selecionarTipo(tipo) {
+            tipoSelecionado = tipo;
+            document.querySelectorAll('.q-tipo-card').forEach(c => c.classList.remove('ativo'));
+            event.currentTarget.classList.add('ativo');
+
+            document.getElementById('form-residencial').classList.toggle('hidden', tipo !== 'residencial');
+            document.getElementById('form-comercial').classList.toggle('hidden', tipo !== 'comercial');
+            document.getElementById('submit-area').classList.remove('hidden');
+
+            const title = document.getElementById('q-header-title');
+            const desc = document.getElementById('q-header-desc');
+            if (tipo === 'residencial') {
+                title.textContent = 'Briefing Residencial';
+                desc.textContent = 'Casas, apartamentos e studios — preencha os detalhes do seu projeto.';
+            } else {
+                title.textContent = 'Briefing Comercial';
+                desc.textContent = 'Lojas, restaurantes, escritórios e clínicas — conte-nos sobre seu negócio.';
+            }
+
+            setTimeout(() => {
+                document.getElementById(tipo === 'residencial' ? 'form-residencial' : 'form-comercial')
+                    .scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
 
         function selecionarNivel(el) {
-            document.querySelectorAll('.q-nivel-card').forEach(c => c.classList.remove('selecionado'));
+            const container = el.closest('.q-nivel-cards');
+            container.querySelectorAll('.q-nivel-card').forEach(c => c.classList.remove('selecionado'));
             el.classList.add('selecionado');
             el.querySelector('input').checked = true;
         }
 
-        function limitarFotos(input) {
-            const lista = document.getElementById('q-fotos-lista');
+        function limitarFotos(input, listaId) {
+            const lista = document.getElementById(listaId);
             if (input.files.length > 10) {
                 lista.innerHTML = '<div style="color:#D9534F;">Limite de 10 arquivos. Selecione novamente.</div>';
                 input.value = '';
                 return;
             }
             if (input.files.length > 0) {
-                const nomes = Array.from(input.files).map(f => f.name);
-                lista.innerHTML = nomes.map(n => `<div style="padding:2px 0;">&#128206; ${n}</div>`).join('');
+                lista.innerHTML = Array.from(input.files).map(f => `<div style="padding:2px 0;">📎 ${f.name}</div>`).join('');
             }
         }
 
-        function getRadioVal(name) {
+        function getRadio(name) {
             const el = document.querySelector(`input[name="${name}"]:checked`);
             return el ? el.value : '';
         }
-
-        function getCheckboxVals(name) {
+        function getChecks(name) {
             return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(e => e.value);
         }
+        function val(id) {
+            const el = document.getElementById(id);
+            return el ? el.value.trim() : '';
+        }
 
-        function coletarDados() {
+        function coletarResidencial() {
             return {
-                nome: document.getElementById('q-nome').value.trim(),
-                whatsapp: document.getElementById('q-whatsapp').value.trim(),
-                email: document.getElementById('q-email').value.trim(),
-                cidade: document.getElementById('q-cidade').value.trim(),
-                bairro: document.getElementById('q-bairro').value.trim(),
-                metragem: document.getElementById('q-metragem').value.trim(),
-                tipoProjeto: getRadioVal('q-tipo-projeto'),
-                escopo: getRadioVal('q-escopo'),
-                servico: getRadioVal('q-servico'),
-                tipoCasa: getRadioVal('q-tipo-casa'),
-                sociais: getCheckboxVals('q-social'),
-                cozinha: getRadioVal('q-cozinha'),
-                gourmet: getRadioVal('q-gourmet'),
-                quartos: getRadioVal('q-quartos'),
-                suites: getRadioVal('q-suites'),
-                externas: getCheckboxVals('q-externa'),
-                garagem: getRadioVal('q-garagem'),
-                outros: getCheckboxVals('q-outros'),
-                nivel: getRadioVal('q-nivel'),
-                prazo: document.getElementById('q-prazo').value.trim(),
-                obs: document.getElementById('q-obs').value.trim(),
+                tipo_briefing: 'residencial',
+                nome: val('r-nome'), whatsapp: val('r-whatsapp'), email: val('r-email'),
+                cidade: val('r-cidade'), bairro: val('r-bairro'), condominio: val('r-condominio'),
+                origem: getRadio('r-origem'),
+                tipo_imovel: getRadio('r-tipo-imovel'),
+                servicos: getChecks('r-servicos').join(', '),
+                area: getRadio('r-area'),
+                sociais: getChecks('r-sociais').join(', '),
+                cozinha: getRadio('r-cozinha'),
+                gourmet: getRadio('r-gourmet'),
+                gourmet_comp: getChecks('r-gourmet-comp').join(', '),
+                quartos: getRadio('r-quartos'),
+                suites: getRadio('r-suites'),
+                area_externa: getChecks('r-externa').join(', '),
+                garagem: getRadio('r-garagem'),
+                garagem_comp: getChecks('r-garagem-comp').join(', '),
+                nivel: getRadio('r-nivel'),
+                link_ref: val('r-link-ref'),
+                prazo: getRadio('r-prazo'),
+                obs: val('r-obs'),
+            };
+        }
+
+        function coletarComercial() {
+            return {
+                tipo_briefing: 'comercial',
+                nome: val('c-nome'), whatsapp: val('c-whatsapp'), email: val('c-email'),
+                empresa: val('c-empresa'), cidade: val('c-cidade'),
+                origem: getRadio('c-origem'),
+                tipo_negocio: getRadio('c-tipo-negocio'),
+                servicos: getChecks('c-servicos').join(', '),
+                area: getRadio('c-area'),
+                ambientes: getChecks('c-ambientes').join(', '),
+                funcionarios: getRadio('c-funcionarios'),
+                publico: getRadio('c-publico'),
+                objetivos: getChecks('c-objetivos').join(', '),
+                nivel: getRadio('c-nivel'),
+                link_ref: val('c-link-ref'),
+                prazo: getRadio('c-prazo'),
             };
         }
 
         function montarNoteJSON(d) {
-            const nivelTexto = {
-                'essencial': 'O Essencial',
-                'intermediario': 'Intermediário',
-                'alto-padrao': 'Alto Padrão'
-            };
-            return JSON.stringify({
-                tipo_briefing: 'questionario',
-                localizacao: [d.cidade, d.bairro].filter(Boolean).join(' — ') || '',
-                metragem: d.metragem || '',
-                tipo_projeto: d.tipoProjeto || '',
-                escopo: d.escopo || '',
-                servico: d.servico || '',
-                tipo_casa: d.tipoCasa || '',
-                ambientes_sociais: d.sociais.join(', ') || '',
-                cozinha: d.cozinha || '',
-                gourmet: d.gourmet || '',
-                quartos: d.quartos || '',
-                suites: d.suites || '',
-                area_externa: d.externas.join(', ') || '',
-                garagem: d.garagem || '',
-                outros: d.outros.join(', ') || '',
-                nivel: nivelTexto[d.nivel] || d.nivel || '',
-                prazo: d.prazo || '',
-                obs: d.obs || '',
-            });
-        }
-
-        function montarMensagemWhatsApp(d) {
-            return [
-                `Olá! Sou *${d.nome}* e acabei de responder o questionário de orçamento da AMO Arquitetura.`,
-                ``,
-                `Aguardo o contato de vocês para darmos sequência ao projeto!`,
-            ].join('\n');
+            const note = { ...d };
+            delete note.nome;
+            delete note.whatsapp;
+            delete note.email;
+            return JSON.stringify(note);
         }
 
         async function enviarQuestionario() {
-            const d = coletarDados();
+            if (!tipoSelecionado) return;
+
+            const d = tipoSelecionado === 'residencial' ? coletarResidencial() : coletarComercial();
             const erro = document.getElementById('q-erro');
             const status = document.getElementById('q-status');
             const btn = document.getElementById('q-btn-enviar');
@@ -894,37 +1026,32 @@
             status.textContent = 'Salvando dados e fotos no sistema...';
 
             const noteJSON = montarNoteJSON(d);
-            const fotos = document.getElementById('q-fotos').files;
+            const fotosInput = document.getElementById(tipoSelecionado === 'residencial' ? 'r-fotos' : 'c-fotos');
+            const fotos = fotosInput.files;
 
             const formData = new FormData();
             formData.append('name', d.nome);
             formData.append('phone', d.whatsapp);
-            formData.append('email', d.email);
+            formData.append('email', d.email || '');
             formData.append('note', noteJSON);
+            formData.append('origin', d.origem || '');
             for (let i = 0; i < fotos.length; i++) {
                 formData.append('fotos', fotos[i]);
             }
 
             try {
-                const res = await fetch('/api/leads/questionario', {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                if (res.ok) {
-                    status.textContent = 'Salvo no CRM! Abrindo WhatsApp...';
-                } else {
-                    status.textContent = 'Erro ao salvar no CRM, mas abrindo WhatsApp...';
-                }
-            } catch (err) {
+                const res = await fetch('/api/leads/questionario', { method: 'POST', body: formData });
+                status.textContent = res.ok ? 'Salvo no CRM! Abrindo WhatsApp...' : 'Erro ao salvar, mas abrindo WhatsApp...';
+            } catch {
                 status.textContent = 'Servidor offline, abrindo WhatsApp...';
             }
 
-            const msg = montarMensagemWhatsApp(d);
+            const tipoLabel = tipoSelecionado === 'residencial' ? 'residencial' : 'comercial';
+            const msg = `Olá! Sou *${d.nome}* e acabei de responder o questionário ${tipoLabel} de orçamento da AMO Arquitetura.\n\nAguardo o contato de vocês para darmos sequência ao projeto!`;
             window.open(`https://wa.me/${NUMERO_AMO}?text=${encodeURIComponent(msg)}`, '_blank');
 
             btn.innerHTML = 'Enviado!';
-            status.textContent = 'Questionário do Orçamento enviado com sucesso!';
+            status.textContent = 'Questionário enviado com sucesso!';
             status.style.color = '#25D366';
 
             setTimeout(() => {
@@ -934,12 +1061,13 @@
         }
 
         // Máscara de telefone
-        document.getElementById('q-whatsapp')?.addEventListener('input', function (e) {
-            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
-            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        document.querySelectorAll('.q-phone-mask').forEach(el => {
+            el.addEventListener('input', function (e) {
+                var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+                e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            });
         });
     </script>
 
 </body>
-
 </html>
