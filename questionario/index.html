@@ -894,8 +894,13 @@
     </footer>
 
     <script>
-        const NUMERO_AMO = '5548999276660';
+        let NUMERO_AMO = '5548999276660';
         let tipoSelecionado = null;
+
+        fetch('/api/config/whatsapp')
+            .then(r => r.json())
+            .then(d => { if (d.whatsapp) NUMERO_AMO = d.whatsapp; })
+            .catch(() => {});
 
         function selecionarTipo(tipo) {
             tipoSelecionado = tipo;

@@ -84,6 +84,20 @@ async function initDB() {
     }
 }
 
+// ==================== CONFIGURAÇÃO WHATSAPP ====================
+let crmWhatsapp = process.env.CRM_WHATSAPP || '5548999276660';
+
+app.get('/api/config/whatsapp', (req, res) => {
+    res.json({ whatsapp: crmWhatsapp });
+});
+
+app.put('/api/config/whatsapp', (req, res) => {
+    const { whatsapp } = req.body;
+    if (!whatsapp) return res.status(400).json({ error: 'Número é obrigatório.' });
+    crmWhatsapp = whatsapp.replace(/\D/g, '');
+    res.json({ success: true, whatsapp: crmWhatsapp });
+});
+
 // ==================== ROTAS DA API ====================
 
 // GET /api/leads — Retorna todos os leads (com filtros opcionais se necessário no futuro)
@@ -190,7 +204,7 @@ app.post('/api/leads/questionario', upload.array('fotos', 10), async (req, res) 
                 email || '',
                 tipoBriefing,
                 note || '',
-                'contato',
+                'novos',
                 fotos.length > 0 ? JSON.stringify(fotos) : ''
             ]
         );

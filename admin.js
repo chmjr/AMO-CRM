@@ -32,6 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         localStorage.setItem('crm_settings', JSON.stringify(cfg));
         applySettings(cfg);
+        if (cfg.whatsapp) {
+            fetch('/api/config/whatsapp', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ whatsapp: cfg.whatsapp })
+            }).catch(() => {});
+        }
         modalSettings.classList.remove('active');
     });
 
@@ -134,7 +141,17 @@ function showToast(message, type = 'success') {
 function loadConfig() {
     return JSON.parse(localStorage.getItem('crm_settings') || '{"name":"ARQUITETURA E INTERIORES","color":"#C5A880","whatsapp":""}');
 }
-function loadSettings() { applySettings(loadConfig()); }
+function loadSettings() {
+    const cfg = loadConfig();
+    applySettings(cfg);
+    if (cfg.whatsapp) {
+        fetch('/api/config/whatsapp', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ whatsapp: cfg.whatsapp })
+        }).catch(() => {});
+    }
+}
 function applySettings(cfg) {
     document.documentElement.style.setProperty('--color-primary', cfg.color);
     const el = document.getElementById('brand-name');
