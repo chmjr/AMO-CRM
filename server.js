@@ -85,7 +85,7 @@ async function initDB() {
 }
 
 // ==================== CONFIGURAÇÃO WHATSAPP ====================
-let crmWhatsapp = process.env.CRM_WHATSAPP || '5548999276660';
+let crmWhatsapp = process.env.CRM_WHATSAPP || '554899336630';
 
 app.get('/api/config/whatsapp', (req, res) => {
     res.json({ whatsapp: crmWhatsapp });
